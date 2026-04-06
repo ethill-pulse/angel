@@ -92,7 +92,8 @@ This is your time to consolidate, reflect, and keep your long-term knowledge acc
 ├── agent/
 │   ├── journals/          ← session logs (short-term memory)
 │   ├── memories/          ← long-term organized knowledge
-│   └── prompts/           ← task templates (heartbeat.md, etc.)
+│   ├── prompts/           ← task templates (heartbeat.md, etc.)
+│   └── todos.md           ← task/TODO list (read when Eric asks about tasks or TODOs)
 ├── notes/                 ← Eric's personal notes — read freely
 │   └── interviews/        ← interview notes
 └── repos/                 ← cloned team repositories
@@ -116,6 +117,7 @@ This is your time to consolidate, reflect, and keep your long-term knowledge acc
 - Standard Claude Code tools (read, write, bash, search, etc.)
 - Rust Analyzer LSP (for working in `repos/pulse/`)
 - **Notion MCP** — company Notion workspace, configured globally via `claude mcp add --transport http notion https://mcp.notion.com/mcp`
+- **Google Drive** — mounted at `~/Library/CloudStorage/GoogleDrive-ethill@clearstreet.io/` via Google Drive for Desktop. Read access is pre-approved. Note: `.gsheet`/`.gdoc` stubs are not readable — files must be exported to CSV/plain text first.
 
 ---
 

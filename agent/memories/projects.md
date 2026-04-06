@@ -167,6 +167,36 @@ Goals: 4 recon layers, loan management E2E, spot trades visible in Haruko. Optio
 - **CS Digital Cayman II**: Client-facing international, principal dealer
 - Offshore hedging framework: CSD delta-neutral facing clients; hedges like-for-like to Cayman I; Cayman I manages offshore risk book
 
+## Stale / Resolved Planning Questions
+
+These appeared in the "Questions Require Answer" tab but are early-planning artifacts — do not flag them as open:
+- OMS clearing/settlement ownership → resolved in practice; BK handles it
+- Spot vs futures routing → resolved; not a live question
+- Stablecoin for 24/7 settlement → not pursued for now
+
+## Counterparty Onboarding Status
+
+| Counterparty | Type | Products | Status | Notes |
+|---|---|---|---|---|
+| RenGen LLC | OTC/Market Maker | Spot, Swap | In Progress | ISDA w/ CS Deriv executed; awaiting parental guarantee |
+| FalconX | Prime Broker | Spot, Swap, OTC Option, Borrow/Lend | In Progress | NDA executed; ISDA/CSA negotiation ongoing |
+| Galaxy Derivatives | Trading/Market Maker | Spot, Swap, Borrow/Lend, OTC Option | In Progress | CS lending cash to Galaxy vs BTC; guarantee from CS Group/Holdings |
+| 2Prime | Asset Manager | Borrowing | In Progress | CS borrowing from them; MLA; credit DD intro done |
+| Valos | Asset Manager | Borrowing | Not Started | CS borrowing from them; MLA |
+| Cantor | Client/Financing | Lending | Not Started | Awaiting final commitment |
+| Binance | Exchange | — | In Progress | Cayman entity |
+| Bybit, OKX, Deribit | Exchange | — | Not Started | Cayman entity |
+| Capital Union Group | Banking/Custody | — | In Progress | — |
+
+## PMS / Cost Basis Roadmap
+
+| Phase | Cost Basis | Tax Reports | Timeline |
+|---|---|---|---|
+| Today | Silver | Silver (1099) | — |
+| Canada | CA Lot Engine | FIS | 2027 tax season |
+| Strategic Global | CSPA | TallyX | 2028 tax season+ |
+
+
 ## Longer Horizon (from roadmap)
 
 - Expand tradeable assets to top 50 tokens by market cap — Q3 2026

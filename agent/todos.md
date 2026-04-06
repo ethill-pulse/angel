@@ -2,7 +2,7 @@
 
 ## Integrations / Tooling
 
-- [ ] **Google Drive integration** — get Angel access to Google Drive so spreadsheets and docs can be read directly. Investigate MCP or API options.
+- [x] **Google Drive integration** — Google Drive for Desktop mounted at `~/Library/CloudStorage/GoogleDrive-ethill@clearstreet.io/`. Read access added to Claude settings. Note: `.gsheet`/`.gdoc` stubs are not readable; export to CSV/plain text for Angel to read.
 
 ## Pending
 

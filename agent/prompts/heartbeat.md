@@ -33,16 +33,26 @@ Guidelines:
 - Remove or correct stale information
 - Don't copy journal entries verbatim — synthesize
 
-### 4. Review Notion
+### 4. Review Google Drive Exports
 
-Search Notion for recent activity relevant to Eric and the digital engineering team:
+Check `~/Library/CloudStorage/GoogleDrive-ethill@clearstreet.io/My Drive/angel-exports/` for updated CSVs. Key files:
+- `Digital Assets Build - Project Plan.csv` — primary delivery roadmap; update `projects.md` if anything has changed
+- `Digital Assets Build - Executive Summary.csv` — phase-level status
+- `Digital Assets Build - Questions Require Answer.csv` — open questions; flag any new ones for Eric's attention
+- `Digital Assets Build - PMS milestone.csv`, `Loan Borrow Comp.csv` — review and incorporate into `projects.md` if relevant
+
+Scan others (`Accounts`, `Counterparty Onboarding`, `Exchange Venues Counterparty`, etc.) for anything that adds context not already in memory.
+
+### 6. Review Notion
+
+Consult `agent/memories/notion_index.md` for known page IDs and structure. Then search Notion for recent activity relevant to Eric and the digital engineering team:
 - Search for "Eric Thill" mentions in the past 2 weeks
 - Search for recent meeting notes involving the digital team
 - Look for any action items, decisions, or context worth carrying into memories
 
 Add anything significant to the appropriate memory files (`projects.md`, `people.md`, `work.md`). Don't duplicate what's already captured from journals.
 
-### 5. Output Heartbeat Summary
+### 7. Output Heartbeat Summary
 
 Produce a brief summary:
 - Which journals were reviewed
