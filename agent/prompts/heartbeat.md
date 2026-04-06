@@ -43,6 +43,27 @@ Check `~/Library/CloudStorage/GoogleDrive-ethill@clearstreet.io/My Drive/angel-e
 
 Scan others (`Accounts`, `Counterparty Onboarding`, `Exchange Venues Counterparty`, etc.) for anything that adds context not already in memory.
 
+### 5. Review Recent PRs
+
+Check merged PRs across the monitored repos since the most recent journal date (or last 7 days if unclear). Repos to check:
+- `pulseprime/pulse`
+- `pulseprime/polaris`
+
+For each repo, run:
+```
+gh pr list --repo <repo> --state merged --search "merged:>YYYY-MM-DD" --limit 100 --json number,title,author,mergedAt,additions,deletions,changedFiles
+```
+
+Summarize activity by author. Flag anything notable:
+- Unusually large PRs or high churn
+- Reverts
+- Authors not on the known team list
+- Thematic clusters worth calling out (e.g. a coordinated push across both repos)
+
+**Optional deep review**: If a PR looks significant (large diff, sensitive area, architectural change), fetch the diff with `gh pr diff <number> --repo <repo>` and include a brief technical read.
+
+Save a summary to `agent/memories/pr_activity.md`, keyed by date range. Don't duplicate entries already recorded there.
+
 ### 6. Review Notion
 
 Consult `agent/memories/notion_index.md` for known page IDs and structure. Then search Notion for recent activity relevant to Eric and the digital engineering team:

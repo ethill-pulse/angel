@@ -51,7 +51,7 @@ Key contacts outside Eric's direct team.
 | Name | Role | Notes |
 |------|------|-------|
 | Anton Ronis | Head of Quant, CS Digital (under Bob/Suley) — just hired | Based in Israel. Was acting CTO of RenGen when Eric joined Pulse; they worked together to retire RenGen's legacy systems in favor of the Pulse platform. Prior military involvement — can be unavailable for weeks at a time due to the ongoing war. |
-| Omer Suleman | RenGen FTE + unpaid CS consultant; technically reports to Eric | Still fully employed by RenGen. CS consultant role is essentially a mechanism to get him a CS laptop and access — Eric and RenGen eng teams collaborate closely and this formalizes it. |
+| Omer Yilmaz | RenGen FTE + unpaid CS consultant; technically reports to Eric | Still fully employed by RenGen. CS consultant role is essentially a mechanism to get him a CS laptop and access — Eric and RenGen eng teams collaborate closely and this formalizes it. |
 
 ## Vendors / External
 

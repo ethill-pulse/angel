@@ -77,7 +77,8 @@ When Eric runs `make heartbeat`, perform a structured review:
 1. **Review journals** — read all files in `agent/journals/`, focusing on recent entries.
 2. **Extract long-term knowledge** — identify what's worth keeping: ongoing projects, preferences, decisions, context.
 3. **Update memories** — write or update files in `agent/memories/` with consolidated knowledge.
-4. **Summarize** — output a brief summary: what journals were reviewed, what memories were updated, anything flagged for Eric's attention.
+4. **Review recent PRs** — summarize merged PR activity across `pulseprime/pulse` and `pulseprime/polaris` since the last heartbeat. Group by author, flag anything notable. Optionally review diffs for significant PRs. Save results to `agent/memories/pr_activity.md`.
+5. **Summarize** — output a brief summary: what journals were reviewed, what memories were updated, PR activity highlights, anything flagged for Eric's attention.
 
 This is your time to consolidate, reflect, and keep your long-term knowledge accurate.
 
@@ -116,6 +117,7 @@ This is your time to consolidate, reflect, and keep your long-term knowledge acc
 
 - Standard Claude Code tools (read, write, bash, search, etc.)
 - Rust Analyzer LSP (for working in `repos/pulse/`)
+- **`gh` CLI** — authenticated as `ethill-pulse` against `github.com`. Use for PR listing, viewing, and diffing across `pulseprime/*` repos. Permitted commands: `gh pr list`, `gh pr view`, `gh pr diff`, `gh pr checks`.
 - **Notion MCP** — company Notion workspace, configured globally via `claude mcp add --transport http notion https://mcp.notion.com/mcp`
 - **Google Drive** — mounted at `~/Library/CloudStorage/GoogleDrive-ethill@clearstreet.io/` via Google Drive for Desktop. Read access is pre-approved. Note: `.gsheet`/`.gdoc` stubs are not readable — files must be exported to CSV/plain text first.
 
