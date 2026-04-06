@@ -1,0 +1,9 @@
+# Claude Code local state — not useful to restore
+.claude/
+
+# Repo contents are managed as submodules
+# (individual file exclusions not needed — submodule registration handles this)
+
+# macOS
+.DS_Store
+**/.DS_Store

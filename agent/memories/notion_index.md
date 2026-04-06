@@ -1,0 +1,47 @@
+# Notion Index
+
+Key pages and resources. All READ ONLY unless Eric explicitly directs otherwise.
+
+## Teamspaces
+
+| Name | ID | Eric's access |
+|------|-----|--------------|
+| General | `73d7a380-231b-4b94-ad6c-1bbec4eec9ea` | Member |
+| Active Engineering | `2a71043d-19d5-813b-be02-004276600888` | Not joined |
+| Markets | `cbf824eb-9b06-4548-8772-d3ba8f99f219` | Not joined |
+
+## Key Pages
+
+| Title | URL | Notes |
+|-------|-----|-------|
+| Digital Assets (program hub) | https://www.notion.so/2bc1043d19d580c88d92f0e8e052024a | Top-level DA program page |
+| Clear Street Digital (team/operating model) | https://www.notion.so/f8486fb90a6f49d89b7a479b20c154f7 | Eric = Head of Eng; Slack channels; meeting cadence |
+| Digital Assets Meeting Notes | https://www.notion.so/3061043d19d58066bc7fc627aa4e04ac | Meeting notes index |
+| CFTC Swap Dealer Application Process | https://www.notion.so/2fb1043d19d58064a09dc7768a749b72 | Compliance tracker |
+| Polaris Crypto Options | https://www.notion.so/3371043d19d580b29191c9d085d593b0 | Options architecture (updated Apr 5) |
+| Crypto Perpetuals PRD (Phase 1+2) | https://www.notion.so/e0868b27014643beaa3b1de9ad2dad7e | Very current (updated Apr 6) |
+| Borrow and Loan for Crypto Assets | https://www.notion.so/2f51043d19d580608420e67258a7c75f | Haruko L&B architecture |
+| Haruko Access Instructions | https://www.notion.so/32f1043d19d580bdb681f2199c74b4e0 | Prod URL: hcad-cls1.prod.haruko.io |
+| Wallet Storage / SSI | https://www.notion.so/2fc1043d19d5802f8f15d38860655ad1 | SSI architecture + ops spec |
+| OTC Options and Regulatory Reporting | https://www.notion.so/3351043d19d580d2adb9ea4e50eaa6fe | DRAFT — CFTC/NFA requirements |
+| Digital Clearing – Execution Report→TradeV2→BK | https://www.notion.so/2e61043d19d580bbb0c5d1833b7f22c0 | Technical proto spec |
+| Risk: Digital Assets | https://www.notion.so/2cc1043d19d5802d9774fa2c52dbcf4e | Risk doc |
+| Pulse Prime - Third-Party Dependencies | https://www.notion.so/3041043d19d580bba471f9620ab5e398 | Tech reference |
+| Infrastructure Guides | https://www.notion.so/2ea1043d19d580d1b5d0ebdd3632cf7a | Ops runbook index |
+
+## External Resources (from Notion)
+
+| Resource | Link |
+|----------|------|
+| Project plan (GSheets) | https://docs.google.com/spreadsheets/d/1TNkLlC5xGrjK8MfvLmxyOUDXTpj85ucAW1fzZUS1Xyo/edit |
+| Phase 1.1 HT execution flow (Whimsical) | https://whimsical.com/digital-assets-phase-1-1-ht-principal-execution-flow-pulse-clst--HREiWzSLKQxYYjmCSKSkdX |
+| Account structure diagram (Whimsical) | https://whimsical.com/digital-assets-account-structure-CPwvABtS4H9CST5GsEaNPz |
+| Crypto Swap Phase 2.1 doc (GDoc) | https://docs.google.com/document/d/1jksia4spyi6LjbjfYzDmsktAsmO-4yL0xbcPCgAR-Gc/edit |
+| CFTC SD registration scorecard (GSheets) | https://docs.google.com/spreadsheets/d/1_xHBs7iFm0DqxtkXNxvKvPMZPTtg60q5UXrSl7bGGr0/edit |
+| PwC SD registration Drive | https://drive.google.com/drive/folders/1ZqEnUMLhg8kSSih7FNVg12vjvopNKI7X |
+
+## Meeting Cadence (Digital Assets)
+
+- Business weekly: Mon 2pm ET
+- Eng standups: Tue/Thu 10:30am ET
+- Slack: #proj-digital-assets, #proj-digital-assets-onboarding, #pulse-integration

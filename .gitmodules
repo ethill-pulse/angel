@@ -1,0 +1,15 @@
+[submodule "repos/pulse"]
+	path = repos/pulse
+	url = git@github.com:pulseprime/pulse.git
+[submodule "repos/kustomize"]
+	path = repos/kustomize
+	url = git@github.com:pulseprime/kustomize.git
+[submodule "repos/terraform"]
+	path = repos/terraform
+	url = git@github.com:pulseprime/terraform.git
+[submodule "repos/infrastructure"]
+	path = repos/infrastructure
+	url = git@github.com:pulseprime/infrastructure.git
+[submodule "repos/polaris"]
+	path = repos/polaris
+	url = git@github.com:pulseprime/polaris.git
