@@ -73,7 +73,11 @@ Consult `agent/memories/notion_index.md` for known page IDs and structure. Then 
 
 Add anything significant to the appropriate memory files (`projects.md`, `people.md`, `work.md`). Don't duplicate what's already captured from journals.
 
-### 7. Journal the Heartbeat Run
+### 7. Clean Up Completed TODOs
+
+Review `agent/todos.md`. Remove any `[x]` items whose `*(done: YYYY-MM-DD)*` timestamp is more than 14 days old. This keeps the file from accumulating dead weight. If a completed item has no timestamp, add today's date before removing it on the next heartbeat.
+
+### 8. Journal the Heartbeat Run
 
 Append a timestamped entry to today's journal (`agent/journals/YYYY-MM-DD.md`) summarizing what was done:
 - Which journals were reviewed
