@@ -141,8 +141,11 @@ Goals: 4 recon layers, loan management E2E, spot trades visible in Haruko. Optio
 ## Team Work In Flight
 
 ### Talgat — upcoming priorities (as of 2026-04-06)
-1. **E2E testing with Erick Arce** — pair on end-to-end testing through polaris. Close to ready.
-2. **Pre-trade risk checks via Talos** — sync available margin from Talos APIs before order execution in trade-engine. Not blocking E2E, but required for real production trading. No implementation exists yet; natural home is a new service in `execution_manager/` + a new Talos risk API integration in `libs/venues/crates/venues-talos/`.
+1. **Automated E2E tests — trade-engine + polaris** — pair with Erick Arce on end-to-end test coverage spanning both services. Close to ready.
+2. **Pre-trade risk checks — credit-based** — check available credit before order execution in trade-engine. Two phases:
+   - **Phase 1**: Poll available credit from Talos APIs (no new service needed).
+   - **Phase 2**: A dedicated **risk abstraction service** that serves both trade-engine (pre-trade credit checks) and polaris (periodic per-customer position recon). Backend is Haruko. Encapsulated so Haruko can be replaced or additional risk calcs added without touching consumers.
+   Not blocking E2E, but required for real production trading. No implementation exists yet.
 3. **Team code review** — walk the team through all his trade-engine work (digital venue setup, FIX server, audit trail, etc.).
 
 ---
