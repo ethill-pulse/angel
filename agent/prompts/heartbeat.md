@@ -73,10 +73,14 @@ Consult `agent/memories/notion_index.md` for known page IDs and structure. Then 
 
 Add anything significant to the appropriate memory files (`projects.md`, `people.md`, `work.md`). Don't duplicate what's already captured from journals.
 
-### 7. Output Heartbeat Summary
+### 7. Journal the Heartbeat Run
 
-Produce a brief summary:
+Append a timestamped entry to today's journal (`agent/journals/YYYY-MM-DD.md`) summarizing what was done:
 - Which journals were reviewed
 - Which memory files were created or updated
 - Key things now captured in memory
 - Anything that needs Eric's attention or follow-up
+
+Then output the same summary to the terminal so Eric can see it.
+
+**Do not create any files outside `agent/memories/` and `agent/journals/`.** In particular, do not create `agent/heartbeat.md` or any other tracking files at the repo root or in `agent/`.
