@@ -30,17 +30,21 @@ Sources: "Digital Assets Build" Google Sheet (~/Downloads CSVs) + Notion meeting
 
 ### P1.1 Scale — HT Spot Automation (RED)
 Full STP: Talos → Pulse → BK → BitGo + Customers Bank recon.
-- **Two BTC/USD trades flowed in production March 27 — fully automated, no human intervention**
+- **Two BTC/USD trades flowed in production March 27 — fully automated, no human intervention** (confirmed in F2B demo 3/30)
 - Company-wide demo targeting **April 18** for BitGo settlement instruction capability
 - SSI wallet storage in prod (code merged), needs prod sign-off — ETA 4/17 for full SSI build
-- Bank recon (Cubix) nearly done — ops validating as of Apr 6
-- BitGo security VM solution agreed (Shlomi Avivi)
+- Bank recon (Cubix) nearly done — ops validating as of Apr 6; Customers Bank API balance pull in progress
+- BitGo security VM solution agreed (Shlomi Avivi); establishing VM access process, not day-1 blocker
 - Trade confirmation build ETA Apr 10
 - Recon (Talos↔BK↔BitGo) not yet started — 4 layers defined (see below)
-- Stablecoin collateral support: Apr 11 target
+- Stablecoin collateral support: Apr 11 target; USDC→USD conversion tested via BitGo (3/30)
 - **Known bug**: BK Pset resolving to DTC instead of crypto — hardcode workaround deployed; proper fix is a Pset rule in BK Gate
 - **Known issue**: CSDGCT company code (Clear Street Digital CT) not recognized in BK — fell back to CSLLC for testing
+- **Known risk**: CS Digital LLC is a **Reg T account** — 50% initial margin on traded positions (not expected 35%); journaled positions only require 35%. First trade triggered immediate margin call; Joe Pergola borrowed from CS Holdings to cover. Fix: correct maintenance margin override.
 - **Concern**: BK leadership spreading thin; BitGo batch settlement only twice/day (not real-time)
+- **SSI gap (critical)**: Current SSI model only supports 1 wallet per counterparty. Must support multiple wallets per coin per network. Short-term: embed network in counterparty name (e.g., "RenGen-Ethereum", "RenGen-Polygon"). Long-term: dedicated crypto SSI model with network field, Chainalysis scan, "good to trade" status flag.
+- **Completed**: BK-to-street event build — DONE (3/30). Trade object build — DONE.
+- **Cayman entities**: Cayman 1 & 2 received US tax IDs; Matt Lusignan securing Irma company codes this week. Fall under North America category.
 
 **4 reconciliation layers (defined, not yet built):**
 1. Talos ↔ BK (front/back office)
@@ -67,15 +71,19 @@ Manual flow and requirements captured. Deribit for pricing data (Eric owns eng).
 First loan booked 3/27. Haruko prod instance up: hcad-cls1.prod.haruko.io
 **Hackathon offsite week of April 13** — Neil (Haruko, NY) + Rasmus (SecFin, CS) attending.
 Goals: 4 recon layers, loan management E2E, spot trades visible in Haruko. Options + PMS P&L out of scope.
+- Haruko onboarding complete: 4 roles set up (Front Office, Risk, Ops, Read) with users mapped. Credit Risk onboarded 3/27; Margin Call Process team onboarded 4/2.
+- **Loan NOT yet writing to downstream systems (BK/Fleet)** — resides only in Haruko. Manual journaling into BK being established as template for automation. Jon Daplyn + Rama confirmed capability.
+- CS2→Haruko trade flow working in sandbox (tested: Amit Kirdatt, Chris Davidson, Kevin Stevens); full F2B testing pending pricing integration into Haruko.
 - CLST→Haruko: Talos→BK→Haruko data flow (spot + loans) — In Progress (Kevin Stevens / Chris Davidson)
 - Haruko→Olympus→BK (loan/borrow): In Progress (Wojciech Baj / Rasmus)
 - **Risk bypassed** for initial integration — Atul's decision; Risk team (Ricky, Yang) not at offsite despite live trading
+- Position recon deferred 2-3 weeks post-hackathon (low volume currently)
 - Loan structure: bilateral B2B MLA (not repo — avoids MTL requirement); BitGo as custodian; ~7–7.5% cash borrow rate; CS can rehypothecate BTC collateral
 - 5 margin systems currently issuing calls simultaneously: Olympus, Bezos, Wrench, Voyager, Haruko
 
 ### P5 — Payments
-- Inbound (Cubix/Customers Bank): GREEN, Nostro recon in ops validation
-- Outbound: AMBER — flow agreed, Kyriba may not be needed; Studio approval workflow being built. Alignment meeting 4/7.
+- Inbound (Cubix/Customers Bank): GREEN, Nostro recon in ops validation; incorrect account number found and being corrected
+- Outbound: AMBER — payment flow agreed. **Kyriba likely NOT required** — client bank-to-client bank payments don't require AML check. Studio approval workflow being built by tech team. Alignment meeting **4/7** between tech teams; Zip process to be cancelled based on 4/7 outcome.
 
 ---
 
@@ -160,6 +168,20 @@ Goals: 4 recon layers, loan management E2E, spot trades visible in Haruko. Optio
 - 160/185 procedures need fixes (86.5%); Risk Mgmt, Onboarding, Trading, Financial Reporting all at 100% needing fixes
 - Working with Potomac + PwC; Potomac proposal still under review
 - Jun 30 application target with 6-9mo approval timeline — very aggressive
+
+## Client Onboarding (Digital)
+
+From COPS followup meeting (3/30):
+- **Fast-track option** being introduced: spot-only, US-domiciled, no omnibus → bypasses New Client Committee (NCC) as blocker while completing all steps
+- ~**75% of clients** expected to be multi-product
+- ~**50 clients** expected in Q3; H2 (Q3/Q4) is when digital starts generating meaningful firm revenue
+- Multi-product onboarding solution: Q1 H2 (Q3 2026) target
+- Wallet address collection via COPS/Studio authenticated UI — "day two" feature for now; currently via email
+- Chainalysis integration into COPS planned (API call + audit trail per wallet review)
+- Multi-product onboarding: clients currently answer same questions multiple times — cloning feature as Q2 interim relief
+- Strategic vision: onboard legal entity first with foundational KYC, then client selects products
+
+---
 
 ## Entity Structure
 - **CS Digital CT (CSD)**: US trading entity

@@ -40,6 +40,14 @@ Key pages and resources. All READ ONLY unless Eric explicitly directs otherwise.
 | CFTC SD registration scorecard (GSheets) | https://docs.google.com/spreadsheets/d/1_xHBs7iFm0DqxtkXNxvKvPMZPTtg60q5UXrSl7bGGr0/edit |
 | PwC SD registration Drive | https://drive.google.com/drive/folders/1ZqEnUMLhg8kSSih7FNVg12vjvopNKI7X |
 
+## Recent Meeting Notes (Apr 2026)
+
+| Date | Title | URL | Key content |
+|------|-------|-----|-------------|
+| 2026-03-30 | F2B Digital Spot booking Demo | https://www.notion.so/3331043d19d5805c95decd5393d5c1de | 2 BTC/USD prod trades 3/27; SSI multi-wallet gap; BitGo day-1 ops approval process; April 18 demo target |
+| 2026-03-31 | Weekly DA Projects Status - Spot & Swap | https://www.notion.so/3341043d19d581028b69d5a03fdf0d3a | Cayman entity tax IDs; SSI-BitGo linkage; Reg T margin issue on first trade; loan manual journal template; CS2→Haruko sandbox |
+| 2026-03-30 | Digital Onboarding - COPS followup | https://www.notion.so/3331043d19d58079a9abf7a839735cf2 | Fast-track onboarding; 75% multi-product; 50 Q3 clients; H2 revenue ramp; Chainalysis COPS integration |
+
 ## Meeting Cadence (Digital Assets)
 
 - Business weekly: Mon 2pm ET

@@ -20,7 +20,7 @@ Key contacts outside Eric's direct team.
 | Yang Wu | Credit risk | |
 | Atul Pawar | Market risk / derivatives | Made the call to bypass Risk team for initial Haruko integration |
 | Ricky Gunawan | Risk | Not currently engaged enough per meeting notes |
-| Matt Lusignan | Ops / client onboarding | |
+| Matt Lusignan | Ops / client onboarding | Responsible for securing Irma company codes for Cayman 1 & 2; defining manual spot crypto onboarding process |
 | Christy Moccia | Compliance | |
 | David Brown | Legal | |
 | Andrew Masich | Entity setup / vendor onboarding | |
@@ -60,3 +60,6 @@ Key contacts outside Eric's direct team.
 | Neil | Haruko contact (NY-based); attending Apr 13 hackathon offsite |
 | Shlomi Avivi | BitGo VM / security setup |
 | Paul Collins | Olympus product (CS) |
+| Timir Naik | BitGo VM / ops coordination | Following up with Shlomi on VM readiness timeline; removed BitGo VM responsibility from Brian Stern |
+| Joe Pergola | CS Holdings finance | Lent funds to cover 50% IM margin call on first digital trade (Reg T account issue) |
+| Angelo Principato | Margin / risk ops | Confirmed fix for Reg T maintenance margin override — excess funds reflect next morning |
