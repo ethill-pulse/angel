@@ -30,7 +30,7 @@
 
 ---
 
-## 2026-04-07 (Heartbeat)
+## 2026-04-07 (Heartbeat — second run)
 
-**pulseprime/pulse**: 0 new merged PRs since 2026-04-06.
-**pulseprime/polaris**: 0 new merged PRs since 2026-04-06.
+**pulseprime/pulse**: 0 new merged PRs since 2026-04-07.
+**pulseprime/polaris**: 0 new merged PRs since 2026-04-07.

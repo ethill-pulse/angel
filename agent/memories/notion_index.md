@@ -53,6 +53,8 @@ Key pages and resources. All READ ONLY unless Eric explicitly directs otherwise.
 | 2026-04-06 | Weekly DA Projects Status (CSC transcript A) | https://www.notion.so/33a1043d19d5818a97e7fb179d44d71b | CSC Meetings DB transcript of same Apr 6 2pm meeting. Same content, adds: trade recon = two Snowflake services; margin = 50% initial / 35% maintenance; Jon Daplyn attended |
 | 2026-04-06 | Weekly DA Projects Status (CSC transcript B) | https://www.notion.so/33a1043d19d581498d7df57149e75b5f | Second CSC transcript of the same meeting — confirms action items and owners |
 
+| 2026-04-07 | cubiX Payment Integration Discussion | https://www.notion.so/33b1043d19d5808984e1dd385bf561db | Apr 7 alignment meeting outcome: Kyriba bypassed for Qubics, in-house Studio approval workflow confirmed. Target end of June. Key decisions documented. |
+
 ## Design Docs
 
 | Date | Title | URL | Notes |

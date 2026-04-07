@@ -95,7 +95,14 @@ Goals: 4 recon layers, loan management E2E, spot trades visible in Haruko. Optio
 
 ### P5 — Payments
 - Inbound (Cubix/Customers Bank): GREEN, Nostro recon in ops validation; incorrect account number found and being corrected
-- Outbound: AMBER — payment flow agreed. **Kyriba likely NOT required** — client bank-to-client bank payments don't require AML check. Studio approval workflow being built by tech team. Alignment meeting **4/7** between tech teams; Zip process to be cancelled based on 4/7 outcome. (No Notion notes yet on outcome.)
+- Outbound: AMBER — **Apr 7 decision: Kyriba bypassed for Qubics**. Build in-house approval workflow in Studio instead ($18K/6wks vs. minimal value since Qubics = same-bank transfers, no AML needed). Wire payments still need Kyriba separately (external banks → AML required). Target: **end of June 2026**.
+  - Qubics = 4th payment type alongside ACH, EFT, wire
+  - Approval thresholds: <$5M STP; >$5M manual 2-level review
+  - No Plaid for Qubics bank account verification — ops does callback manually
+  - Studio team building new Qubics payment type screen
+  - Building team has only 3 people, new hire expected next month
+  - Zip process cancelled (was for Kyriba integration)
+  - Action items open: confirm with Scott Gutmanstein that in-house approach OK; Yui investigating bank account capture + Qubics flag design
 
 ### ⚠️ NEW RISK: VASP/CARF Registration (Cayman Entities)
 Raised at Apr 6 weekly meeting. **Potentially 3-6 month critical path blocker** for Cayman entity bookings.
@@ -184,7 +191,18 @@ Raised at Apr 6 weekly meeting. **Potentially 3-6 month critical path blocker** 
 
 ---
 
+### Client Priorities (updated Apr 7)
+**Multicoin** is the highest-priority client for 2026 — described in the Apr 7 CS Digital weekly as "the largest and most profitable client this year." Primary driver of urgency on perpetual futures and spreader product.
+
+### Crypto Options (P2.5) — updated Apr 7
+- Apr 7 meeting: "Crypto Options structure" — initial design discussion on token-settlement mechanics for Deribit and Paradigm.
+- Swaps desk actively interested in trading options now; this is near-term not just discovery.
+- System design focus: token-settlement (vs. cash-settled) mechanics and their implications for BK/Haruko/BitGo.
+- Eric's eng ownership: Deribit connectivity for OTC Options (already in roadmap).
+- Key venues: Deribit (small blocks), Paradigm (large blocks) — from Polaris Options spec.
+
 ### Perpetuals (P2.4) — from PRD (updated Apr 6)
+**Architecture note (Apr 7, Suley via Slack)**: A "Spreader" component will send orders to Polaris for perps. The spreader algorithm comes from RenGen. CoinRoutes is being explored as a shortcut to support it — but direction is uncertain, pending Chris Davidson's conversation with them. Early-stage planning.
 - **Phase 1**: HT OTC 5-year forward; same expiry all clients (~4y11m rolling); Pulse calculates spot index → perp/spot basis; funding tracked in Haruko, pulled daily to Voyager, billed monthly
 - **Phase 2**: Streaming prices, no-expiry perp; Talos→Voyager STP; CFTC reporting via Derivs Middle Office
 - Entity chain: Client ↔ CSD ↔ Cayman I ↔ RenGen/Binance

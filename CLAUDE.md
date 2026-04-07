@@ -98,7 +98,8 @@ This is your time to consolidate, reflect, and keep your long-term knowledge acc
 │   └── todos.md           ← task/TODO list (read when Eric asks about tasks or TODOs)
 ├── scripts/               ← read-only helper scripts (agent can read+execute, not write)
 │   ├── cal-read.sh        ← calendar reader entry point
-│   └── cal-read.swift     ← EventKit-based calendar reader (handles recurring events)
+│   ├── cal-read.swift     ← EventKit-based calendar reader (handles recurring events)
+│   └── mail-read.sh       ← Apple Mail reader (INBOX + named mailboxes, filter by sender/subject)
 ├── notes/                 ← Eric's personal notes — read freely
 │   └── interviews/        ← interview notes
 └── repos/                 ← cloned team repositories
@@ -125,6 +126,8 @@ This is your time to consolidate, reflect, and keep your long-term knowledge acc
 - **Notion MCP** — company Notion workspace, configured globally via `claude mcp add --transport http notion https://mcp.notion.com/mcp`
 - **Google Drive** — mounted at `~/Library/CloudStorage/GoogleDrive-ethill@clearstreet.io/` via Google Drive for Desktop. Read access is pre-approved. Note: `.gsheet`/`.gdoc` stubs are not readable — files must be exported to CSV/plain text first.
 - **Apple Calendar** — reads Eric's Google Calendar (synced via Apple Calendar). Use `scripts/cal-read.sh YYYY-MM-DD YYYY-MM-DD` to get events in a date range. Pre-approved for read and execute. Write operations (via `osascript`) require confirmation.
+- **Apple Mail** — reads Eric's Google Mail (synced via Apple Mail). Use `scripts/mail-read.sh [--days N] [--sender PAT] [--subject PAT] [--body]` to read recent messages. Default: INBOX, last 1 day. Other mailboxes: Important, Starred, All Mail, Sent Mail, GitHub, GitHub Notifications, Slack, etc. Pre-approved for read and execute.
+  - **Gemini meeting notes**: Google Gemini emails meeting notes to `gemini-notes@google.com` after meetings. Use `scripts/mail-read.sh --days N --sender gemini-notes@google.com --body` to retrieve high-level summaries for recent meetings. This is the primary way to get meeting context until full Google Drive/Docs MCP access is available.
 
 ---
 

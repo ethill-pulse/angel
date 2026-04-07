@@ -23,6 +23,12 @@ Common flow:
 3. Eric spins up a Claude Code instance or subagent to execute it
 4. Angel tracks status and updates memories/todos accordingly
 
+## Data sources
+
+- **Meeting notes**: Gemini (Google AI) emails high-level meeting notes to Eric from `gemini-notes@google.com` after each meeting. Use `scripts/mail-read.sh --days N --sender gemini-notes@google.com --body` to retrieve them. This is the primary meeting-note source until Google Drive/Docs MCP is available.
+- **Google Drive**: Mounted at `~/Library/CloudStorage/GoogleDrive-ethill@clearstreet.io/`. Angel-export CSVs in `My Drive/angel-exports/` — read via `Glob` + `Read`. GDoc/GSheet stubs not readable directly.
+- **Notion**: Read via MCP. Never write unless explicitly directed.
+
 ## Heartbeat trigger
 
 Eric runs `make heartbeat` manually for now. Will set up a cron later.

@@ -14,7 +14,7 @@ Key contacts outside Eric's direct team.
 | Name | Role | Notes |
 |------|------|-------|
 | Robert Rutherford ("Bob") | CEO, CS Digital — Eric's direct boss | Hired at acquisition to run the digital team. Day-to-day coordination and operations. |
-| Suleyman Duyar ("Suley") | Founder of RenGen; now focused on big-picture business strategy for CS Digital | Was Eric's boss before Bob was hired. Stepped back from coordination/ops to focus on business direction. Trader by background. |
+| Suleyman Duyar ("Suley") | Founder of RenGen; now focused on big-picture business strategy for CS Digital | Was Eric's boss before Bob was hired. Stepped back from coordination/ops to focus on business direction. Trader by background. Not an engineer — proposes solutions from a business/trading lens. Eric's job is to take his wishlist and turn it into a real, viable product. |
 | Dalf Hammerich | Entity/ops — Cayman entities, BitGo | Ops owner for digital trades |
 | John DiBacco | Derivatives/swap trading desk | |
 | Yang Wu | Credit risk | |
