@@ -57,9 +57,20 @@ Key contacts outside Eric's direct team.
 
 | Name | Role |
 |------|------|
-| Neil | Haruko contact (NY-based); attending Apr 13 hackathon offsite |
+| Neil | Haruko contact (NY-based); attending Apr 13 hackathon offsite (likely Thu/Fri) |
 | Shlomi Avivi | BitGo VM / security setup |
 | Paul Collins | Olympus product (CS) |
 | Timir Naik | BitGo VM / ops coordination | Following up with Shlomi on VM readiness timeline; removed BitGo VM responsibility from Brian Stern |
 | Joe Pergola | CS Holdings finance | Lent funds to cover 50% IM margin call on first digital trade (Reg T account issue) |
 | Angelo Principato | Margin / risk ops | Confirmed fix for Reg T maintenance margin override — excess funds reflect next morning |
+
+## CS Engineering (Other)
+
+| Name | Role | Notes |
+|------|------|-------|
+| Annika Wei | CSC (Clearing, Settlement, Custody) team | Authored the "Crypto SSI enhancement" design spec (Apr 7) — defines inbound/outbound wallet address model in ssigate |
+| Wasserman | Kevin Stevens' team | Assigned to build BK↔Haruko reconciliation once Jason Price defines requirements |
+| Ankur | BK engineering | Working on Qubics/Customers Bank API integration (may be same as Ankit Singh or different person) |
+| Amit Kirdatt (akirdatt) | Haruko integration — unclear team | Involved in Talos→BitGo transaction clarity for Haruko; owns Haruko PMS integration (Voyager needs risk model inputs from him). On vacation as of Apr 6; return awaited. |
+| Patrick Wilson | Legal counsel | Providing VASP/CARF legal opinion for Cayman entity registration obligations; expected by ~Apr 11 |
+| Stephen Sullivan | Quant | Reviewing quant model inputs for swap margin; update expected this week (Apr 6 action item) |

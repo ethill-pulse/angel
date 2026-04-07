@@ -35,16 +35,20 @@ Full STP: Talos → Pulse → BK → BitGo + Customers Bank recon.
 - SSI wallet storage in prod (code merged), needs prod sign-off — ETA 4/17 for full SSI build
 - Bank recon (Cubix) nearly done — ops validating as of Apr 6; Customers Bank API balance pull in progress
 - BitGo security VM solution agreed (Shlomi Avivi); establishing VM access process, not day-1 blocker
-- Trade confirmation build ETA Apr 10
-- Recon (Talos↔BK↔BitGo) not yet started — 4 layers defined (see below)
+- Trade confirmation: Brian shared PDF template (Apr 6), automatable — work not yet queued, design phase
+- **Recon (EOD) — HIGH PRIORITY, NOT STARTED**: Real-time Customers Bank→BK and BitGo→BK sync are both operational (as of Apr 6). But EOD reconciliation statements not yet built. Must be completed before SSI work resumes.
+- **Qubics integration** (Cubix/Customers Bank): Ankur (BK eng) working on it. Call Apr 7, target delivery ~2 weeks.
 - Stablecoin collateral support: Apr 11 target; USDC→USD conversion tested via BitGo (3/30)
 - **Known bug**: BK Pset resolving to DTC instead of crypto — hardcode workaround deployed; proper fix is a Pset rule in BK Gate
 - **Known issue**: CSDGCT company code (Clear Street Digital CT) not recognized in BK — fell back to CSLLC for testing
 - **Known risk**: CS Digital LLC is a **Reg T account** — 50% initial margin on traded positions (not expected 35%); journaled positions only require 35%. First trade triggered immediate margin call; Joe Pergola borrowed from CS Holdings to cover. Fix: correct maintenance margin override.
 - **Concern**: BK leadership spreading thin; BitGo batch settlement only twice/day (not real-time)
-- **SSI gap (critical)**: Current SSI model only supports 1 wallet per counterparty. Must support multiple wallets per coin per network. Short-term: embed network in counterparty name (e.g., "RenGen-Ethereum", "RenGen-Polygon"). Long-term: dedicated crypto SSI model with network field, Chainalysis scan, "good to trade" status flag.
+- **SSI gap (critical)**: Current SSI model only supports 1 wallet per counterparty. Must support multiple wallets per coin per network. Short-term: embed network in counterparty name (e.g., "RenGen-Ethereum", "RenGen-Polygon"). Long-term: dedicated crypto SSI model with network field, Chainalysis scan, "good to trade" status flag. **Design spec now published**: Annika Wei (CSC team) posted "Crypto SSI enhancement" to Notion (Apr 7) — full proto design for inbound/outbound wallet types, approval workflow, audit log. Status: Not Started.
 - **Completed**: BK-to-street event build — DONE (3/30). Trade object build — DONE.
 - **Cayman entities**: Cayman 1 & 2 received US tax IDs; Matt Lusignan securing Irma company codes this week. Fall under North America category.
+- **CLS→BitGo integration (P1.1 settlement)**: First successful E2E workflow completed Apr 4 — can create commitment and instruct BitGo. But current flow is too STP: needs a manual approval checkpoint between obligation creation and commitment creation (to prevent accidental instruction when coin not available). Target redesign complete: **end of April** (moved up from original June estimate).
+- **BitGo exchange flow (new gap)**: Need to handle BitGo-as-exchange (e.g., USDC→USD conversions) differently from BitGo-as-custodian. Exchange trades should use contractual settlement, not physical instruction, to prevent double-instructing. Target: ~2 weeks. High priority alongside EOD recon.
+- **Studio counterparty access**: Counterparty login to view trade activity timeline in Studio. Dev complete target: ~Apr 17.
 
 **4 reconciliation layers (defined, not yet built):**
 1. Talos ↔ BK (front/back office)
@@ -52,8 +56,12 @@ Full STP: Talos → Pulse → BK → BitGo + Customers Bank recon.
 3. Pulse ↔ Exchanges (independent execution verification)
 4. BK ↔ Haruko (EOD; BK is source of truth)
 
+**Trade reconciliation architecture (Apr 6, high priority, not started)**: Two Snowflake-based services — (1) EOD snapshot upload, (2) independent polling for updates. Customers Bank transactions/balances already pulling every 5 min into nostro recon (Ankit confirmed).
+
 ### P1.3 — LT RFQ to LP (GREEN)
-Polaris doing RFQ/RFS to RenGen as LP. Talos for post-trade. Testing starts 4/3.
+Polaris doing RFQ/RFS to RenGen as LP. Talos for post-trade.
+- **E2E testing completed** while Eric was out (week of Mar 30). Team reports "looking pretty good" but Eric hasn't reviewed yet (as of Apr 6). Starting to test native in-house piping.
+- **Prod rollout target**: Shortly after Apr 17 (not by end of next week, but soon after).
 
 ### P1.4 — LT Front-to-Back (GREEN)
 Digital Trade Engine routing RFQ to RenGen → Studio EMS + Active Trader. Apr 30.
@@ -69,21 +77,34 @@ Manual flow and requirements captured. Deribit for pricing data (Eric owns eng).
 
 ### P4 — Loan & Borrow / Haruko (GREEN)
 First loan booked 3/27. Haruko prod instance up: hcad-cls1.prod.haruko.io
-**Hackathon offsite week of April 13** — Neil (Haruko, NY) + Rasmus (SecFin, CS) attending.
+**Hackathon offsite week of April 13** — Neil (Haruko, NY, likely Thu/Fri) + Rasmus (SecFin, CS) attending.
 Goals: 4 recon layers, loan management E2E, spot trades visible in Haruko. Options + PMS P&L out of scope.
-- Haruko onboarding complete: 4 roles set up (Front Office, Risk, Ops, Read) with users mapped. Credit Risk onboarded 3/27; Margin Call Process team onboarded 4/2.
-- **Loan NOT yet writing to downstream systems (BK/Fleet)** — resides only in Haruko. Manual journaling into BK being established as template for automation. Jon Daplyn + Rama confirmed capability.
-- CS2→Haruko trade flow working in sandbox (tested: Amit Kirdatt, Chris Davidson, Kevin Stevens); full F2B testing pending pricing integration into Haruko.
-- CLST→Haruko: Talos→BK→Haruko data flow (spot + loans) — In Progress (Kevin Stevens / Chris Davidson)
-- Haruko→Olympus→BK (loan/borrow): In Progress (Wojciech Baj / Rasmus)
-- **Risk bypassed** for initial integration — Atul's decision; Risk team (Ricky, Yang) not at offsite despite live trading
-- Position recon deferred 2-3 weeks post-hackathon (low volume currently)
+- Haruko onboarding complete: 4 roles set up (Front Office, Risk, Ops, Read) with users mapped.
+- **Haruko pushing to production this week (Apr 7 week)**: Spot trade booking for risk mostly complete. Haruko→CLS trade flow dev in progress (trade pushing mostly done, ledger side still needed). Symbology mapping (internal→Haruko) still outstanding.
+- **BK→Haruko**: Most flows tested in dev. Main outstanding = reconciliation. Kevin to discuss recon requirements with Jason. Kevin's eng (Wasserman) will build BK↔Haruko recon.
+- **Loan ledger implementation**: Moving from definition to implementation. S-FIN service can already create loan legs (cash + crypto). Rasmus + Paul finalizing integration details. Rasmus's team to meet this week to finalize approach.
+- Haruko→Olympus→BK (Olympus/SFIN → ledger): Target completion this week.
+- **Swap margin**: Will use Haruko as data source for margin calculations — avoids building internally. Yang Wu to coordinate Haruko→Voyager integration (with Yoon Lee from Voyager).
+- **Risk team (Ricky, Yang) still disengaged**: Not invited to hackathon offsite. Jason to invite them. They need to set up views in Haruko. Team is live-trading without them.
+- **P&L/Studio**: Finance team asking about P&L numbers. Brian Stern starting to look at PMS→Studio integration. Jason to push Brian to document requirements.
+- **2 Prime**: $3.8M equity with high leverage — concern raised. Awaiting MLA from their lawyers (no timeline). Yang Wu following up with Bob/Sully.
 - Loan structure: bilateral B2B MLA (not repo — avoids MTL requirement); BitGo as custodian; ~7–7.5% cash borrow rate; CS can rehypothecate BTC collateral
+- **Margin parameters finalized (Apr 6)**: 50% initial margin, 35% maintenance after day 1. Withdrawal based on lesser of SMA New York or House excess.
+- **Haruko PMS integration** (Voyager margin model): Voyager calculates margin calls but needs risk model inputs from Haruko. Waiting on Amit Kirdatt to return from vacation to progress.
 - 5 margin systems currently issuing calls simultaneously: Olympus, Bezos, Wrench, Voyager, Haruko
 
 ### P5 — Payments
 - Inbound (Cubix/Customers Bank): GREEN, Nostro recon in ops validation; incorrect account number found and being corrected
-- Outbound: AMBER — payment flow agreed. **Kyriba likely NOT required** — client bank-to-client bank payments don't require AML check. Studio approval workflow being built by tech team. Alignment meeting **4/7** between tech teams; Zip process to be cancelled based on 4/7 outcome.
+- Outbound: AMBER — payment flow agreed. **Kyriba likely NOT required** — client bank-to-client bank payments don't require AML check. Studio approval workflow being built by tech team. Alignment meeting **4/7** between tech teams; Zip process to be cancelled based on 4/7 outcome. (No Notion notes yet on outcome.)
+
+### ⚠️ NEW RISK: VASP/CARF Registration (Cayman Entities)
+Raised at Apr 6 weekly meeting. **Potentially 3-6 month critical path blocker** for Cayman entity bookings.
+- Cayman entities may require VASP (Virtual Asset Service Provider) registration — legal opinion from Patrick Wilson expected by Apr 11.
+- VASP registration = 3-6 months if required.
+- CARF (Crypto Asset Reporting Framework): regulations not published until October; 2026 activity filed in 2027 — can run in parallel, not the immediate blocker.
+- **Scope of impact unclear**: Pure US spot trades not touching Cayman = NOT blocked. Offshore hedging via Cayman (e.g., RenGen via Cayman I) = potentially blocked.
+- Action: Brian Stern to align with Sully on which specific flows are impacted.
+- This has downstream implications for the Cayman entity setup timeline and any derivatives hedging flow that routes through Cayman.
 
 ---
 

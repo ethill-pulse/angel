@@ -47,6 +47,17 @@ Key pages and resources. All READ ONLY unless Eric explicitly directs otherwise.
 | 2026-03-30 | F2B Digital Spot booking Demo | https://www.notion.so/3331043d19d5805c95decd5393d5c1de | 2 BTC/USD prod trades 3/27; SSI multi-wallet gap; BitGo day-1 ops approval process; April 18 demo target |
 | 2026-03-31 | Weekly DA Projects Status - Spot & Swap | https://www.notion.so/3341043d19d581028b69d5a03fdf0d3a | Cayman entity tax IDs; SSI-BitGo linkage; Reg T margin issue on first trade; loan manual journal template; CS2→Haruko sandbox |
 | 2026-03-30 | Digital Onboarding - COPS followup | https://www.notion.so/3331043d19d58079a9abf7a839735cf2 | Fast-track onboarding; 75% multi-product; 50 Q3 clients; H2 revenue ramp; Chainalysis COPS integration |
+| 2026-04-06 | Weekly DA Projects Status - Spot / Swap | https://www.notion.so/33a1043d19d5801eb702cdbfa7cecf67 | VASP/CARF Cayman risk; CLS→BitGo E2E complete, needs manual approval; EOD recon high priority; LT RFQ E2E done; Haruko to prod; BitGo exchange flow gap; 2 Prime concern |
+| 2026-04-06 | Weekly Haruko Integration Hackathon Prep | https://www.notion.so/33a1043d19d580809564dda9a4e1df9d | BK→Haruko mostly tested; Kevin's Wasserman to build recon; loan ledger moving to impl; risk team disengaged; Brian Stern needs to define P&L requirements |
+
+| 2026-04-06 | Weekly DA Projects Status (CSC transcript A) | https://www.notion.so/33a1043d19d5818a97e7fb179d44d71b | CSC Meetings DB transcript of same Apr 6 2pm meeting. Same content, adds: trade recon = two Snowflake services; margin = 50% initial / 35% maintenance; Jon Daplyn attended |
+| 2026-04-06 | Weekly DA Projects Status (CSC transcript B) | https://www.notion.so/33a1043d19d581498d7df57149e75b5f | Second CSC transcript of the same meeting — confirms action items and owners |
+
+## Design Docs
+
+| Date | Title | URL | Notes |
+|------|-------|-----|-------|
+| 2026-04-07 | Crypto SSI enhancement | https://www.notion.so/33b1043d19d580d891aeced37bb07c4a | Full proto design for inbound/outbound wallet SSI model in ssigate. Status: Not Started. Author: Annika Wei (CSC team) |
 
 ## Meeting Cadence (Digital Assets)
 

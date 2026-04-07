@@ -35,7 +35,7 @@ Guidelines:
 
 ### 4. Review Google Drive Exports
 
-Check `~/Library/CloudStorage/GoogleDrive-ethill@clearstreet.io/My Drive/angel-exports/` for updated CSVs. Key files:
+Use the `Glob` tool with pattern `~/Library/CloudStorage/GoogleDrive-ethill@clearstreet.io/My Drive/angel-exports/*.csv` to list available files (avoids shell escaping issues with the space in "My Drive"). Then read the key ones:
 - `Digital Assets Build - Project Plan.csv` — primary delivery roadmap; update `projects.md` if anything has changed
 - `Digital Assets Build - Executive Summary.csv` — phase-level status
 - `Digital Assets Build - Questions Require Answer.csv` — open questions; flag any new ones for Eric's attention
@@ -64,7 +64,11 @@ Summarize activity by author. Flag anything notable:
 
 Save a summary to `agent/memories/pr_activity.md`, keyed by date range. Don't duplicate entries already recorded there.
 
-### 6. Review Notion
+### 6. Check Calendar
+
+Run `scripts/cal-read.sh YYYY-MM-DD YYYY-MM-DD` with today's date and today+7 as arguments. Flag anything time-sensitive or relevant to current work: hackathons, demos, syncs, deadlines, travel. Note any scheduling context that affects priorities.
+
+### 7. Review Notion
 
 Consult `agent/memories/notion_index.md` for known page IDs and structure. Then search Notion for recent activity relevant to Eric and the digital engineering team:
 - Search for "Eric Thill" mentions in the past 2 weeks
@@ -73,11 +77,11 @@ Consult `agent/memories/notion_index.md` for known page IDs and structure. Then 
 
 Add anything significant to the appropriate memory files (`projects.md`, `people.md`, `work.md`). Don't duplicate what's already captured from journals.
 
-### 7. Clean Up Completed TODOs
+### 8. Clean Up Completed TODOs
 
 Review `agent/todos.md`. Remove any `[x]` items whose `*(done: YYYY-MM-DD)*` timestamp is more than 14 days old. This keeps the file from accumulating dead weight. If a completed item has no timestamp, add today's date before removing it on the next heartbeat.
 
-### 8. Journal the Heartbeat Run
+### 9. Journal the Heartbeat Run
 
 Append a timestamped entry to today's journal (`agent/journals/YYYY-MM-DD.md`) summarizing what was done:
 - Which journals were reviewed
