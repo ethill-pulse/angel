@@ -107,7 +107,7 @@ Manual flow and requirements captured. Deribit for pricing data (Eric owns eng).
 2. Learn Kafka / publisher pattern (new area for them — mostly done standalone + exchange integrations)
 3. Add **index price** to Deribit mark price feed (options prep)
 4. Fix **rengen arber** — update to newer Pulse releases
-5. Design **options chains as refdata primitive** — schema changes to enable a full options chain per asset/venue. Must sync with Eric before implementing.
+5. Design **options chains as refdata primitive** — schema changes to enable a full options chain per asset/venue. Must sync with Eric before implementing. **This is the scalable Deribit options integration path** — it satisfies both the CSC action item (Eric + Nikhil) and avoids manual per-instrument enablement.
 
 **Refdata design note:** Need to add options chains as a first-class primitive in refdata so entire chains can be enabled for an asset on a venue (vs. per-instrument today).
 
@@ -124,7 +124,7 @@ Goals: 4 recon layers, loan management E2E, spot trades visible in Haruko. Optio
 - **Loan ledger implementation**: Moving from definition to implementation. S-FIN service can already create loan legs (cash + crypto). Rasmus + Paul finalizing integration details. Rasmus's team to meet this week to finalize approach.
 - Haruko→Olympus→BK (Olympus/SFIN → ledger): Target completion this week.
 - **Swap margin**: Will use Haruko as data source for margin calculations — avoids building internally. Yang Wu to coordinate Haruko→Voyager integration (with Yoon Lee from Voyager).
-- **Risk team (Ricky, Yang) still disengaged**: Not invited to hackathon offsite. Jason to invite them. They need to set up views in Haruko. Team is live-trading without them.
+- **Risk team (Ricky, Yang) / Haruko**: Kevin Stevens handling their engagement. Not Eric's concern.
 - **P&L/Studio**: Finance team asking about P&L numbers. Brian Stern starting to look at PMS→Studio integration. Jason to push Brian to document requirements.
 - **2 Prime**: $3.8M equity with high leverage — concern raised. Awaiting MLA from their lawyers (no timeline). Yang Wu following up with Bob/Sully.
 - Loan structure: bilateral B2B MLA (not repo — avoids MTL requirement); BitGo as custodian; ~7–7.5% cash borrow rate; CS can rehypothecate BTC collateral
@@ -241,12 +241,19 @@ Raised at Apr 6 weekly meeting. **Potentially 3-6 month critical path blocker** 
 - **Regulatory edge**: Clients can't get margin relief on cross-product books at native crypto venues (e.g., long ETF basket + short Binance — no margin netting). CS's regulated structure + breadth is the differentiator. "No place you can do all these things under one roof."
 - **Trust factor**: Many clients don't trust Binance; prefer facing a regulated US entity.
 
-### Crypto Options (P2.5) — updated Apr 7
-- Apr 7 meeting: "Crypto Options structure" — initial design discussion on token-settlement mechanics for Deribit and Paradigm.
-- Swaps desk actively interested in trading options now; this is near-term not just discovery.
-- System design focus: token-settlement (vs. cash-settled) mechanics and their implications for BK/Haruko/BitGo.
-- Eric's eng ownership: Deribit connectivity for OTC Options (already in roadmap).
+### Crypto Options (P2.5) — updated Apr 8
+- Apr 7 meeting: "Crypto Options structure" + CSC transcript (published Apr 8) — full design clarity.
+- Swaps desk actively interested in trading options now (John DiBacco, Suley, Bob requested it).
+- **Eric action item (confirmed in writing)**: Develop scalable Deribit options integration into Pulse — co-owned with Nikhil Kulkarni. Conditional on IRS approval of Cayman entity.
+- **Kevin action item**: Check with Chris Davidson on OTC option booking in Talos; assist if needed.
+- **Nikhil action item**: Ask Suley about risk offset strategies when OTC and listed options have different expiration times.
+- **Parallel path confirmed**: If Cayman entity not IRS-approved in time, proceed with OTC-only on Clear Street Digital, hedging via underlier (spot). This avoids being fully blocked.
+- OTC format: European-style, cash-settled, Paradigm as LP for RFQs. Symbology: `CLSD.option.[underlier].[C/P].[strike].[currency].[expiry]`. Exchange code: CLST (unlisted). Moneyness at 4pm cutoff.
+- Deribit listed options: two types (linear/USDC, inverse/BTC). Two-step settlement: option→future→USDC. Both settlement legs need BK tracking. System currently only captures expiry date, not time.
+- Risk model: positions flow BK→Haruko. Risk at book level (not entity). Two books under CS Cayman: Central Risk Book (CRB, accepts all firm risk, makes unified hedging decisions) + sub-books (own hedge strategies).
+- Open question: how to offset risk when OTC and listed options have different expiration times.
 - Key venues: Deribit (small blocks), Paradigm (large blocks) — from Polaris Options spec.
+- Manual enablement of Deribit options in Pulse is not scalable per Eric. The scalable path is **options chains as a refdata primitive** — when refdata supports subscribing to a full chain per asset/venue, instruments don't need to be enabled one-by-one. This is exactly what Aksel and Atakan are assigned to design (schema first, sync with Eric before implementing).
 
 ### Perpetuals (P2.4) — from PRD (updated Apr 6)
 **Architecture note (Apr 7, Suley via Slack)**: A "Spreader" component will send orders to Polaris for perps. The spreader algorithm comes from RenGen. CoinRoutes is being explored as a shortcut to support it — but direction is uncertain, pending Chris Davidson's conversation with them. Early-stage planning.

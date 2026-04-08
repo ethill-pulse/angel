@@ -55,6 +55,7 @@ Key pages and resources. All READ ONLY unless Eric explicitly directs otherwise.
 
 | 2026-04-07 | cubiX Payment Integration Discussion | https://www.notion.so/33b1043d19d5808984e1dd385bf561db | Apr 7 alignment meeting outcome: Kyriba bypassed for Qubics, in-house Studio approval workflow confirmed. Target end of June. Key decisions documented. |
 | 2026-04-07 | Crypto options (4pm) | https://www.notion.so/33b1043d19d5809d9c39edca65cc58ae | Deep-dive on OTC + listed options structure, Deribit integration, entity constraints (Cayman required), settlement mechanics, Eric action item: enable Deribit options in Pulse for testing |
+| 2026-04-07 | Crypto Options (CSC transcript, published Apr 8) | https://www.notion.so/33b1043d19d581cca205e5e664e12800 | CSC Meetings DB write-up. Confirms parallel path (OTC-only if Cayman blocked), Central Risk Book model, Eric + Nikhil Kulkarni action item for scalable Deribit integration, two-step settlement detail |
 
 ## Design Docs
 

@@ -62,3 +62,30 @@
 **Emre Ekici (1 PR)**: #381 "quote expiry validation" (+154/-27, 2 files) — adds validation logic for quote expiry.
 
 **Theme**: Erick doing coordinated polish across both repos (dep hygiene in pulse, risk module rename/refactor in polaris). `KnownPositions` → `CentralRiskBook` rename is architecturally meaningful — the central risk book concept is now explicit in the codebase.
+
+---
+
+## 2026-04-08
+
+### pulseprime/pulse — 6 PRs merged
+
+**Ömer Yılmaz / litityum (4 PRs)**: Heavy Paribu exchange integration work.
+- #1791: "Refactor skew parameters: replace `skew` with `delta_skew_params`" (+23/-21, 1 file) — config cleanup
+- #1792: "Refactor Paribu WebSocket integration: switch to new API endpoints" (+277/-287, 6 files) — **notable**: large Paribu WS overhaul; this is a new exchange (Turkish crypto exchange Paribu) being integrated into Pulse
+- #1794: "Update Paribu order schema: replace default values with nulls" (+7/-6, 2 files) — schema fix
+
+**Matthew Gow / MatthewGow (1 PR)**: #1793 "use AWS public ECR images for python instead of docker.io who ratelimits" (+2/-2, 2 files) — infra fix, docker.io rate limiting workaround
+
+**Aksel Hakim (1 PR)**: #1790 "try to solve sudden disconnect issue" (+22/-26, 1 file) — TLS/connectivity fix
+
+**Talgat Taskhozhayev (1 PR)**: #1780 "Trade-Engine: Audit Trail" (+174/-131, 7 files) — **notable**: this PR finally merged today. Wires audit-trail into trade-engine with 3 handlers (NewOrderSingle, ExecutionReport, OrderCancelReject). Soft failure pattern (log::warn, no hot-path blocking).
+
+### pulseprime/polaris — 3 PRs merged
+
+**Eric Thill / ethill-pulse (1 PR)**: #388 "claude-ify repo and add local run scripts" (+688/-6, 17 files) — **notable**: the polaris CLAUDE.md documentation work + `polaris/local/` docker-compose stack from Apr 7 session. Large addition.
+
+**Emre Ekici (1 PR)**: #390 "purge expired quotes" (+173/-11, 2 files) — quote lifecycle management improvement.
+
+**Ömer Yılmaz / litityum (1 PR)**: #391 "Litityum/position skew refactor" (+160/-136, 7 files) — refactors position skew logic across 7 files.
+
+**Theme**: Ömer active across both repos today (4 pulse + 1 polaris). Paribu exchange is new and significant — this is a Turkish crypto exchange not previously mentioned. Talgat's audit trail PR merged. Eric's polaris CLAUDE.md work landed.

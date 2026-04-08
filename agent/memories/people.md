@@ -36,7 +36,7 @@ Key contacts outside Eric's direct team.
 | Hari | BK engineering | |
 | Ankit Singh | BK eng — BitGo→BK, bank recon | |
 | Ani Banerjee | Risk engineering | |
-| Nikhil Kulkarni | FACT / reference data | Setting up listed options instruments manually |
+| Nikhil Kulkarni | FACT / reference data | Setting up listed options instruments manually; co-owns scalable Deribit options integration into Pulse with Eric (Apr 8 action item, conditional on Cayman IRS approval) |
 | Collin Zoll / Yoon Lee | Voyager/Athena engineering | |
 | Wojciech Baj | Haruko↔Olympus integration | |
 | Rasmus | SecFin/S-FIN engineer (CS side) | Quarterly NY visit; attending Apr 13 hackathon |

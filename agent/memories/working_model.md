@@ -40,6 +40,7 @@ Eric runs `make heartbeat` manually for now. Will set up a cron later.
 - Sort by modification time to find recent activity
 - Patterns will emerge as volume increases — watch for topics, people, recurring themes
 - Read freely when relevant to current work
+- Do not write to `notes/`. It is read-only for Angel.
 
 ## Delegation style
 
