@@ -4,6 +4,9 @@
 # Repo contents are managed as submodules
 # (individual file exclusions not needed — submodule registration handles this)
 
+# pnpm store (created by polaris build_and_run.sh — Docker mounts repos/ as volume root)
+repos/.pnpm-store/
+
 # macOS
 .DS_Store
 **/.DS_Store

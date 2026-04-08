@@ -102,6 +102,15 @@ Manual flow and requirements captured. Deribit for pricing data (Eric owns eng).
 **Kevin's action item:** Follow up with Chris Davidson on booking OTC options in Talos
 **Eric's team** is prioritizing spot execution pipeline first; options work planned for Haruko hackathon period (Apr 13+)
 
+**Aksel & Atakan work queue (assigned Apr 8):**
+1. Get up to speed on Deribit options API + `app/clearstreet-*` publisher crates
+2. Learn Kafka / publisher pattern (new area for them — mostly done standalone + exchange integrations)
+3. Add **index price** to Deribit mark price feed (options prep)
+4. Fix **rengen arber** — update to newer Pulse releases
+5. Design **options chains as refdata primitive** — schema changes to enable a full options chain per asset/venue. Must sync with Eric before implementing.
+
+**Refdata design note:** Need to add options chains as a first-class primitive in refdata so entire chains can be enabled for an asset on a venue (vs. per-instrument today).
+
 ### P4 — Loan & Borrow / Haruko (GREEN)
 First loan booked 3/27. Haruko prod instance up: hcad-cls1.prod.haruko.io
 **Hackathon offsite week of April 13** — Neil (Haruko, NY, likely Thu/Fri) + Rasmus (SecFin, CS) attending.
@@ -109,6 +118,9 @@ Goals: 4 recon layers, loan management E2E, spot trades visible in Haruko. Optio
 - Haruko onboarding complete: 4 roles set up (Front Office, Risk, Ops, Read) with users mapped.
 - **Haruko pushing to production this week (Apr 7 week)**: Spot trade booking for risk mostly complete. Haruko→CLS trade flow dev in progress (trade pushing mostly done, ledger side still needed). Symbology mapping (internal→Haruko) still outstanding.
 - **BK→Haruko**: Most flows tested in dev. Main outstanding = reconciliation. Kevin to discuss recon requirements with Jason. Kevin's eng (Wasserman) will build BK↔Haruko recon.
+- **Emre — Haruko venue integration (dropcopy)**: Building full venue integration spec (order entry / dropcopy / mktdata) so Polaris can recon positions from Haruko on an interval or restart. Start with spot; expands to options. Pull via REST poll loop into standard Pulse venue abstraction. Decision rationale: CS Digital is out of fleet (security friction), Haruko is consolidated risk source, aggressive timelines. Kevin confirmed Haruko REST API is straightforward: https://platform.haruko.io/docs/#tag/Trades-Data
+- **CSC/BK as future alternative for position data**: SOD options exist — S3 ledger files, Snowflake tables, BK gRPC API. Contact: Rasmus Leijon (Euro TZ). Kafka not ideal (no server-side filter, no SOW query). Not pursuing now.
+- **Warning**: Avoid Rama (Mellacheruvu) for anything recon-related — will add weeks of meetings and relitigate all decisions.
 - **Loan ledger implementation**: Moving from definition to implementation. S-FIN service can already create loan legs (cash + crypto). Rasmus + Paul finalizing integration details. Rasmus's team to meet this week to finalize approach.
 - Haruko→Olympus→BK (Olympus/SFIN → ledger): Target completion this week.
 - **Swap margin**: Will use Haruko as data source for margin calculations — avoids building internally. Yang Wu to coordinate Haruko→Voyager integration (with Yoon Lee from Voyager).
@@ -221,6 +233,13 @@ Raised at Apr 6 weekly meeting. **Potentially 3-6 month critical path blocker** 
 
 ### Client Priorities (updated Apr 7)
 **Multicoin** is the highest-priority client for 2026 — described in the Apr 7 CS Digital weekly as "the largest and most profitable client this year." Primary driver of urgency on perpetual futures and spreader product.
+
+**Apr 7 CS Digital weekly — client demand context (Eric's notes):**
+- **Multicoin**: Coming to do a trade with CS in the next day or two. Spot only for now, primarily Solana. Context on their size: did a $500M+ block with Galaxy last week. CS can only support ~$25M chunks today; will work in chunks.
+- **Feyman Point**: Already in FCM process. Plan is to add them into digital to give them pricing visibility and get them into the mix.
+- **Perps demand**: Every single client wants to trade perpetual futures through CS. Compliance restrictions prevent them from accessing Binance directly — they want a regulated US entity with CS's balance sheet. This is framed as CS's **largest opportunity**.
+- **Regulatory edge**: Clients can't get margin relief on cross-product books at native crypto venues (e.g., long ETF basket + short Binance — no margin netting). CS's regulated structure + breadth is the differentiator. "No place you can do all these things under one roof."
+- **Trust factor**: Many clients don't trust Binance; prefer facing a regulated US entity.
 
 ### Crypto Options (P2.5) — updated Apr 7
 - Apr 7 meeting: "Crypto Options structure" — initial design discussion on token-settlement mechanics for Deribit and Paradigm.
