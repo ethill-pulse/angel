@@ -99,7 +99,8 @@ This is your time to consolidate, reflect, and keep your long-term knowledge acc
 ├── scripts/               ← read-only helper scripts (agent can read+execute, not write)
 │   ├── cal-read.sh        ← calendar reader entry point
 │   ├── cal-read.swift     ← EventKit-based calendar reader (handles recurring events)
-│   └── mail-read.sh       ← Apple Mail reader (INBOX + named mailboxes, filter by sender/subject)
+│   ├── mail-read.sh       ← Apple Mail reader (INBOX + named mailboxes, filter by sender/subject)
+│   └── pr-read.sh         ← GitHub PR reader (pulseprime/pulse + polaris, filter by --since date)
 ├── notes/                 ← Eric's personal notes — read freely
 │   └── interviews/        ← interview notes
 └── repos/                 ← cloned team repositories
@@ -123,6 +124,7 @@ This is your time to consolidate, reflect, and keep your long-term knowledge acc
 - Standard Claude Code tools (read, write, bash, search, etc.)
 - Rust Analyzer LSP (for working in `repos/pulse/`)
 - **`gh` CLI** — authenticated as `ethill-pulse` against `github.com`. Use for PR listing, viewing, and diffing across `pulseprime/*` repos. Permitted commands: `gh pr list`, `gh pr view`, `gh pr diff`, `gh pr checks`.
+- **PR Reader** — `scripts/pr-read.sh --since YYYY-MM-DD [--repo OWNER/REPO]` — lists merged PRs across pulseprime/pulse and pulseprime/polaris since a given date. Pre-approved. Use this instead of raw `gh pr list` in heartbeat to avoid permission prompts.
 - **Notion MCP** — company Notion workspace, configured globally via `claude mcp add --transport http notion https://mcp.notion.com/mcp`
 - **Google Drive** — mounted at `~/Library/CloudStorage/GoogleDrive-ethill@clearstreet.io/` via Google Drive for Desktop. Read access is pre-approved. Note: `.gsheet`/`.gdoc` stubs are not readable — files must be exported to CSV/plain text first.
 - **Apple Calendar** — reads Eric's Google Calendar (synced via Apple Calendar). Use `scripts/cal-read.sh YYYY-MM-DD YYYY-MM-DD` to get events in a date range. Pre-approved for read and execute. Write operations (via `osascript`) require confirmation.

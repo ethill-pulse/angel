@@ -75,6 +75,33 @@ Working with Potomac + PWC. ~40% of control gaps in progress, 60% not started. A
 ### P2.5 — OTC Options (AMBER)
 Manual flow and requirements captured. Deribit for pricing data (Eric owns eng). Haruko for risk. Limited eng capacity until P1.1 scale and basics close out.
 
+**Apr 7 — Two design meetings; major structural clarity now in memory:**
+
+**OTC options (CS-written, Paradigm as LP for RFQ):**
+- Cash settled in **USD** (default); future stablecoin settlement (USDC/USDT) possible by defining as currencies
+- European exercise only; no early exercise
+- Symbology: `CLSD.option.[underlier].[call/put].[strike].[currency].[expiry]`; exchange code `XXXX` (Deribit has no MIC yet)
+- Settlement: moneyness at FACT price 4pm Eastern on expiry date
+- OTC options expected to be hedged with listed Deribit options, or alternatively delta-neutral with underlying spot positions
+- All positions flow BK→Haruko for consolidated risk view
+
+**Deribit listed options (used for hedging):**
+- Most liquid crypto options exchange
+- Two types: **linear** (trade in USDC) and **inverse** (premium in BTC)
+- Technically options on same-day futures; future never custodied — two-step settlement: option→future→cash USDC
+- Underlier: Deribit BTC USDC index; expiry 8am UTC; European style + auto-settlement
+- System currently only captures expiry *date*, not time — needs enhancement
+
+**Entity / regulatory constraint:**
+- **CS Digital CT can only trade spot on Deribit — NOT options**
+- **Options must trade on CS Cayman entity**
+- Cayman IRS sign-off still pending — this is a blocker before options can go live
+- Risk management at account/book level (not entity level); CS Cayman has multiple sub-books
+
+**Eric's action item (from Apr 7 meeting):** Determine if Deribit options can be enabled in Pulse for testing
+**Kevin's action item:** Follow up with Chris Davidson on booking OTC options in Talos
+**Eric's team** is prioritizing spot execution pipeline first; options work planned for Haruko hackathon period (Apr 13+)
+
 ### P4 — Loan & Borrow / Haruko (GREEN)
 First loan booked 3/27. Haruko prod instance up: hcad-cls1.prod.haruko.io
 **Hackathon offsite week of April 13** — Neil (Haruko, NY, likely Thu/Fri) + Rasmus (SecFin, CS) attending.
@@ -112,6 +139,7 @@ Raised at Apr 6 weekly meeting. **Potentially 3-6 month critical path blocker** 
 - **Scope of impact unclear**: Pure US spot trades not touching Cayman = NOT blocked. Offshore hedging via Cayman (e.g., RenGen via Cayman I) = potentially blocked.
 - Action: Brian Stern to align with Sully on which specific flows are impacted.
 - This has downstream implications for the Cayman entity setup timeline and any derivatives hedging flow that routes through Cayman.
+- **Deadline update**: Project plan CSV shows CARF obligation confirmation expected **Apr 10** (not Apr 11 as originally noted). Patrick Wilson kicking off VASP process.
 
 ---
 

@@ -45,14 +45,13 @@ Scan others (`Accounts`, `Counterparty Onboarding`, `Exchange Venues Counterpart
 
 ### 5. Review Recent PRs
 
-Check merged PRs across the monitored repos since the most recent journal date (or last 7 days if unclear). Repos to check:
-- `pulseprime/pulse`
-- `pulseprime/polaris`
+Check merged PRs across the monitored repos since the most recent journal date (or last 7 days if unclear). Run:
 
-For each repo, run:
 ```
-gh pr list --repo <repo> --state merged --search "merged:>YYYY-MM-DD" --limit 100 --json number,title,author,mergedAt,additions,deletions,changedFiles
+scripts/pr-read.sh --since YYYY-MM-DD
 ```
+
+This checks both `pulseprime/pulse` and `pulseprime/polaris` by default. To check a single repo: `scripts/pr-read.sh --since YYYY-MM-DD --repo pulseprime/pulse`.
 
 Summarize activity by author. Flag anything notable:
 - Unusually large PRs or high churn

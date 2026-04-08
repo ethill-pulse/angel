@@ -34,3 +34,31 @@
 
 **pulseprime/pulse**: 0 new merged PRs since 2026-04-07.
 **pulseprime/polaris**: 0 new merged PRs since 2026-04-07.
+
+## 2026-04-05 through 2026-04-08
+
+### pulseprime/pulse — 12 PRs merged
+
+**Erick Arce (7 PRs)**: Heavy dependency cleanup and upgrade push across multiple sessions.
+- #1769: "Updating hyperliquid for CVEs" (+2615/-2962, 7 files) — **notable**: large CVE fix in Hyperliquid integration
+- #1782–1787: Dep cleanup chain — removes unneeded deps, consolidates base64, upgrades jsonwebtoken/jsonschema, deduplicates crates. Coordinated multi-PR sweep.
+
+**Estiven Salazar (2 PRs)**: Atlas/algo-UI work — pre-populate form updates, polling fix.
+
+**Atakan Kupeli (1 PR)**: #1779 "Ak.working dummypolaris" (+271/-4019, 12 files) — **notable**: 4k line deletion. Likely cleanup of dummy/test scaffolding from local Polaris dev environment work.
+
+**Emre Ekici (1 PR)**: #1777 BTKB pagination fix.
+
+**Eric Thill (1 PR)**: #1788 "macos make image fixes" (+25/-7, 6 files) — the macOS Docker build pipeline fixes from the Apr 7 session (Dockerfile layer ordering, pycares pin, polaris file renames).
+
+### pulseprime/polaris — 6 PRs merged
+
+**Erick Arce (5 PRs)**: Major architectural refactoring of the risk/portfolio module:
+- #385: "Renaming KnownPositions to CentralRiskBook" (+319/-265, 8 files) — **notable**: core concept rename; `CentralRiskBook` is now the canonical name for the shared delta risk book
+- #387: "Move around central risk book functions" (+210/-132, 2 files)
+- #389: "Move tracker structs" (+40/-39, 9 files)
+- #382–383: OTC chain + PositionSkew module restructuring
+
+**Emre Ekici (1 PR)**: #381 "quote expiry validation" (+154/-27, 2 files) — adds validation logic for quote expiry.
+
+**Theme**: Erick doing coordinated polish across both repos (dep hygiene in pulse, risk module rename/refactor in polaris). `KnownPositions` → `CentralRiskBook` rename is architecturally meaningful — the central risk book concept is now explicit in the codebase.
