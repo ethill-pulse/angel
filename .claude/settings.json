@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(notes/**)",
+      "Read(repos/**)",
+      "Read(agent/**)",
+      "Write(agent/**)",
+      "Edit(agent/**)",
+      "Glob(agent/**)",
+      "Grep(agent/**)",
+      "Read(scripts/**)",
+      "Bash(scripts/**)",
+      "Bash(make *)",
+      "Bash(git submodule*)",
+      "Bash(git add*)",
+      "Bash(git rm*)",
+      "Bash(git commit*)",
+      "Bash(gh pr*)",
+      "Skill(update-config)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl*)",
+      "mcp__notion__notion-search",
+      "mcp__notion__notion-fetch",
+      "mcp__notion__notion-get-comments",
+      "mcp__notion__notion-get-users",
+      "mcp__notion__notion-get-teams",
+      "mcp__notion__notion-query-meeting-notes"
+    ]
+  }
+}

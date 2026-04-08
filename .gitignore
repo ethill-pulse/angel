@@ -1,5 +1,5 @@
 # Claude Code local state — not useful to restore
-.claude/
+.claude/settings.local.json
 
 # Repo contents are managed as submodules
 # (individual file exclusions not needed — submodule registration handles this)
