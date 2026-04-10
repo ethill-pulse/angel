@@ -89,3 +89,43 @@
 **Ömer Yılmaz / litityum (1 PR)**: #391 "Litityum/position skew refactor" (+160/-136, 7 files) — refactors position skew logic across 7 files.
 
 **Theme**: Ömer active across both repos today (4 pulse + 1 polaris). Paribu exchange is new and significant — this is a Turkish crypto exchange not previously mentioned. Talgat's audit trail PR merged. Eric's polaris CLAUDE.md work landed.
+
+---
+
+## 2026-04-09
+
+### pulseprime/pulse — 3 PRs merged
+
+**Chris Davidson (1 PR)**: #1789 "Cd.remove talos refdata filters" (+1419/-86, 6 files) — **notable**: large change stripping Talos refdata filters from the integration path. Part of Talos↔Pulse connectivity cleanup.
+
+**Emre Ekici (2 PRs)**:
+- #1795 "Venue::Haruko" (+196/-0, 18 files) — **notable**: Haruko venue integration scaffold lands. Implements the dropcopy/mktdata REST poll loop Eric directed on Apr 8.
+- #1796 "HRKO refdata fetcher" (+490/-8, 9 files) — **notable**: Haruko refdata fetch integration. Companion to #1795 — pulls instrument/refdata from Haruko REST API into Pulse's refdata system. 9 files, significant addition.
+
+### pulseprime/polaris — 7 PRs merged (all Erick Arce)
+
+**Erick Arce (7 PRs)**: Major coordinated skew system refactor — moves all skew calculations from `Envelope::Context` to a dedicated `skewtable` structure.
+
+- #395: "Clear Ts Support" (+280/-4, 5 files) — previously noted
+- #396: "Move liquidity skew" (+505/-896, 4 files) — **largest**: significant net deletion as liquidity skew moves into table
+- #397: "Move basis adjustment skew in" (+160/-203, 3 files)
+- #398: "Skew excess delta into table" (+147/-11, 1 file)
+- #394: "SkewApplier use skewtable instead of Envelope::Context" (+272/-346, 4 files)
+- #400: "MatchingEngine use skewtable instead of Envelope::Context" (+206/-176, 4 files)
+- #401: "LadderQuotingEngine use skewtable instead of Envelope::Context" (+141/-132, 2 files)
+
+**Theme**: Skew centralization — the `skewtable` is now the canonical place for all skew data across SkewApplier, MatchingEngine, and LadderQuotingEngine. Net change across the 6 skew PRs: ~+1431/-1764. Architecturally meaningful; Anton Ronis (Head of Quant) would care about this.
+
+---
+
+## 2026-04-10
+
+### pulseprime/pulse — 0 new PRs merged
+
+### pulseprime/polaris — 2 PRs merged
+
+**Ömer Yılmaz / litityum (2 PRs)**: Telemetry improvements.
+- #399: "Litityum/positions telemetry otc" (+249/-229, 2 files) — adds OTC position data to telemetry; net-neutral change count suggests refactor of existing telemetry paths.
+- #403: "Litityum/telemetry remove strategy update" (+547/-35, 3 files) — **notable**: removes strategy updates from telemetry; +547/-35 net add suggests new telemetry structure being added while old strategy-update paths are removed.
+
+**Theme**: Ömer continuing post-skew-refactor telemetry cleanup in polaris. After Erick's skewtable refactor, telemetry needs updating to reflect the new architecture.

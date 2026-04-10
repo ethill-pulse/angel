@@ -52,6 +52,16 @@ Pulse and Clear Street are staying **separate stacks** for now. Jon Daplyn (Clea
 - **AWS**: Cloud infrastructure (Bedrock setup documented in `notes/claude_bedrock.md`)
 - **AWS SSO**: `aws sso login` to authenticate
 
+## AI Tooling (as of Apr 8)
+
+CS has an **AI Coding Working Group** (recurring, Eric attends). Key context:
+- CS spending ~**$100k/month** on AI tools, mostly Claude via AWS Bedrock
+- License rationalization underway: ChatGPT, Claude, Juni, Copilot, Codex all in use; team is rationalizing to avoid duplicate spend
+- **Eric's team action item (Apr 8)**: Prepare and showcase dev workflow at Lunch & Learn presentation scheduled **Apr 24**. Eric's team is considered a good AI use case example.
+- Notable CS-wide AI use case: security vulnerability fixing agent (Michal's team) scanning 5-6 languages, fixing 600 critical vulns, creating PRs autonomously
+- RTK tool (Rust binary): filters command output before sending to AI — reduces tokens dramatically (988k → 142k in testing)
+- Cost optimization: sub-agent architecture (cheap Sonnet first for filtering, then expensive model for analysis); per-user quota investigation underway
+
 ## Notes
 
 - `notes/suley_token_list.md` — token tier/discount system notes (risk team, Binance listings)

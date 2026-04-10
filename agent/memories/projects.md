@@ -62,6 +62,7 @@ Full STP: Talos → Pulse → BK → BitGo + Customers Bank recon.
 Polaris doing RFQ/RFS to RenGen as LP. Talos for post-trade.
 - **E2E testing completed** while Eric was out (week of Mar 30). Team reports "looking pretty good" but Eric hasn't reviewed yet (as of Apr 6). Starting to test native in-house piping.
 - **Prod rollout target**: Shortly after Apr 17 (not by end of next week, but soon after).
+- **Digital Dev Sync Apr 9**: "Production readiness for Polaris to Talos RFQ" confirmed as a topic — review in progress. Chris Davidson's PR #1789 (remove Talos refdata filters, +1419/-86) merged same day, likely related cleanup.
 
 ### P1.4 — LT Front-to-Back (GREEN)
 Digital Trade Engine routing RFQ to RenGen → Studio EMS + Active Trader. Apr 30.
@@ -71,6 +72,9 @@ Voyager + Athena upgraded for digital assets. BK→Athena integration complete. 
 
 ### P2.3 — CFTC Swap Dealer Application (AMBER)
 Working with Potomac + PWC. ~40% of control gaps in progress, 60% not started. Application target Jun 30 (6-9 month approval timeline). Risk hiring just started.
+
+### P2.5 — OTC Options (AMBER) — CSC project formally created Apr 10
+CSC (Clearing, Settlement, Custody) team created a formal project entry today: "Digital Asset Options" (Status: Not Started; Goal: Support OTC cash-settled crypto options). This is the CSC-side counterpart to Eric's Deribit integration work. Indicates CSC is now formally planning their side of the options build.
 
 ### P2.5 — OTC Options (AMBER)
 Manual flow and requirements captured. Deribit for pricing data (Eric owns eng). Haruko for risk. Limited eng capacity until P1.1 scale and basics close out.
@@ -114,11 +118,28 @@ Manual flow and requirements captured. Deribit for pricing data (Eric owns eng).
 ### P4 — Loan & Borrow / Haruko (GREEN)
 First loan booked 3/27. Haruko prod instance up: hcad-cls1.prod.haruko.io
 **Hackathon offsite week of April 13** — Neil (Haruko, NY, likely Thu/Fri) + Rasmus (SecFin, CS) attending.
-Goals: 4 recon layers, loan management E2E, spot trades visible in Haruko. Options + PMS P&L out of scope.
+
+**Hackathon goals finalized (Apr 9):**
+- **Primary**: Full loan/borrow lifecycle automation: Haruko → Olympus ("Vortec") → BK and back. Sequence: Day 1-2 create borrow/loan via BK API (Rasmus has PR out to expose this); Day 2-3 commitment + settlement instructions (BitGo or manual); Day 3-4 settlement confirmation (BK→Vortec→Haruko) + mark-to-market; Day 4-5 margin calls + loan amendments/cancellations. Success = full lifecycle E2E including margin calls.
+- **Secondary** (parallel): Spot trades booked → BK → back to Haruko for risk view. Potential proto changes between BK and Haruko.
+- **Options descoped**: Nikhil confirmed OTC options not feasible this week, not even stretch goal. If team finishes early by Wed, may do OTC options architecture discussion (not implementation). Kevin's suggestion: more impactful to talk high-level architecture with full team present.
+- **Business stakeholders** (Bob, David, Brian Stern, Suley) on-call, not sitting in room. Two 15-min blocks/day reserved for questions.
+- **Friday noon demo**: Haruko integration showcase (confirmed on calendar as 11am).
+- **Note**: "Vortec" = Olympus or Haruko↔Olympus integration layer (Wojciech Baj + Paul Collins owners).
+
+**Margin call routing architecture (confirmed Apr 8 meeting):**
+- **Swap clients**: Voyager handles all margin calls (receives cash balances from BK via Kafka; can value swap positions)
+- **Spot-only clients**: Haruko handles margin calls
+- **Mixed clients** (trading both): Two separate margin calls until consolidated risk system built — expected through at least Q3 2026
+  - Potential mitigation: manager consolidates Swift instructions into single cash movement to client
+- **Open work**: Voyager→Haruko integration needs to be built (for swap risk visibility in Haruko front office)
+- **Open work**: Lisa→Athena pipeline needs to be built (futures hedge data for swap hedge monitoring)
+- **Crypto quant model**: Risk team has built a model for BTC/ETH/SOL/other coins — not yet integrated into risk engineering platform; timeline TBD
+- Product complexity concerns raised: team confused by expanding scope from Suley/others (futures on swaps, ETFs in custody, etc.)
 - Haruko onboarding complete: 4 roles set up (Front Office, Risk, Ops, Read) with users mapped.
 - **Haruko pushing to production this week (Apr 7 week)**: Spot trade booking for risk mostly complete. Haruko→CLS trade flow dev in progress (trade pushing mostly done, ledger side still needed). Symbology mapping (internal→Haruko) still outstanding.
 - **BK→Haruko**: Most flows tested in dev. Main outstanding = reconciliation. Kevin to discuss recon requirements with Jason. Kevin's eng (Wasserman) will build BK↔Haruko recon.
-- **Emre — Haruko venue integration (dropcopy)**: Building full venue integration spec (order entry / dropcopy / mktdata) so Polaris can recon positions from Haruko on an interval or restart. Start with spot; expands to options. Pull via REST poll loop into standard Pulse venue abstraction. Decision rationale: CS Digital is out of fleet (security friction), Haruko is consolidated risk source, aggressive timelines. Kevin confirmed Haruko REST API is straightforward: https://platform.haruko.io/docs/#tag/Trades-Data
+- **Emre — Haruko venue integration (dropcopy)**: `Venue::Haruko` PR (#1795) merged Apr 9 (+196/-0, 18 files) — initial scaffold is in pulse. Full venue integration spec (order entry / dropcopy / mktdata) so Polaris can recon positions from Haruko on an interval or restart. Start with spot; expands to options. Pull via REST poll loop into standard Pulse venue abstraction. Decision rationale: CS Digital is out of fleet (security friction), Haruko is consolidated risk source, aggressive timelines. Kevin confirmed Haruko REST API is straightforward: https://platform.haruko.io/docs/#tag/Trades-Data
 - **CSC/BK as future alternative for position data**: SOD options exist — S3 ledger files, Snowflake tables, BK gRPC API. Contact: Rasmus Leijon (Euro TZ). Kafka not ideal (no server-side filter, no SOW query). Not pursuing now.
 - **Warning**: Avoid Rama (Mellacheruvu) for anything recon-related — will add weeks of meetings and relitigate all decisions.
 - **Loan ledger implementation**: Moving from definition to implementation. S-FIN service can already create loan legs (cash + crypto). Rasmus + Paul finalizing integration details. Rasmus's team to meet this week to finalize approach.
@@ -254,6 +275,19 @@ Raised at Apr 6 weekly meeting. **Potentially 3-6 month critical path blocker** 
 - Open question: how to offset risk when OTC and listed options have different expiration times.
 - Key venues: Deribit (small blocks), Paradigm (large blocks) — from Polaris Options spec.
 - Manual enablement of Deribit options in Pulse is not scalable per Eric. The scalable path is **options chains as a refdata primitive** — when refdata supports subscribing to a full chain per asset/venue, instruments don't need to be enabled one-by-one. This is exactly what Aksel and Atakan are assigned to design (schema first, sync with Eric before implementing).
+
+### P3 — Client Trading & Custody (updated Apr 9)
+Not started (Eric's team) — CLST as agent + MTL application.
+
+**⚠️ New deadline from Jon Daplyn (Apr 8)**: End of June for crypto custody functionality — surprised both Kevin Stevens and Brian Stern. Kevin's assessment: "probably going to be a stretch."
+- Scope unclear: June target may apply to institutional clients only, active trading clients only, or both
+- Two separate builds required (institutional + active trading) with shared infrastructure
+- **Critical blocker**: BitGo tri-party wallets — needed to move funds on customer's behalf without per-transaction approval. Kevin re-engaged BitGo; received unclear response about a legal agreement awaiting BitGo's internal approval. Project may not be feasible without this. **Digital Dev Sync Apr 9 confirmed BitGo verification still pending.**
+- Currency conversion (BTC/stablecoin/USD): route through Pulse (BitGo fees too high)
+- COPS team is heavily booked; Matt Lee given heads-up
+- RenGen OTC settlement flow: stablecoin→USD primary use case; entity chain still TBD
+- Travel Rule compliance + Chainalysis AML integration required
+- Primarily Kevin Stevens' area; Pulse is the execution venue for currency conversions
 
 ### Perpetuals (P2.4) — from PRD (updated Apr 6)
 **Architecture note (Apr 7, Suley via Slack)**: A "Spreader" component will send orders to Polaris for perps. The spreader algorithm comes from RenGen. CoinRoutes is being explored as a shortcut to support it — but direction is uncertain, pending Chris Davidson's conversation with them. Early-stage planning.
