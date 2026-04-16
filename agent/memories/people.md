@@ -8,6 +8,7 @@ Key contacts outside Eric's direct team.
 |------|------|-------|
 | Jon Daplyn | COO, Clear Street | Pushing for eventual Pulse/CS tech stack merger; needs proper staffing + compliance work first |
 | Brian Stern | COO, Clear Street Digital (new hire) | Needs to document P&L integration requirements; owns finance sign-off on first live loans |
+| Brian Oliveira | COO, CS Digital (operational) | Joined ~1 month ago. Introduced at Digital→Netsuite meeting Apr 13. Working on Finance/ops side — bank recon, P&L automation, GL feeds to Netsuite. |
 
 ## Digital Assets — Business
 

@@ -120,7 +120,15 @@
 
 ## 2026-04-10
 
-### pulseprime/pulse — 0 new PRs merged
+### pulseprime/pulse — 4 PRs merged
+
+**Eric Thill / ethill-pulse (1 PR)**: #1799 "bring flow-venues up to parity" (+345/-8, 5 files) — **notable**: flow-venues quoting implementation: QuotingSubscription handler, QuotingRequest handler, is_subscribed fix for QuotingEvent. Also reviewed MutDynService/RefCellLock migration for standalone single-threaded worker pattern.
+
+**Talgat Taskhozhayev (2 PRs)**:
+- #1797: "Trade-Engine: Risk Check messages and Cache initial setup" (+88/-0, 7 files) — **notable**: Phase 1 pre-trade risk check work begins. Adds risk check message types and a cache layer to trade-engine.
+- #1800: "Trade-Engine: Talos configs" (+11/-0, 2 files) — small Talos config additions.
+
+**Emre Ekici (1 PR)**: #1798 "HRKO position update" (+737/-7, 9 files) — **notable**: large addition to Haruko integration. Implements position tracking/update flow for HRKO.
 
 ### pulseprime/polaris — 2 PRs merged
 
@@ -128,4 +136,186 @@
 - #399: "Litityum/positions telemetry otc" (+249/-229, 2 files) — adds OTC position data to telemetry; net-neutral change count suggests refactor of existing telemetry paths.
 - #403: "Litityum/telemetry remove strategy update" (+547/-35, 3 files) — **notable**: removes strategy updates from telemetry; +547/-35 net add suggests new telemetry structure being added while old strategy-update paths are removed.
 
-**Theme**: Ömer continuing post-skew-refactor telemetry cleanup in polaris. After Erick's skewtable refactor, telemetry needs updating to reflect the new architecture.
+**Theme**: Pre-hackathon Haruko integration push (Emre) + Eric's flow-venues quoting parity + Talgat starting risk check scaffold. Ömer continuing post-skew-refactor telemetry cleanup in polaris.
+
+---
+
+## 2026-04-11 through 2026-04-13
+
+### pulseprime/pulse — 4 PRs merged
+
+**Emre Ekici (1 PR)**: #1804 "HRKO balance update" (+631/-7, 3 files) — **notable**: Haruko balance tracking. Companion to #1798 — together these two PRs bring position + balance sync into the Haruko integration (each ~600-700 line additions). Hackathon-ready Haruko data pipeline in pulse is largely built.
+
+**Erick Arce (2 PRs)**: Continued dep hygiene.
+- #1803: "Update versions and remove unneeded aws deps" (+398/-1392, 5 files) — **notable**: large net deletion; significant AWS dep cleanup.
+- #1806: "Unify itertools version" (+21/-48, 8 files) — crate version unification.
+
+**Ömer Yılmaz / litityum (1 PR)**: #1805 "Update min_notional for TRY to align with Paribu limits" (+2/-2, 1 file) — small Paribu config fix.
+
+### pulseprime/polaris — 2 PRs merged
+
+**Ömer Yılmaz / litityum (2 PRs)**:
+- #405: "Litityum/liq skew zero bugfix" (+8/-17, 4 files) — liquidity skew zero-case bug fix.
+- #406: "Update OTC account identifiers in positions.rs" (+3/-3, 1 file) — config correction.
+
+**Theme**: Emre's Haruko pair (#1798 positions + #1804 balances) are the headline: the HRKO data pipeline is now substantially built in pulse ahead of hackathon. Erick wrapping up dep cleanup sprint. Ömer minor Paribu + polaris fixes.
+
+---
+
+## 2026-04-13
+
+Very light day — hackathon in session, team focus is integration work not PRs.
+
+### pulseprime/pulse — 2 PRs merged
+
+**Matthew Gow (1 PR)**: #1808 "Update image repo" (+1/-1, 1 file) — infra config.
+
+**Ömer Yılmaz / litityum (1 PR)**: #1807 "Remove unused `skew_bps` field from Polaris schema" (+0/-3, 1 file) — minor schema cleanup.
+
+### pulseprime/polaris — 1 new PR merged
+
+**Ömer Yılmaz / litityum (1 PR)**: #408 "Update Dockerfiles to use public ECR Ubuntu image" (+2/-2, 2 files) — mirrors pulse #1793 ECR fix from Apr 8.
+
+*(#406 already captured in Apr 11-13 section above.)*
+
+---
+
+## 2026-04-14
+
+Active day despite hackathon — significant new pulse infrastructure landed.
+
+### pulseprime/pulse — 13 PRs merged
+
+**Chris Davidson (3 PRs)**:
+- **#1823 "Cd.trade updates to talos"** (+1037/-0, 17 files) — **SIGNIFICANT NEW APP**: `clearstreet-trade-updater` — Kafka consumer that syncs CS trade state changes back to Talos. Listens on `csc.bk.trades.v2.updated` topic; triggers `DELETE /v1/trades/{id}` (cancel) and `POST /v1/settlement` (settled) to Talos. Closes the CS→Talos feedback loop for P1.1 STP. Key detail: uses `client_trade_id` as Talos TradeID for both operations.
+- #1827 "Skipping creates" (+14/-4, 1 file) — companion fix to #1823 (likely skips settlement creation events to avoid double-processing)
+- #1820 "fixing case" (+3/-3, 1 file) — tiny case fix
+
+**Eric Thill / ethill-pulse (2 PRs)**:
+- **#1828 "make review role=..."** (+151/-0, 6 files) — AI review roles system: adds `repos/pulse/roles/` (rust-critic.md, trader-critic.md, architecture-critic.md) + `make review` target. Enables `make review role=rust-critic` to diff current branch vs main and run Opus review.
+- #1822 "audit all data elements for talos topic" (+10/-14, 1 file) — small data audit/cleanup
+
+**Talgat Taskhozhayev (2 PRs)**:
+- **#1812 "Trade-Engine: Consumer Credit feed"** (+276/-2, 6 files) — **Phase 2 risk check work**: implements credit feed consumer in trade-engine. This is the "subscribe to credit data" side of the pre-trade risk check architecture.
+- #1825 "Trade-Engine: Consumer Credit feed" (+32/-34, 2 files) — follow-up cleanup/fix to #1812
+
+**Estiven Salazar (3 PRs)**: #1818 ag grid + algo UI bugfixes, #1824 quote_request_reject text field, #1826 NewRfqWidget fix
+
+**Erick Arce (2 PRs)**: #1821 consolidate quoters with hedging counterparties (+7/-16), #1829 bad SDK fix for polaris OTC (+2/-2)
+
+**Matthew Gow (1 PR)**:
+- **#1831 "Test runners"** (+983/-296, 20 files) — **CI infrastructure upgrade**: migrates all GitHub Actions workflows from self-hosted EC2 builders to new GitHub-hosted runners (16 cores, 64GB). OIDC auth replaces static AWS access keys. Adds Rust toolchain install + sccache removed (was causing issues).
+
+### pulseprime/polaris — 6 PRs merged
+
+**Erick Arce (3 PRs)**: #410 collapse quoter configs (+849/-563, 21 files) — large config consolidation; #412 symbol() refactor (+11/-5, 4 files); **#404 "Client account support"** (+94/-30, 6 files) — adds client account support to polaris.
+
+**Anton Ronis / ant0wn (1 PR)**:
+- **#407 "Multi-member gzip support for flight recorder"** (+264/-33, 4 files) — Anton contributing directly to polaris infra; adds multi-member gzip to flight recorder. Improves replay capability for large multi-segment flight files.
+
+**Emre Ekici (1 PR)**: #413 missing NOS reject fields (+7/-2, 1 file)
+
+**Estiven Salazar (1 PR)**: #414 quote_request_reject optional text fields (+7/-7, 2 files)
+
+**Theme**: Despite hackathon, substantial infrastructure landed. Chris's `clearstreet-trade-updater` (#1823) is the biggest new piece — closes the CS→Talos state sync loop. Talgat's credit feed consumer is Phase 2 of pre-trade risk checks. Matt's CI upgrade moves to GitHub-hosted runners. Eric's AI review roles system is live. Anton making direct polaris contributions.
+
+---
+
+## 2026-04-15 (Hackathon day 3)
+
+### pulseprime/pulse — 2 new PRs merged (post Apr 14)
+
+**Emre Ekici (2 PRs)** — **NOTABLE: New prediction market venue integration**:
+- **#1833 "PredictionProduct"** (+211/-27, 19 files) — adds `PredictionProduct` type to Pulse. New product class for prediction markets.
+- **#1835 "Venue::Kalshi"** (+175/-9, 16 files) — **NEW VENUE**: Kalshi integration scaffold. Kalshi is a US-regulated prediction market exchange (CFTC-regulated). This is not on any known roadmap — first prediction market venue in Pulse.
+
+**Matthew Gow (1 PR)**: #1834 "test ci workflows" (+3/-1, 2 files) — CI test/fix.
+
+### pulseprime/polaris — 0 new PRs since Apr 14
+
+**Theme**: Hackathon day 3 is quiet on polaris. Emre's Kalshi work is the headline — adds `PredictionProduct` + `Venue::Kalshi` to pulse. This is Pulse's execution layer for a firm-wide CS Kalshi integration (requested by RenGen). CS has had Kalshi in flight since Jan 2026 across FACT/BASIS/Studio/CSC. Emre's PRs are the Pulse-side venue integration piece.
+
+**Theme**: Despite hackathon, substantial infrastructure landed. Chris's `clearstreet-trade-updater` (#1823) is the biggest new piece — closes the CS→Talos state sync loop. Talgat's credit feed consumer is Phase 2 of pre-trade risk checks. Matt's CI upgrade moves to GitHub-hosted runners. Eric's AI review roles system is live. Anton making direct polaris contributions.
+
+---
+
+## 2026-04-15 through 2026-04-16
+
+### pulseprime/pulse — 7 new PRs
+
+**Emre Ekici (2 PRs)** — Kalshi integration continuing:
+- **#1838 "KLSH refdata fetcher"** (+440/-8, 9 files) — Kalshi refdata fetch (mirrors HRKO refdata pattern). Companion to #1835 (Venue::Kalshi scaffold).
+- **#1845 "KLSH websocket auth"** (+486/-10, 15 files, Apr 16) — Kalshi WebSocket authentication layer. Together with #1835/#1838, the full Kalshi venue integration trio lands this week.
+
+**Estiven Salazar (1 PR)**:
+- **#1836 "cloud-ui widgets dashboard"** (+690/-9273, 11 files) — **notable**: massive net deletion of 8500+ lines. Large cloud-UI widgets dashboard rewrite/cleanup.
+
+**Erick Arce (2 PRs)**: #1839 TLS flag for tcp server (+36/-14) + #1841 improve TLS flag loading (+6/-4) — TLS hardening across standalone tcp server.
+
+**Eric Thill (1 PR)**: #1837 "image building variable flexibility" (+4/-4, 4 files) — build pipeline config tweak.
+
+**Matthew Gow (1 PR)**: #1842 fix bench dockerfile: install aws cli v2 for ubuntu 24.04 (+5/-1) — CI fix.
+
+### pulseprime/polaris — 2 PRs
+
+**Erick Arce (1 PR)**: #416 "Improve config unification otc+arb" (+188/-139, 6 files) — continues config consolidation work from #410.
+
+**Eric Thill (1 PR)**: #422 "simple test of sequencer channel" (+267/-16, 2 files) — adds test coverage for the local sequenced channel. Likely validates the flow-venues quoting work from Apr 10.
+
+**Theme**: Hackathon wrapping up — light PR week as expected. Emre completing the Kalshi integration trio (scaffold + refdata + auth). Estiven's large cloud-UI deletion suggests a dashboard refactor landing. Erick doing TLS hardening on tcp server across both repos.
+
+---
+
+## 2026-04-16 (end of hackathon — second batch)
+
+### pulseprime/pulse — 7 PRs merged (excluding Kalshi already captured)
+
+**Eric Thill (1 PR)**:
+- **#1843 "local sequenced session flow migration"** (+732/-3812, 17 files) — **SIGNIFICANT**: migrates flow-venues to the local sequenced session pattern (FlowSessionManager / FlowSessionDispatcher / RefCellLock). Net -3080 lines — substantial old code deleted. This is the MutDynService migration Eric analyzed on Apr 10 and completes the standalone single-threaded worker refactor for flow-venues.
+
+**Talgat Taskhozhayev (1 PR)**:
+- **#1840 "Trade-Engine: Apply risk checks"** (+309/-39, 5 files) — Phase 3 (final) of pre-trade risk checks: actually applies the cached credit checks to incoming orders. Completes the three-PR arc: messages+cache (#1797) → credit feed consumer (#1812) → apply checks (#1840). Pre-trade risk checks are now live in the trade-engine.
+
+**Estiven Salazar (2 PRs)**:
+- **#1846 "positions widgets and shared state updates"** (+1549/-109, 33 files) — large positions UI overhaul, new shared state pattern.
+- #1849 "positions widgets updates" (+184/-175, 10 files) — companion follow-up.
+
+**Chris Davidson (1 PR)**: #1832 "fixing the wrapper logic" (+61/-28) — fix to `clearstreet-trade-updater` wrapper logic (follow-on to #1823).
+
+**Matthew Gow (1 PR)**: #1848 "mirror sync retry" (+2/-1) — mirror sync transient retry with 3 attempts + 15s delay.
+
+**Erick Arce (1 PR)**: #1847 "Update polaris config" (+7/-1) — minor polaris config update pushed via pulse.
+
+### pulseprime/polaris — 2 PRs
+
+**Erick Arce (2 PRs)**:
+- #424 "Support dropcopy and rfq account for quoting side" (+33/-13, 4 files) — adds dropcopy + RFQ account support on the quoting side.
+- #425 "Log more info about unsupported" (+3/-4, 1 file) — logging improvement for unsupported message handling.
+
+**Theme**: Hackathon final day. Eric's flow-venues migration (#1843) is the architectural headline — -3080 lines of old session management code replaced with the RefCellLock/standalone pattern. Talgat's #1840 completes the pre-trade risk check trilogy — **risk checks are now live end-to-end**. Estiven shipping major positions UI work. Chris fixing the trade-updater wrapper.
+
+---
+
+## 2026-04-16 (third batch — late-day merges)
+
+### pulseprime/pulse — 6 more PRs
+
+**Aksel Hakim (1 PR)**:
+- **#1844 "small batch of changes for replay functionality"** (+509/-0, 5 files) — **notable**: new replay capability additions. Pure addition (no deletions). Likely ties to Aksel's assignment on Deribit options / publisher crate work.
+
+**Chris Davidson (1 PR)**:
+- #1850 "switching model for stream recovery" (+24/-2, 3 files) — stream recovery model switch in `clearstreet-trade-updater` or related app. Follow-on to #1823/#1832.
+
+**Talgat Taskhozhayev (1 PR)**:
+- #1851 "Trade-Engine: Applying Risk Checks" (+1/-0, 1 file) — trivial follow-up to #1840; single-line fix applying risk checks.
+
+**Estiven Salazar (3 PRs)**:
+- **#1852 "open orders widget"** (+1073/-200, 16 files) — large new open orders widget for the UI.
+- **#1854 "widget clean up"** (+0/-864, 25 files) — **notable**: net -864 lines across 25 files. Major cleanup/consolidation of widget code post-overhaul.
+
+### pulseprime/polaris — 1 PR
+
+**Erick Arce (1 PR)**:
+- #426 "Fix feed deps" (+11/-57, 4 files) — dependency cleanup for feeds; net deletion.
+
+**Theme**: End-of-day hackathon trickle. Aksel's replay work (+509) is the most substantive new addition. Estiven continuing UI consolidation — the open orders widget + cleanup pair rounds out the positions/orders UI overhaul that started mid-week. Chris's stream recovery switch closes out `clearstreet-trade-updater` stabilization.
