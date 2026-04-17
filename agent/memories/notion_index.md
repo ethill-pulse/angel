@@ -99,6 +99,10 @@ Key pages and resources. All READ ONLY unless Eric explicitly directs otherwise.
 |------|-------|-----|-------|
 | 2026-04-07 | Crypto SSI enhancement | https://www.notion.so/33b1043d19d580d891aeced37bb07c4a | Full proto design for inbound/outbound wallet SSI model in ssigate. Status: Not Started. Author: Annika Wei (CSC team) |
 
+| 2026-04-17 | Haruko Integration Demo (hackathon results) | *(no Notion page created yet)* | Noon demo of hackathon week E2E Haruko borrow/loan lifecycle |
+| 2026-04-17 | Cross-Entity Margin & Collateral Framework & Stablecoin→USD | https://www.notion.so/3451043d19d580e1bae7c199e24c75a2 | 9:30am whiteboard — stablecoin deposit→prime cash flow + sweep account inter-entity design; follow-up lending workflow Wed/Thu Apr 22-23 |
+| 2026-04-17 | counterpartyjournaler fix double postings | https://www.notion.so/3451043d19d5809f8705feececb41352 | CSC release: deploy counterpartyjournaler to 2026-04-16-1109-gh-dd61d40 |
+
 ## Meeting Cadence (Digital Assets)
 
 - Business weekly: Mon 2pm ET

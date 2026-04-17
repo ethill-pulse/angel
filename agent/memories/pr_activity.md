@@ -319,3 +319,46 @@ Active day despite hackathon — significant new pulse infrastructure landed.
 - #426 "Fix feed deps" (+11/-57, 4 files) — dependency cleanup for feeds; net deletion.
 
 **Theme**: End-of-day hackathon trickle. Aksel's replay work (+509) is the most substantive new addition. Estiven continuing UI consolidation — the open orders widget + cleanup pair rounds out the positions/orders UI overhaul that started mid-week. Chris's stream recovery switch closes out `clearstreet-trade-updater` stabilization.
+
+---
+
+## 2026-04-17 (hackathon last day — post-merge)
+
+### pulseprime/pulse — 2 PRs
+
+**Estiven Salazar (1 PR)**:
+- **#1859 "balances widgets"** (+1012/-1, 18 files) — large new balances widget. Completes the trinity of positions (#1846) + open orders (#1852) + balances (#1859) — Atlas UI now has a full account state dashboard.
+
+**Emre Ekici (1 PR)**:
+- **#1864 "KLSH mktdata bbo"** (+227/-10, 5 files) — Kalshi BBO (best bid/offer) market data feed. Companion to the KLSH auth (#1845) and refdata (#1838) from yesterday. Kalshi venue integration is now substantially complete: scaffold + refdata + auth + mktdata BBO.
+
+**Also captured from Apr 16 late-day (already in third batch above)**: #1858 NewRfqWidget updates (Estiven, +166/-90), #1853 KLSH mktdata trade (Emre, +983/-42), #1857 Talos optional CumQty (Emre, +1/-2), #1856 positions summary widget (Estiven, +857/-4).
+
+### pulseprime/polaris — 0 new PRs (hackathon ends)
+
+**Theme**: Hackathon closes out with Estiven's balances widget completing the new Atlas UI dashboard trio. Emre's Kalshi BBO mktdata rounds out the full venue integration. The hackathon week (Apr 13-17) was one of the most productive in recent memory: ~50 pulse PRs + ~15 polaris PRs. Major deliverables: pre-trade risk checks E2E (Talgat), Haruko position+balance pipeline (Emre), clearstreet-trade-updater (Chris), flow-venues session migration (Eric -3080 lines), Kalshi venue full stack (Emre), full Atlas UI overhaul (Estiven).
+
+**Notable**: No PRs from Erick Arce today — polaris refactor and config consolidation sprint appears complete for now.
+
+---
+
+## 2026-04-17 (hackathon close-out — late merges)
+
+### pulseprime/pulse — 5 additional PRs
+
+**Emre Ekici (3 PRs)** — Kalshi integration final pieces:
+- **#1867 "KLSH mktdata book"** (+564/-12, 4 files) — Kalshi full order book market data. Completes the Kalshi mktdata stack: BBO (#1864) + book (#1867).
+- **#1868 "remove KLSH prod"** (+2/-17, 2 files) — removes Kalshi prod config (likely keeping it dev/staging-only for now, not yet live in prod).
+- **#1869 "prediction symbol parsing sdk"** (+1/-1, 1 file) — tiny fix to prediction market symbol parsing in SDK.
+
+**Chris Davidson (1 PR)**:
+- **#1855 "Add error for modifies"** (+309/-8, 3 files) — adds error handling for trade modify messages in the `clearstreet-trade-updater` or related BK integration.
+
+**Matthew Gow (1 PR)**:
+- **#1866 "add apt-get retry logic to all Dockerfiles"** (+10/-5, 5 files) — infra reliability fix across Dockerfiles.
+
+### pulseprime/polaris — 0 new PRs
+
+**Theme**: Hackathon final day closes cleanly. Emre ships Kalshi order book data (#1867) — Kalshi venue integration is now feature-complete (scaffold + refdata + auth + mktdata BBO + full book). `remove KLSH prod` suggests it stays off production for now. Chris adds error handling for modifies in the trade-updater flow. No architectural changes — this is polish and stabilization.
+
+**Hackathon week (Apr 13-17) final tally**: ~55 pulse PRs, ~15 polaris PRs. Headline deliverables: pre-trade risk checks E2E live (Talgat), Haruko position+balance pipeline (Emre), clearstreet-trade-updater (Chris), flow-venues -3080 line session migration (Eric), Kalshi full venue stack (Emre), Atlas UI positions/orders/balances overhaul (Estiven).

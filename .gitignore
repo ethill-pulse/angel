@@ -10,3 +10,6 @@ repos/.pnpm-store/
 # macOS
 .DS_Store
 **/.DS_Store
+
+# binary files in notes
+notes/**/*.pdf

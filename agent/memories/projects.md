@@ -99,11 +99,33 @@ Pulse generates legs 2+3 as bilateral trades when Talos sends leg 1.
 
 **Booking system: BK** — BK already handles equity options and can support crypto underliers. BASIS doesn't book OTC options. BK estimated **3 weeks** of work for the options booking build. This is now the committed timeline target.
 
-**Pricing distinction (KEY — clarified in Slack post-meeting, Suley + Bob):**
-- *Sales/quoting price* = desk quotes to client; CS proprietary model; skewed to tilt the book or price to win/miss. Different from FV.
-- *Fair value (FV) / M2M price* = Haruko's built-in FV model; used for internal mark-to-market PnL, margin calls, expiry settlement. **Do not use raw Deribit prices for bilateral options M2M** — they are different instruments with different prices.
-- Haruko supports both models independently. Day 1: use Haruko's FV model for M2M. CS proprietary pricing model uploaded separately when ready.
-- **Open question (Suley investigating)**: Can Haruko's FV model take continuous market inputs (e.g. live vol surface) and update in real-time, or only on-demand? Suley will test. This determines whether Pulse needs to push market data to Haruko for live pricing or just EOD.
+**Pricing — two separate streams required from Pulse (UPDATED Apr 17 Slack thread):**
+
+**Stream 1: M2M / reference price** (daily marks, margin calls, expiry settlement)
+- Source: **Haruko's built-in FV model** — day 1. Do NOT use raw Deribit prices; bilateral OTC options are different instruments with different prices.
+- Pulse pulls M2M price from Haruko via API, then publishes to FACT and BK (needed for daily marks and at expiry).
+- **Open: Suley testing** whether Haruko's model can take continuous market inputs (live vol surface) and update in real-time vs. on-demand only.
+- **Open: expiry settle price** — if our contract expiry time ≠ Deribit's (8am UTC), we cannot use Deribit's settlement directly. Requires vol surface interpolation + theta/gamma accounting (Anton's expertise). **Anton's strong recommendation for MVP: use Deribit expiry times to sidestep this complexity.** Bob/Suley to decide.
+- Eric's Pulse work: configure Haruko to calculate M2M for each contract, expose it via API, pull it and publish to FACT/BK at daily mark and at expiry.
+
+**Stream 2: Quoting / sales price** (desk quotes to clients)
+- MVP: **fully manual** — desk quotes by hand, RenGen manually provides quotes and follows up with hedges. No Pulse connectivity to Paradigm/Deribit needed for MVP.
+- Phase 1: automated back-to-back RFQ via Atlas/Polaris (zero risk threshold = most efficient path per Suley).
+- Phase 3 (future): Polaris generates its own vol surface and pricing model; risk sharing across the book. *This is what the Blockfills guy on Apr 20 built at his previous firm.*
+- Not published to FACT. Used only by the desk. Configured in Haruko with CS parameters over time (Bob: can use Haruko's option model day 1).
+- Alignment still needed (Bob + Suley + Anton + Eric) on quoting model specifics.
+
+**Execution pipes (MVP → future):**
+- MVP: fully manual. No Paradigm/Deribit connectivity required. Only Deribit expiry contracts quoted.
+- Phase 1: back-to-back with Deribit and Paradigm (automated RFQ via Polaris at zero risk threshold).
+- Phase 3: Polaris risk sharing with full vol surface.
+- **Anton's open question (unresolved)**: Is the desk using Haruko to price custom-expiry OTC options without relying on Polaris at all? Eric's answer: high-touch day 1 execution E2E is not yet fully defined. This is what needs to be finalized.
+
+**Alignment needed (Bob, Suley, Anton, Eric — sync early week of Apr 20):**
+1. Exact fixing methodology for M2M reference price (which Deribit strikes/expiries to interpolate against)
+2. Expiry cutoff convention for bespoke contracts (MVP: use Deribit expiries? Or custom times?)
+3. Whether Haruko's model can continuously update from live vol surface inputs (Suley testing)
+4. How Paradigm/Deribit fits into execution pipes for Phase 1
 
 **Margin calls:**
 - Haruko generates margin calls (based on daily mark-to-market)
@@ -130,15 +152,21 @@ Pulse generates legs 2+3 as bilateral trades when Talos sends leg 1.
 - Confirms sent to client = the "clearance" for OTC contracts
 - No OCC involvement; CFTC reporting only
 
-**Pending action items (Apr 16):**
-- **Eric**: finalize pricing methodology (sales vs reference/valuation price distinction; exact reference calculation)
-- **BK team (Hari/Kevin)**: implement trade booking for options (~3 weeks). Expiry process: 2-3 weeks additional.
-- **David Sherby**: own CFTC reporting via KOR Financial / Core Financial (same system — called "Core Financial" in official Notion notes)
-- **Kevin + team**: determine Haruko→BK margin call API design (investigating webhooks, PagerDuty, Slack integrations)
-- **Team**: figure out BK→Core Financial integration path for CFTC reporting (Voyager has existing pipe; can they piggyback?)
-- **Chris and team**: complete Talos integration work for options; instrument setup + refdata ~3 weeks
-- **Pulse team (Eric)**: implement refdata setup + option pricing feeds (Deribit proxy price → Pulse → FACT). Also: expiry pricing (Pulse acts as OCC-equivalent)
-- **Team**: project plan with estimates to be socialized starting week of Apr 20
+**Pending action items (updated Apr 17):**
+- **Eric + Anton + Bob/Suley**: sync early week of Apr 20 — finalize fixing methodology, expiry convention, Haruko live-update capability, Paradigm/Deribit execution pipe placement
+- **Eric (Pulse platform)**:
+  1. Refdata: support arbitrary expiry *timestamp* (not just date) in option symbol — Bob confirmed custom expiry times per contract
+  2. Refdata: correlate Pulse option instrument definitions with FACT/Haruko/Talos instruments
+  3. M2M pricing: pull from Haruko via API, publish to FACT + BK (daily + at expiry)
+  4. Expiry: Pulse fires per-contract event at expiry with settlement price → BK triggers settlement workflows
+  5. Execution pipes: define how Trade-Engine/Polaris/RenGen handle option contracts from the desk — not yet scoped
+- **BK team (Hari/Kevin)**: trade booking ~3 weeks; expiry process ~2 weeks additional
+- **Kevin + team**: Haruko→BK margin call API/webhook design; day-1 fallback = manual ops
+- **David Sherby**: BK→Core Financial CFTC reporting path (can they piggyback on Voyager's pipes?)
+- **Chris + team**: Talos integration for options; instrument setup + refdata ~3 weeks
+- **Suley**: test whether Haruko FV model supports continuous live vol surface inputs (real-time vs on-demand)
+- **Bob/Suley (decision)**: expiry convention for MVP — use Deribit expiry times (Anton's strong recommendation; avoids vol interpolation complexity) vs. custom times
+- **Team**: project plan socialization week of Apr 20
 
 **Additional confirmed details (Notion AI summary, Apr 16):**
 - Exchange-traded Deribit options explicitly **out of scope for MVP** — OTC vanilla only
@@ -373,6 +401,41 @@ Eric is attending a **tech demo tomorrow (Apr 17 1pm)** — the "Blockfills/Clea
 
 ---
 
+## Cross-Entity Margin & Stablecoin→USD Flow (Apr 17, 9:30am) — NEW
+
+Whiteboard design session. Full product design for two related workflows:
+
+**Workflow 1: Stablecoin→USD (client deposits stable coin, gets prime cash)**
+- Client sends USDC/stable coin to Digital wallet → Digital instructs LLC to credit client's prime account with equivalent cash
+- Reverse: client uses PB cash to buy stable coins from Digital, delivered to crypto wallet
+- Works with any crypto asset, not just stablecoins; all stablecoins must be Genius Act compliant
+- Three counterparties for selling stable coins: BitGo (simultaneous settlement), Circle ($30M/day limit, same-day wire via Customers Bank, AAA risk), OTC (Coinbase, WinterMute)
+- Default approach: accumulate and sell in batches, not instantly
+- Client must pre-fund stable coins before allocation; timing risk between receiving and converting managed by charging spread
+- BMO does not accept crypto flows → Customers Bank (Cubix) used for this workflow; 24/7 instant inter-entity money movement via Cubix
+
+**Technical implementation:**
+- Each PB client needs corresponding counterparty account in Digital + dedicated wallet address
+- Sweep accounts between Digital and LLC track inter-entity obligations
+- MVP: manual approval button before automation (ops clicks to approve allocation)
+- Phase 1: once-daily settlement with automated booking
+- Phase 2: more frequent / real-time allocation
+- Trade books in Digital when client deposits stable coin, triggering sweep account commitments
+
+**Statements**: Separate from LLC and Digital initially; consolidated PDF deferred; Studio provides single view across entities.
+
+**Priority**: T-minus 0.5 — slightly lower than options (T-minus 1). Both in flight simultaneously.
+
+**Open: Workflow 2 (lending: crypto collateral for cash borrowing)** — only partially discussed, deferred to follow-up meeting (schedule Wed or Thu Apr 23-24 week).
+
+**Action items:**
+- **Rama + Mahendra**: design technical solution + effort estimates (return by Mon/Tue Apr 20-21)
+- **Lisa**: document all discussions
+- **Team**: write posting rules + T-charts for all money/asset movements
+- **Schedule 2-hour follow-up** Wed or Thu next week for remaining lending workflows
+
+---
+
 ## Digital Milestones Alignment Meeting (Apr 15, 11:30am) — MAJOR
 
 High-level leadership meeting (Uri Gruenbaum mentioned as having made crypto the top priority, expecting faster results). Significant new context:
@@ -440,8 +503,19 @@ Calendar: "7 Day Rollover | Go-No Go Review [New Go Live Date: May 1st]". Someth
 - **P1.3 LT RFQ** (Polaris) — April 24 target in tracker; could be a related go/no-go.
 **Calendar confirmed for Apr 23 10:30am.** Digital Dev Sync 11am same day. This is a hard date — not to miss.
 
-## Tech Roadmap with Brian Oliveira (Apr 20 10am)
-Brian Oliveira is the new operational COO for CS Digital (~1 month in role). First meeting with Eric on tech roadmap using "Brian's spreadsheet." Agenda unknown — could be resource discussion, priority alignment, or roadmap review. Eric should come prepared on where digital eng is against Phase 1/2/3 milestones.
+## Tech Roadmap with Brian Stern (Apr 20 10am)
+Brian Stern (COO, Clear Street Digital) reviewing tech roadmap using his spreadsheet. Eric should come prepared on where digital eng is against Phase 1/2/3 milestones.
+
+## Blockfills Tech Demo (Apr 20 11am) — MOVED from Apr 17
+Calendar shows "Blockfills tech" at 11am Mon Apr 20 — **moved from Apr 17 1pm** (original slot). Still the first diligence touchpoint for the potential CS acquisition. Eric should come prepared to assess vs. Talos (OMS/RFQ) and Haruko (loan/borrow/risk). No decision made yet.
+
+## Apr 20 Week — Post-Hackathon Focus Shift
+Hackathon ended Apr 17. Options work resumes immediately:
+- **Apr 20 11:30am**: Digital Spot/Options Catch Up — Aksel+Atakan options chains/publisher work queued
+- **Eric action items due**: finalize pricing methodology (sales vs reference/FV split); implement refdata setup + option pricing feeds
+- **Project plan socialization**: week of Apr 20 (from Apr 16 options design meeting)
+- **BK options booking**: ~3 weeks from Apr 16 = target ~May 7
+- **VASP legal opinion**: still pending, decision expected Apr 24 (blocks Cayman entity trading)
 
 ---
 
