@@ -5,24 +5,30 @@ Sources: "Digital Assets Program Tracker" Google Sheet (~/Downloads CSVs, migrat
 
 ---
 
-## Phase Summary
+## Phase Summary (updated Apr 20 from tracker)
 
 | Phase | Name | Status | Target |
 |-------|------|--------|--------|
 | P0 | POC Single Firm Trades | **Complete** | Oct 2025 |
 | P1.1 | HT Spot - Principal Execution (manual) | **Complete** | Dec 2025 |
-| P1.1 scale | HT Spot - Principal Execution (automated, STP) | **RED / In Progress** | Apr 3, 2026 |
-| P1.2 (1.3) | LT - RFQ to LP (Polaris + Talos RFQ to RenGen) | **GREEN / In Progress** | Apr 15, 2026 |
-| P1.4 | LT - Front-to-Back Integration (Studio EMS + Active Trader) | **GREEN / In Progress** | Apr 30, 2026 |
+| P1.1 scale | HT Spot - Principal Execution (automated, STP) | **GREEN** — dev complete, P0 items on track | Apr 30, 2026 |
+| P1.2 (1.3) | LT - RFQ to LP (Polaris + Talos RFQ to RenGen) | **AMBER** — BK netting unclear if 4/30 achievable | Apr 30, 2026 |
+| P1.4 | LT - Front-to-Back Integration (Studio EMS + Active Trader) | **AMBER** | Apr 30, 2026 |
 | P2.1 | Crypto Swap (Voyager + Athena + BK) | **Complete** | Mar 31, 2026 |
-| P2.2 | Crypto Portfolio Swap | In Discovery | TBD |
-| P2.3 | CFTC Swap Dealer Application | **AMBER / In Progress** | Jun 30, 2026 |
-| P2.4 | Perpetual Futures (CME, via FCM) | In Discovery | TBD (FCM ready Jun) |
-| P2.5 | OTC Options | **AMBER** — limited eng capacity | TBD |
-| P3 | Client Trading & Exchange Connectivity (agent + MTL) | Not Started | TBD |
-| P4 (Loan) | Loan & Borrow via Haruko | **GREEN / In Progress** | May 15, 2026 |
-| P5a | Payments - Cubix Inbound (Customers Bank → BK) | GREEN | Apr 10, 2026 |
-| P5b | Payments - Cubix Outbound + Kyriba | **AMBER** | TBD |
+| P2.2 | Crypto Portfolio Swap | **At Risk** | May 29, 2026 |
+| P2.3 | CFTC Swap Dealer Application | **OFF TRACK** | Jun 30, 2026 |
+| P2.4a | HT Perp (Swap) Live | Not Started | **May 15, 2026** |
+| P2.4b | LT Perp (Swap) Live | Not Started | **Jun 15, 2026** |
+| P2.4c | Spreader routing perp orders | Not Started | **Jul 15, 2026** |
+| P2.5 | OTC Options - HT Live | **RED** — eng estimate due Apr 21 | **May 15, 2026** (at risk) |
+| P2.5b | OTC Options - LT Live | **RED** / Not Started | Jun 1, 2026 |
+| P3 | Client Trading & Custody (BitGo CaaS Active) | **AMBER** | Jun 30, 2026 |
+| P3b | Client Trading & Custody (BitGo CaaS Institutional) | **AMBER** | Jun 30, 2026 |
+| P4 (Loan) | Loan & Borrow via Haruko | **GREEN** — loan creation prod-ready | May 31, 2026 |
+| P5a | Stablecoin→USD manual | **COMPLETE** | — |
+| P5b | Stablecoin→USD automated | **RED** — eng confirm timeline Apr 20 | TBD |
+| P5c | Cross-Entity Margin test trade | **GREEN** — ready, awaiting Julian to update Digital MLA | Apr 29, 2026 |
+| P5d | Payments - Cubix/Kyriba | Not Started | Jun 30, 2026 |
 
 ---
 
@@ -62,14 +68,16 @@ Full STP: Talos → Pulse → BK → BitGo + Customers Bank recon.
 
 **Trade reconciliation architecture (Apr 6, high priority, not started)**: Two Snowflake-based services — (1) EOD snapshot upload, (2) independent polling for updates. Customers Bank transactions/balances already pulling every 5 min into nostro recon (Ankit confirmed).
 
-### P1.3 — LT RFQ to LP (GREEN)
+### P1.3 — LT RFQ to LP (AMBER — updated Apr 21)
 Polaris doing RFQ/RFS to RenGen as LP. Talos for post-trade.
-- **E2E testing completed** while Eric was out (week of Mar 30). Team reports "looking pretty good" but Eric hasn't reviewed yet (as of Apr 6). Starting to test native in-house piping.
-- **Prod rollout target**: **Apr 24** (confirmed in program tracker Apr 13; slipped from ~Apr 17).
-- **Digital Dev Sync Apr 9**: "Production readiness for Polaris to Talos RFQ" confirmed as a topic — review in progress. Chris Davidson's PR #1789 (remove Talos refdata filters, +1419/-86) merged same day, likely related cleanup.
+- **E2E testing completed** (week of Mar 30).
+- **Prod rollout target**: **Apr 24** for Polaris/Talos RFQ.
+- **BK netting** (DA-052): obligation logic kicked off; **May 15 confirmed with confidence**. Single trade pair-off almost done; multi-trade greedy algorithm in progress (includes user-editable results). Exec Summary forecast date: **May 15** (slipped from Apr 30).
+- BK team had onsite week of Apr 14 to align on open questions.
 
-### P1.4 — LT Front-to-Back (GREEN)
+### P1.4 — LT Front-to-Back (AMBER)
 Digital Trade Engine routing RFQ to RenGen → Studio EMS + Active Trader. Apr 30.
+- Exec Summary tracker now shows this as AMBER; swaps requirements + resource allocation scheduled for week of Apr 21. Jun 15 target.
 
 ### P2.1 — Crypto Swap (Complete)
 Voyager + Athena upgraded for digital assets. BK→Athena integration complete. CFTC de minimis threshold tracking built.
@@ -77,8 +85,29 @@ Voyager + Athena upgraded for digital assets. BK→Athena integration complete. 
 ### P2.3 — CFTC Swap Dealer Application (AMBER)
 Working with Potomac + PWC. ~40% of control gaps in progress, 60% not started. Application target Jun 30 (6-9 month approval timeline). Risk hiring just started.
 
-### P2.5 — OTC Options (AMBER) — CSC project formally created Apr 10
-CSC (Clearing, Settlement, Custody) team created a formal project entry today: "Digital Asset Options" (Status: Not Started; Goal: Support OTC cash-settled crypto options). This is the CSC-side counterpart to Eric's Deribit integration work. Indicates CSC is now formally planning their side of the options build.
+### P2.5 — OTC Options (RED — updated Apr 21)
+CSC (Clearing, Settlement, Custody) team created a formal project entry Apr 10: "Digital Asset Options" (Goal: Support OTC cash-settled crypto options).
+
+**Apr 20 DA Status meeting — major clarification on timelines:**
+- **Talos options booking** (Chris Davidson): targeting **~2.5 weeks = ~May 8 prod** (not BK — Talos is the options OMS entry point)
+- **BK trade object**: Can use V1 out-of-the-box or more strategic V2. **May 15** target with Chris + Rama + Amit collaborating
+- **Expiry handling**: Team will stand up simpler API (not reuse existing ENA expiry process); complexity around rollover timing + all-options-for-a-day expiry
+- **Margin calls**: Haruko generates alerts; BK to use existing borrow/loan API for commitments. Open: does Haruko support webhooks?
+- **Athena integration**: Should work out of the box for trades + journals (expiries)
+- **IM/VM money transfer**: Two parts — source from Haruko, book via BK API. **May 22 dev complete** (with caveats)
+- **Back-to-back bookings**: All OTC options transferred to CS Cayman; Cayman entity in BK needs to be stood up with full infrastructure
+- **CFTC approach for options**: still TBD — team to determine approach this week
+- **Pre-trade risk limits**: Using Talos; Greek limits not yet determined (would require different approach)
+- **Deribit integration**: Already complete; custom pricing for options still TBD
+
+**Talos options UI — findings from Chris (Apr 21):**
+- "Vanilla Options" tab exists in Talos UI. Linear instruments only for now (not crypto-settled).
+- No expiry field on option instrument in Talos — Tenor field is optional and not the right fit.
+- Hardcoded European style only — matches our requirement.
+- Talos requires an index to be selected for UI pricing — everyone needs to be aware of this.
+- Expiry can be set down to the minute when booking a trade.
+- **Plan**: create template option without expiry on Talos side; Atlas sets expiry in our UI. **MUST USE ATLAS for HT options booking** (confirmed).
+- **Open**: how to add underliers beyond BTC/ETH? Counterparty field blank. Can perps be booked as a Forward in Talos?
 
 ### P2.5 — OTC Options: Full Architecture Session (Apr 16, 1pm) — MAJOR
 2-hour options design whiteboard. 14 participants. Full F2B design confirmed:
@@ -102,11 +131,10 @@ Pulse generates legs 2+3 as bilateral trades when Talos sends leg 1.
 **Pricing — two separate streams required from Pulse (UPDATED Apr 17 Slack thread):**
 
 **Stream 1: M2M / reference price** (daily marks, margin calls, expiry settlement)
-- Source: **Haruko's built-in FV model** — day 1. Do NOT use raw Deribit prices; bilateral OTC options are different instruments with different prices.
-- Pulse pulls M2M price from Haruko via API, then publishes to FACT and BK (needed for daily marks and at expiry).
-- **Open: Suley testing** whether Haruko's model can take continuous market inputs (live vol surface) and update in real-time vs. on-demand only.
-- **Open: expiry settle price** — if our contract expiry time ≠ Deribit's (8am UTC), we cannot use Deribit's settlement directly. Requires vol surface interpolation + theta/gamma accounting (Anton's expertise). **Anton's strong recommendation for MVP: use Deribit expiry times to sidestep this complexity.** Bob/Suley to decide.
-- Eric's Pulse work: configure Haruko to calculate M2M for each contract, expose it via API, pull it and publish to FACT/BK at daily mark and at expiry.
+- **Mechanism: Pulse publishes to Kafka topics** — same pattern as any pricing to FACT. Not a special integration; just a matter of where we pull the prices from.
+- **Source: Haruko's vol surface → fair market price** (CONFIRMED Apr 21, Bob 1:1 + Suley). Bob and Anton both want 3rd party data source, not internal models. Haruko generates FV from its vol surface. Needs model validation — risk team's job. Future: pull FV from consolidated risk system once all data flows there.
+- Do NOT use raw Deribit prices. Suley concerned about **pin risk / gamma risk** at expiry — OTC expiry times may not converge with Deribit listed expiry times, creating exposure. This is why expiry convention decision matters.
+- **Open: expiry/settlement price source** — Suley punted to Bob in Slack (Apr 21). No answer yet. Blocking Eric's eng estimate on expiry work. Thursday meeting exists to resolve this.
 
 **Stream 2: Quoting / sales price** (desk quotes to clients)
 - MVP: **fully manual** — desk quotes by hand, RenGen manually provides quotes and follows up with hedges. No Pulse connectivity to Paradigm/Deribit needed for MVP.
@@ -214,9 +242,33 @@ Manual flow and requirements captured. Deribit for pricing data (Eric owns eng).
 
 **Refdata design note:** Need to add options chains as a first-class primitive in refdata so entire chains can be enabled for an asset on a venue (vs. per-instrument today).
 
-### P4 — Loan & Borrow / Haruko (GREEN)
+### P4 — Loan & Borrow / Haruko (GREEN — updated Apr 21)
 First loan booked 3/27. Haruko prod instance up: hcad-cls1.prod.haruko.io
-**Hackathon offsite week of April 13 — NOW UNDERWAY.** Neil (Haruko, NY) + Rasmus (SecFin, CS) attending. Daily goal-setting 9am; daily status call 4pm.
+**Hackathon week Apr 13-17 — COMPLETE.** All features built.
+- **Apr 20 DA Status**: functionally happy path complete. Haruko integration piece needs final confirmation. Want deletes + settlement functionality before go-live.
+- **Go-live target: April 30** (everything from hackathon to prod by end of this week, including trade confirms going out weekend of Apr 19)
+- BitGo instructing code mostly complete → rolling out by end of week Apr 25.
+
+**Hackathon demo results (Apr 17 noon):**
+- E2E loan creation flow demonstrated: Haruko → Olympus → BK. 7 scenarios tested (all combinations of cash/USDC/BTC for loan + collateral sides). Uncollateralized loans working.
+- Loan balances flowing to ledger correctly (USD loan 2.6M→2.7M, BTC collateral 21.86→~24 demonstrated live)
+- Spot trade cancel flow working bidirectionally (Talos→BK and BK→Talos via WebSocket)
+- Settlement: ops initiates from Ops Portal, flows back to Talos automatically. Rita no longer manually posts settlements.
+- RFQ pipeline (Polaris stack, non-Talos) to RenGen demonstrated. Margin checks working (rejection on insufficient margin shown).
+- Exchange trade scenarios (BitGo, Coinbase): contractual settlement, no outstanding instructions. Instrument vs currency and coin-to-coin conversions working. Bookings automated.
+- Trade confirmations: automated EOD process, email to clients, Studio portal access. Brian's template + legal/compliance disclosure language.
+- Custom pricing from Pulse pushed to Haruko every minute.
+
+**Remaining gaps (not demo-ready):**
+- Automated collateral settlement recognition from BK (still manual)
+- Netting for multiple trade settlement
+- Margin flow (attempted but not ready)
+- Recall/unwind business processes documented, implementation in progress
+- Cash commitments cleanup still manual (crypto auto-cleans)
+
+**Key operational detail**: Borrower type must be set to "Internal" (not OTC) for correct Arma mapping. Active flag: new loans start inactive, must be manually activated after collateral receipt (will be automated — Rita's task for now).
+
+**Hackathon retrospective**: First on-site hackathon was challenging (interruptions, other projects going live). Strong consensus: **next hackathon should be remote off-site**. Business partners (Brian, Suley, Bob) were valuable clarifiers.
 
 **Hackathon goals finalized (Apr 9):**
 - **Primary**: Full loan/borrow lifecycle automation: Haruko → Olympus ("Vortec") → BK and back. Sequence: Day 1-2 create borrow/loan via BK API (Rasmus has PR out to expose this); Day 2-3 commitment + settlement instructions (BitGo or manual); Day 3-4 settlement confirmation (BK→Vortec→Haruko) + mark-to-market; Day 4-5 margin calls + loan amendments/cancellations. Success = full lifecycle E2E including margin calls.
@@ -327,7 +379,7 @@ Raised at Apr 6 weekly meeting. **Potentially 3-6 month critical path blocker** 
 
 | Name | Role |
 |------|------|
-| Robert Rutherford | Business lead, digital assets execution + funding |
+| Robert Rutherford (Bob) | Business lead, digital assets execution + funding |
 | Dalf Hammerich | Business / entity setup, Cayman entities, BitGo |
 | John DiBacco | Derivatives / swap trading desk |
 | Suleyman Duyar | Front office trading, risk |
@@ -387,17 +439,13 @@ Usage: `make review role=rust-critic` or with extra prompt. Diffs from merge-bas
 
 ---
 
-## Blockfills — Potential Acquisition (NEW — Apr 16)
+## Blockfills — Potential Acquisition (evaluated Apr 20)
 
-Blockfills is a crypto institutional OMS/trading platform currently **in bankruptcy**. CS is considering acquiring them. Three-part rationale:
+Blockfills is a crypto institutional OMS/trading platform in bankruptcy. CS is considering acquiring.
 
-1. **Tech stack** — Blockfills has a crypto-native OMS that could potentially replace both **Talos** (OMS) and **Haruko** (loan/borrow risk/front office). This is a major strategic angle.
-2. **People** — small number of experienced staff remaining
-3. **Customer book** — Blockfills clients would welcome CS stepping in; good customer acquisition opportunity
+**Demo verdict (Apr 20, Eric + Anton)**: Underwhelming. Integration lift would outweigh feature benefits — **not a tech play**. If CS proceeds it would be a **people + books play** (talent retention, customer acquisition). Eric is monitoring but stepping back from actively contributing to the acquisition conversation. Not a Talos/Haruko replacement candidate.
 
-Eric is attending a **tech demo tomorrow (Apr 17 1pm)** — the "Blockfills/Clear Street: Tech" calendar item. This is the first diligence touchpoint. No decision made. Could be transformative (eliminates two major vendor dependencies) or could go nowhere.
-
-**Watch for**: capabilities vs. Talos (OMS, RFQ, counterparty connectivity) and vs. Haruko (loan/borrow lifecycle, front office risk, positions). Eric is best positioned to assess the tech stack fit.
+Three original rationale pillars: (1) tech stack, (2) people, (3) customer book. Pillar 1 is off the table per Eric's assessment.
 
 ---
 
@@ -426,13 +474,19 @@ Whiteboard design session. Full product design for two related workflows:
 
 **Priority**: T-minus 0.5 — slightly lower than options (T-minus 1). Both in flight simultaneously.
 
-**Open: Workflow 2 (lending: crypto collateral for cash borrowing)** — only partially discussed, deferred to follow-up meeting (schedule Wed or Thu Apr 23-24 week).
+**Open: Workflow 2 (lending: crypto collateral for cash borrowing)** — deferred; follow-up scheduled **Wed Apr 22** (calendar confirmed: "Blocked for Digital: Cross Entity & Collateral Framework" 11am).
 
-**Action items:**
-- **Rama + Mahendra**: design technical solution + effort estimates (return by Mon/Tue Apr 20-21)
-- **Lisa**: document all discussions
-- **Team**: write posting rules + T-charts for all money/asset movements
-- **Schedule 2-hour follow-up** Wed or Thu next week for remaining lending workflows
+**Stablecoin→USD requirements doc published (Apr 17)** — key additions vs. whiteboard notes:
+- Default counterparty is Circle (up to $30M/day, same-day wire via Customers Bank)
+- Netting process runs continuously to track net cash obligations
+- Risk: crediting client before settlement completes puts firm at risk; manual button MVP guards against this
+- Stablecoin→USD priority is **T-0.5** (more urgent than options which is T-1); both run simultaneously
+- Cross-entity lending workflow ("v1.5") scheduled for next week
+
+**Action items (updated):**
+- **Rama + Mahendra**: design + estimates due Mon/Tue Apr 20-21
+- **Apr 22 11am follow-up**: cross-entity lending (crypto collateral → cash borrowing)
+- **Eric**: connect with exchange gateway team re: Circle/stablecoin conversion flows
 
 ---
 
@@ -509,13 +563,94 @@ Brian Stern (COO, Clear Street Digital) reviewing tech roadmap using his spreads
 ## Blockfills Tech Demo (Apr 20 11am) — MOVED from Apr 17
 Calendar shows "Blockfills tech" at 11am Mon Apr 20 — **moved from Apr 17 1pm** (original slot). Still the first diligence touchpoint for the potential CS acquisition. Eric should come prepared to assess vs. Talos (OMS/RFQ) and Haruko (loan/borrow/risk). No decision made yet.
 
-## Apr 20 Week — Post-Hackathon Focus Shift
-Hackathon ended Apr 17. Options work resumes immediately:
-- **Apr 20 11:30am**: Digital Spot/Options Catch Up — Aksel+Atakan options chains/publisher work queued
-- **Eric action items due**: finalize pricing methodology (sales vs reference/FV split); implement refdata setup + option pricing feeds
-- **Project plan socialization**: week of Apr 20 (from Apr 16 options design meeting)
-- **BK options booking**: ~3 weeks from Apr 16 = target ~May 7
-- **VASP legal opinion**: still pending, decision expected Apr 24 (blocks Cayman entity trading)
+## Suley's Tech Roadmap (posted Apr 18, ahead of planning call week of Apr 20)
+
+Strategic context: Bob + David + Suley aligned — **perps are the major revenue driver** after core work (spot, options, lending + ongoing ops support). Perp risk noted (could become exchange-traded) but framed as manageable — CS is an OTC swap dealer, there's no shortage of OTC swap dealing. Longer-term: perps collateralized with tokenized assets (stocks, commodities, currencies — today just crypto).
+
+**Three stated goals for 2026:**
+1. Smart, fast enough dealing/hedging system for tokens, options, and perps
+2. Clients can trade perps on anything; add new perps quickly
+3. Clients can use Spreader + Fox River algos for perps
+
+**Roadmap table (Suley's draft, now also in Google Drive "Digital Tech Roadmap - pulse.csv"):**
+
+| Item | Owner | Priority | Notes |
+|------|-------|----------|-------|
+| Unexpected ops workflow/venue integrations | ? | 1 | |
+| Automate options RFQ (back-to-back w/ Paradigm + Deribit) | Anton | 1 | Eric to speak to Raja + Sven about derivs post-trade risk |
+| Autoliquidation | Anton/Thill? | 1 | |
+| Perps funding rate | Anton/Thill? | 1 | |
+| Perps booking | Thill | 1 | |
+| **Getting off Talos — time estimate** | **Thill** | **1** | **NEW (Apr 20): Eric to estimate Talos replacement timeline** |
+| Spreader | Anton | 2 | To Polaris or Binance depending on perps booking timeline; Eric to speak to Chris D about Talos booking perps + CoinRoutes to Polaris |
+| Predictions perps streaming | Anton/Thill? | 2 | |
+| Persist OEMS orders (CoinRoutes first, then own system) | Thill | 2 | |
+| Options central risk book + legging strategy | Anton | 3 | Suley to play with Paradigm |
+| Fox River algos | Thill | 3 | |
+| Polaris pre-trade checks for PM Pro | Anton | 4 | |
+| Multicasting/cross-exchange | Anton/Thill? | 4 | |
+
+**Eric's note (Apr 18 7:31pm)**: OEMS order management is a natural dependency of perps booking — you need an OEMS to book perp orders, so OEMS must come first. Not a disagreement with Suley's list, just the correct sequencing. On multicast (P4): Eric is not pushing to raise its priority, but wants to be personally involved when it happens — he has deep experience with multicast-based exchange buildouts from prior jobs.
+
+**"Getting off Talos" (P1 in roadmap CSV) — Eric's proposed 3-step migration (Apr 21):**
+
+1. **Migrate external write actions to our services**, which then write to Talos — Talos becomes read-only for the firm. Our systems own the write path.
+2. **Move Talos to backup ledger** — our services are authoritative; Talos is a shadow/fallback.
+3. **Kill Talos** — clean cutover once we trust our own ledger.
+
+Rationale: graceful migration, no big-bang cutover. Each step is independently valuable and de-risks the next. Blockfills/Marvel ruled out as a shortcut (demo Apr 20 was underwhelming — integration lift > feature benefits). Time estimate still needs to be produced for this 3-step approach.
+
+**Prerequisites for step 1 (what needs to exist before Talos write path can be migrated):**
+- **Account onboarding + account management** — must be owned by our services before we can be authoritative
+- **Available margin calcs** — must live in our stack, not depend on Talos for this
+- **Atlas** — already in flight; handles high-touch desk booking (Estiven's work). This is the booking UI layer that sits in front of whatever the write path becomes.
+
+**Context for Brian Stern meeting (Apr 20 10am)**: Brian's priority is putting timelines on all of the above. Come prepared on what's realistic given current team capacity.
+
+---
+
+## Apr 21 Week — Current Focus (updated Apr 21)
+
+**CARF/VASP legal opinion**: Patrick Wilson had call with Ogiers Apr 21 to finalize guidance (misinterpreted facts were the delay). Should close by end of this week from legal perspective. Still critical blocker for Cayman entity trading.
+
+**Cayman entities in IRMA**: Team setting up today (Apr 20) pending final internal approval.
+
+**Reconciliation**: Big open question — trade-by-trade vs position-based? Jason (BK) suggested position-based; Brian suggested 3-way recon. Sidebar scheduled (Jason + Brian + Lily + Haros from Haruko). Talos data currently JSON, needs flattening. Talos recon is behind.
+
+**Eric's open action items this week:**
+1. Connect with Yoon Lee on Talos→Voyager integration for perps (action item from Apr 20 perps call)
+2. Produce "getting off Talos" time estimate (P1 roadmap item — Blockfills context relevant)
+3. Options alignment: expiry convention, fixing methodology, Haruko live vol (Thu Apr 24 1pm: Options Pricing Methodology meeting on calendar)
+4. Connect with exchange gateway team on Circle/stablecoin conversion flows
+5. Respond to Suley's chat invite (Talos integration details + Cayman swap: Voyager vs Haruko)
+
+**This week's key meetings:**
+- **Tue Apr 22**: Plan for Perps Workflow 9am, Sync on Talos 9:30am, Dev Sync 10am, Eric/Bob 1:1 10:30am, FACT requirement for Swap Perp noon, CS Digital weekly 1:30pm
+- **Wed Apr 22**: Atakan/Aksel 1:1 9:30am, Cross-Entity & Collateral Framework 10am (lending workflow)
+- **Thu Apr 23**: **Go/No-Go Review 9:30am (May 1 go-live)**, Dev Sync 10am, **Options Pricing Methodology 1pm** (NEW — not previously on calendar)
+- **Fri Apr 24**: Eng Lunch & Learn 11am (AI dev workflow showcase)
+
+**VASP legal opinion**: decision expected end of week (Patrick / Ogiers call Apr 21)
+**Haruko to prod**: target April 30 (all hackathon features)
+**BK options booking (Talos side, Chris Davidson)**: ~May 8
+**BK trade object for options**: May 15 (Chris + Rama + Amit)
+**Options IM/VM money transfer**: May 22 dev complete
+
+**Options system stack (confirmed from CSC Notion page, Apr 16):**
+
+| System | Role |
+|--------|------|
+| Talos | Trader manually inputs client-facing trade |
+| BK | Books all 4 bilateral legs |
+| Haruko | Daily MTM, margin calls, risk |
+| **Vera** | **Bilateral option pricing (desk quoting tool)** |
+| Pulse | Publishes Deribit reference price + final fixing price at expiry |
+| Core Financial | CFTC reporting |
+| Deribit | Reference price source for MTM |
+
+**Vera is a CS internal system** (not Haruko's FV model, not a vendor). It sits in the desk quoting/pricing layer — the desk uses it to price OTC options bilaterally. Likely builds on Deribit order book markups initially, proprietary vol surface longer-term. ActAnt was mentioned as an alternative in earlier scoping notes. **Pulse is upstream of Vera** — Pulse supplies Deribit index/options data; Vera consumes it. Pulse does not integrate with Vera directly.
+
+**Eric's "calculate option pricing methodology" action item** = specifically what Pulse publishes at expiry as the fixing price, not building pricing logic in Pulse itself. Robert Rutherford + 4WTC Copernicus to define fixing price source offline.
 
 ---
 
@@ -574,6 +709,77 @@ Not started (Eric's team) — CLST as agent + MTL application.
 - RenGen OTC settlement flow: stablecoin→USD primary use case; entity chain still TBD
 - Travel Rule compliance + Chainalysis AML integration required
 - Primarily Kevin Stevens' area; Pulse is the execution venue for currency conversions
+
+### Perpetuals (P2.4) — Requirements defined (Apr 20, confirmed in Notion)
+
+Formal dates:
+- **HT Perp Live**: May 15, 2026 — manual entry, Talos
+- **LT Perp Live**: ~mid/late June (2 weeks after HT) — FIX protocol
+- **Spreader routing**: Jul 15, 2026
+
+Call attendees: Robert Rutherford, Suley Duyar, Brian Stern, Yoon Lee, Collin Zoll, David Sherby.
+
+**Action items from Apr 20 "Review swap perps" meeting (Notion):**
+- Suley to open chat with Yoon + Eric Thill on Talos integration details
+- Suley to connect with Eric on Cayman swap booking: Voyager vs Haruko (open decision)
+- Engineering (Eric) to provide timeline for manual booking capability in Voyager with funding calculator
+- FACT team meeting needed: M2M calcs + funding rate integration
+- Engineering to determine feasibility of true intraday funding calcs (3x daily snapshot complexity)
+- Eng to confirm FIX protocol spec + docs for booking trades
+- Team to create comprehensive trade flow diagram with full entity structure
+- CFTC reporting automation: discuss with Core on volume capacity
+- **Open decision**: Cayman 1 swap — book in both Voyager and Haruko, or just one system?
+
+**From Apr 20 Suley/Brian/Anton planning meeting:**
+- Eric to talk to Raja about pre/post-trade risk (derivs context)
+- Eric to speak to Chris D about Talos perps booking + CoinRoutes to Polaris
+- Someone to start Paradigm integration (not yet assigned)
+- CME perps: CFTC framework in progress; CS may want CME as a route (likely Polaris, not client flow)
+- Pre-market trading demand (SpaceX etc.) — CS can aggregate liquidity better than CME; relevant for Polaris longer-term
+
+**P&L / trade-to-hedge correlation (Bob 1:1, Apr 21):**
+- Bob wants trade-by-trade PnL, tying client trades to hedges 1:1 for now
+- Longer-term: unhedged risk books to risk account; unrealized gains/losses tracked there
+- Stamp trade ID into Polaris for offsetting position reporting — Akshay involved
+- Need to correlate offsetting trade + client trade: still "easier said than done"
+
+**Product:**
+- No expiry; use year **2199** for CFTC reporting
+- HT: 20-50 orders/day. LT: high-freq, ~$10M trades broken into $500k lots
+
+**Funding rate mechanism:**
+- Snapshot-based: **0 UTC, 8am UTC, 4pm UTC** (3x daily)
+- Only charged if position held at snapshot time; intraday round-trips not charged
+- Interest on net settled position only (same-day trades netted)
+- Custom benchmark rates fed to system; M2M accrues funding for early exits
+
+**Trade flow: Talos → Voyager → Athena**
+- **Two back-to-back swaps per client trade:**
+  1. Client-facing swap (CSDerivatives entity)
+  2. Offsetting hedge: CSDerivatives → Cayman I
+- Both booked in Talos → Voyager; hedge is 100% swap-to-swap, no physical hedge
+
+**Risk:**
+- CSDerivatives → Athena (both legs visible)
+- Cayman I → Haruko
+- **Voyager → Haruko feed needed** (not yet built; newly added to tracker as TBD)
+
+**Pricing architecture (confirmed Apr 21):**
+- **Pulse → FACT → rest of firm** is the canonical crypto mark price pipeline. Pulse is the source of truth for crypto pricing firm-wide.
+- Specific mark price methodology (how Pulse calculates the benchmark/funding rate) still TBD — Lily chasing down requirements (Eric asked Apr 21).
+- FACT needs real-time API access (current Snowflake path ~15 min delay is insufficient for snapshot-time funding calcs).
+- Streaming prices needed for market value calcs at 0 UTC / 8am UTC / 4pm UTC snapshot times.
+
+**Technical open questions:**
+- Is 4pm EOD processing sufficient or true intraday snapshots needed?
+- Intraday funding calc complexity — eng to assess
+- Voyager perf improvements targeting end of Q2; current volume fine for HT
+
+**CFTC reporting:** manual now; automation required for LT volume
+
+**Eric's action item: connect with Yoon Lee on Talos→Voyager integration details.**
+
+Eric owns perps booking (Thill, P1 on roadmap). OEMS is a hard dependency that must come first.
 
 ### Perpetuals (P2.4) — from PRD (updated Apr 6)
 **Architecture note (Apr 7, Suley via Slack)**: A "Spreader" component will send orders to Polaris for perps. The spreader algorithm comes from RenGen.

@@ -19,7 +19,7 @@ Key pages and resources. All READ ONLY unless Eric explicitly directs otherwise.
 | Digital Assets Meeting Notes | https://www.notion.so/3061043d19d58066bc7fc627aa4e04ac | Meeting notes index |
 | CFTC Swap Dealer Application Process | https://www.notion.so/2fb1043d19d58064a09dc7768a749b72 | Compliance tracker |
 | Polaris Crypto Options | https://www.notion.so/3371043d19d580b29191c9d085d593b0 | Options architecture (updated Apr 5) |
-| Crypto Perpetuals PRD (Phase 1+2) | https://www.notion.so/e0868b27014643beaa3b1de9ad2dad7e | Very current (updated Apr 6) |
+| Crypto Perpetuals PRD (Phase 1+2) | https://www.notion.so/e0868b27014643beaa3b1de9ad2dad7e | ⚠️ STALE — do not use as source of truth (confirmed Apr 21) |
 | Borrow and Loan for Crypto Assets | https://www.notion.so/2f51043d19d580608420e67258a7c75f | Haruko L&B architecture |
 | Haruko Access Instructions | https://www.notion.so/32f1043d19d580bdb681f2199c74b4e0 | Prod URL: hcad-cls1.prod.haruko.io |
 | Wallet Storage / SSI | https://www.notion.so/2fc1043d19d5802f8f15d38860655ad1 | SSI architecture + ops spec |
@@ -99,9 +99,15 @@ Key pages and resources. All READ ONLY unless Eric explicitly directs otherwise.
 |------|-------|-----|-------|
 | 2026-04-07 | Crypto SSI enhancement | https://www.notion.so/33b1043d19d580d891aeced37bb07c4a | Full proto design for inbound/outbound wallet SSI model in ssigate. Status: Not Started. Author: Annika Wei (CSC team) |
 
-| 2026-04-17 | Haruko Integration Demo (hackathon results) | *(no Notion page created yet)* | Noon demo of hackathon week E2E Haruko borrow/loan lifecycle |
-| 2026-04-17 | Cross-Entity Margin & Collateral Framework & Stablecoin→USD | https://www.notion.so/3451043d19d580e1bae7c199e24c75a2 | 9:30am whiteboard — stablecoin deposit→prime cash flow + sweep account inter-entity design; follow-up lending workflow Wed/Thu Apr 22-23 |
+| 2026-04-17 | Haruko Integration - Demo the Hackathon Week Results | https://www.notion.so/3451043d19d5801aad2fce5dee7fb1f8 | Noon demo. 7 loan scenarios, spot cancel flow, RFQ pipeline, exchange trades, trade confirmations. Features complete; push to prod target end of Apr 24 week. Next hackathon: remote off-site. |
+| 2026-04-17 | Stable Coin to USD Requirement & Use-Cases | https://www.notion.so/3451043d19d580099db8c83ddced506f | Requirements doc from Apr 17 whiteboard. Circle as default counterparty ($30M/day). Manual button MVP. T-0.5 priority. Lending workflow v1.5 → Apr 22 follow-up. |
+| 2026-04-17 | Cross-Entity Margin & Collateral Framework & Stablecoin→USD | https://www.notion.so/3451043d19d580e1bae7c199e24c75a2 | 9:30am whiteboard — stablecoin deposit→prime cash flow + sweep account inter-entity design; follow-up lending workflow Wed Apr 22 11am (calendar confirmed) |
+| 2026-04-17 | Crypto Option Requirement & Design (CSC Meetings DB version) | https://www.notion.so/3451043d19d581ef9c87c5bc2c855d1c | CSC's version of the Apr 16 options design meeting. Adds: "Vera" named as bilateral pricing system; Pulse role = publishes final fixing price at expiry; 4 bilateral trades per client trade; BK builds 2 margin APIs (cash + coin). Open: CFTC reporting, margin invocation, RenGen requirements. |
+| 2026-04-17 | Institutional Securities Weekly Update Apr 17 | https://www.notion.so/3451043d19d5801f8fe0f5bf1e2b49b3 | CS-wide weekly. Digital: lending code complete (CSC); SSI rework moving to in-progress; crypto options "unclear follow-up pending"; commitments near-complete. MTM P&L progress on digital assets. |
 | 2026-04-17 | counterpartyjournaler fix double postings | https://www.notion.so/3451043d19d5809f8705feececb41352 | CSC release: deploy counterpartyjournaler to 2026-04-16-1109-gh-dd61d40 |
+| 2026-04-20 | Swap Perp | https://www.notion.so/3481043d19d5803da9b8e4fe2d1ce2cb | Reference doc under Digital Assets — explains perpetual swap mechanics. Likely created for desk education ahead of perps build. |
+| 2026-04-20 | Weekly DA Projects Status Meeting: Spot / Swap (Jason's notes DB) | https://www.notion.so/3481043d19d5803ab4f7e434fa896e6c | Apr 20 2pm. Key: CARF call Apr 21 (on track to close end of week); Haruko to prod Apr 30; BK netting May 15; options timelines — Talos side ~May 8 (Chris), BK May 15, IM/VM May 22; reconciliation approach TBD (sidebar scheduled); Cayman entities setup today pending approval; stablecoin cross-entity funding — Rama/Mahendra have plan, estimates not started yet. |
+| 2026-04-20 | Review swap perps and portfolio swap requirement | https://www.notion.so/3481043d19d5809f9119eef568712b07 | Noon meeting Apr 20. Confirms HT perps May 15 / LT June. Key open: Cayman swap in Voyager vs Haruko (decision needed). Suley to open chat with Eric + Yoon on Talos integration details. Eng to provide timeline for Voyager manual booking + funding calculator. |
 
 ## Meeting Cadence (Digital Assets)
 

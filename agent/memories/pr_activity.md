@@ -342,6 +342,107 @@ Active day despite hackathon — significant new pulse infrastructure landed.
 
 ---
 
+## 2026-04-17 (hackathon final day — full tally)
+
+### pulseprime/pulse — 21 PRs merged (all Apr 17)
+
+**Estiven Salazar (6 PRs)** — Atlas UI final push:
+- **#1861 "blotter widgets"** (+3568/-1, 54 files) — massive blotter widget addition
+- **#1862 "overview widget"** (+771/-1, 12 files)
+- **#1870 "orderbook widget"** (+1080/-1, 12 files)
+- **#1877 "rfq widgets"** (+1267/-0, 17 files)
+- **#1878 "algo management widget"** (+4966/-0, 48 files) — **largest single PR of hackathon week**
+- **#1879 "alert manager widget"** (+2815/-0, 31 files)
+
+**Emre Ekici (5 PRs)** — Kalshi integration final + position/balance:
+- #1867 KLSH mktdata book (captured previously)
+- #1868 remove KLSH prod (captured previously)
+- #1869 prediction symbol parsing (captured previously)
+- **#1872 "KLSH balance update"** (+654/-26, 10 files) — Kalshi balance tracking
+- **#1874 "ExecutionReport::prediction_side"** (+23/-0, 4 files) — adds prediction market side to execution reports
+- **#1880 "KLSH trade event"** (+592/-14, 7 files) — Kalshi trade event handling
+- **#1881 "KLSH position update"** (+197/-10, 4 files) — Kalshi positions
+
+**Erick Arce (3 PRs)** — Talos fixes:
+- #1871 fix talos parsing issues (+120/-15, 3 files)
+- #1875 fixing talos venue (+46/-33, 3 files)
+- #1876 fixing logs talos (+1/-6, 1 file)
+
+**Chris Davidson (1 PR)**: #1873 fix trade time calc (+149/-15, 1 file)
+
+**Previously captured**: #1855, #1859, #1864, #1866, #1867, #1868, #1869
+
+### pulseprime/polaris — 1 PR
+**Erick Arce**: #428 missing state type for orders (+15/-0, 1 file)
+
+**Hackathon week (Apr 13-17) FINAL TALLY**: ~55 pulse PRs, ~15 polaris PRs.
+Headline deliverables: pre-trade risk checks E2E live (Talgat), Haruko position+balance+trade pipeline (Emre), clearstreet-trade-updater (Chris), flow-venues -3080 line session migration (Eric), Kalshi full venue stack incl positions/balances/trades (Emre), Atlas UI total overhaul — blotter/overview/orderbook/rfq/algo-mgmt/alert-mgmt/orders/positions/balances (Estiven).
+
+---
+
+## 2026-04-20 through 2026-04-21
+
+Post-hackathon momentum picks up — Kalshi reactivated (briefly), Erick back on polaris reconciliation.
+
+### pulseprime/pulse — 11 PRs merged
+
+**Emre Ekici (4 PRs)** — Kalshi partially restored then re-killed:
+- **#1893 "KLSH new order single"** (+930/-5, 10 files, Apr 20) — major addition: Kalshi order entry (NOS). Kalshi fully decommissioned from prod/dev last week but NOS logic being added back — likely preparing for eventual production use.
+- #1894 "KLSH trade timestamp fix" (+6/-4, Apr 20) — minor fix
+- **#1897 "KLSH mass status"** (+601/-100, 3 files, Apr 21) — Kalshi mass order status handling. Kalshi integration continuing to mature despite env removal.
+- #1887 "remove KLSH from dev" (already captured)
+
+**Estiven Salazar (4 PRs)** — Atlas UI final widgets:
+- **#1892 "account tier mgmt widget"** (+720/-11, 17 files, Apr 20)
+- **#1890 "markup tier management widget"** (+675/-7, 12 files, Apr 20)
+- **#1889 "static price overrides widget"** (+1421/-0, 13 files, Apr 20)
+- #1886 "manual adjustments widget" (already captured, Apr 20)
+
+**Chris Davidson (1 PR)**:
+- **#1888 "Settle balances on Talos"** (+540/-6, 8 files, Apr 20) — adds balance settlement sync back to Talos. Companion to the earlier `clearstreet-trade-updater` (#1823) — closes another loop in the CS→Talos state feedback chain.
+
+**Aksel Hakim (1 PR)**:
+- **#1895 "transport/socket changes for fix replay"** (+195/-41, 4 files, Apr 21) — transport/socket changes for FIX replay. Likely related to Aksel's replay functionality work from hackathon (#1844).
+
+**Talgat Taskhozhayev (1 PR)**: #1896 minor logging change (Apr 21).
+
+### pulseprime/polaris — 3 PRs merged
+
+**Erick Arce (3 PRs)**:
+- **#402 "Reconciliation Logic first pass"** (+1992/-16, 18 files, Apr 20) — **SIGNIFICANT**: first pass of reconciliation logic in polaris. +1992 lines, 18 files. Polaris getting position reconciliation capability — ties to the broader recon discussion in the Apr 20 DA Status meeting.
+- #438 "Fix account subscription" (+56/-22, 4 files, Apr 21)
+- #439 "Fix inserts for defaults" (+15/-22, 2 files, Apr 21)
+
+**Theme**: Erick's reconciliation PR (#402) is the architectural headline — aligns directly with the Apr 20 DA Status meeting discussion about Talos↔BK position reconciliation. Emre building out Kalshi NOS + mass status despite env removal (preparing for future prod). Chris closing another Talos feedback loop. Estiven completing the Atlas UI widget set.
+
+---
+
+## 2026-04-18 through 2026-04-20
+
+Very light post-hackathon window — weekend + early week catch-up.
+
+### pulseprime/pulse — 5 PRs merged
+
+**Estiven Salazar (3 PRs)** — Atlas UI completion:
+- **#1885 "role management widget"** (+1221/-1, 16 files, Apr 18) — role management UI
+- **#1884 "entity management widget"** (+2101/-0, 16 files, Apr 18) — entity management UI
+- **#1883 "strategy management widget"** (+490/-0, 11 files, Apr 18) — strategy management UI
+- **#1886 "manual adjustments widget"** (+811/-0, 13 files, Apr 20) — manual adjustments UI
+
+Estiven continues Atlas UI overhaul post-hackathon. All additions (no deletions) — new widgets being layered in.
+
+**Emre Ekici (1 PR)**:
+- **#1887 "remove KLSH from dev"** (+1/-16, 2 files, Apr 20) — removes Kalshi from dev environment entirely. Kalshi was already removed from prod (#1868). Now fully off in all non-prod environments too.
+
+### pulseprime/polaris — 1 PR merged
+
+**Ömer Yılmaz / litityum (1 PR)**:
+- **#434 "Introduce separate trading stats support with registries and routing"** (+235/-58, 4 files, Apr 19) — adds dedicated trading stats registry and routing layer. Ömer continuing polaris observability/telemetry work.
+
+**Theme**: Weekend + early-week cleanup. Estiven rounding out Atlas widget set. Kalshi fully decommissioned from all environments (prod Apr 17, dev Apr 20). No contributions from Talgat, Erick, Chris, or Eric yet this week — all hands-on meetings.
+
+---
+
 ## 2026-04-17 (hackathon close-out — late merges)
 
 ### pulseprime/pulse — 5 additional PRs
