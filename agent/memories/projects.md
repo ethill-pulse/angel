@@ -132,9 +132,11 @@ Pulse generates legs 2+3 as bilateral trades when Talos sends leg 1.
 
 **Stream 1: M2M / reference price** (daily marks, margin calls, expiry settlement)
 - **Mechanism: Pulse publishes to Kafka topics** — same pattern as any pricing to FACT. Not a special integration; just a matter of where we pull the prices from.
-- **Source: Haruko's vol surface → fair market price** (CONFIRMED Apr 21, Bob 1:1 + Suley). Bob and Anton both want 3rd party data source, not internal models. Haruko generates FV from its vol surface. Needs model validation — risk team's job. Future: pull FV from consolidated risk system once all data flows there.
-- Do NOT use raw Deribit prices. Suley concerned about **pin risk / gamma risk** at expiry — OTC expiry times may not converge with Deribit listed expiry times, creating exposure. This is why expiry convention decision matters.
-- **Open: expiry/settlement price source** — Suley punted to Bob in Slack (Apr 21). No answer yet. Blocking Eric's eng estimate on expiry work. Thursday meeting exists to resolve this.
+- **Source: Haruko's vol surface → fair market price** (CONFIRMED Apr 21, Bob 1:1 + Suley). Bob and Anton both want 3rd party data source, not internal models. Haruko generates FV from its vol surface. Mechanism: book synthetic trade into test account for bilateral linear option → Haruko returns a price. Chris Davidson has test account. Needs model validation — risk team's job. Future: pull FV from consolidated risk system once all data flows there.
+- Do NOT use raw Deribit prices. Suley confirmed concerns: **pin risk at expiry** (OTC expiry times may not converge with Deribit listed expiry times), **price divergence around expiry**, and **interest rate differential** (Deribit uses same-expiry futures as forward proxy, not spot + rate — creates model gap for linear pricing).
+- **Expiry/settlement price source — RESOLVED (Apr 23 Options Pricing meeting)**: Deribit index price − strike, using a **30-minute TWAP** (1-minute slices over 30 min period before expiry) to prevent manipulation. Same mechanism Deribit itself uses. This unblocks Eric's eng estimate for expiry work.
+- **Hedge vs price relationship**: no direct constrained relationship between hedge price and client-facing price. May be tunable over time but no guarantees. Expected for an OTC dealer.
+- **Long-term vision**: unified model between pricing (M2M) and quoting (desk). Validated base model, front-office discretion for markups. Easier from audit/regulatory perspective.
 
 **Stream 2: Quoting / sales price** (desk quotes to clients)
 - MVP: **fully manual** — desk quotes by hand, RenGen manually provides quotes and follows up with hedges. No Pulse connectivity to Paradigm/Deribit needed for MVP.
@@ -339,7 +341,10 @@ First loan booked 3/27. Haruko prod instance up: hcad-cls1.prod.haruko.io
   - Zip process cancelled (was for Kyriba integration)
   - Action items open: confirm with Scott Gutmanstein that in-house approach OK; Yui investigating bank account capture + Qubics flag design
 
-### ⚠️ NEW RISK: VASP/CARF Registration (Cayman Entities)
+### VASP/CARF Registration — RESOLVED (Apr 22)
+Per Eric (Slack thread): VASP not applicable. No longer a blocker for Cayman entity trading.
+
+### ⚠️ ~~NEW RISK: VASP/CARF Registration (Cayman Entities)~~ — RESOLVED
 Raised at Apr 6 weekly meeting. **Potentially 3-6 month critical path blocker** for Cayman entity bookings.
 - Cayman entities may require VASP (Virtual Asset Service Provider) registration — legal opinion from Patrick Wilson expected by Apr 11.
 - VASP registration = 3-6 months if required.
@@ -483,9 +488,22 @@ Whiteboard design session. Full product design for two related workflows:
 - Stablecoin→USD priority is **T-0.5** (more urgent than options which is T-1); both run simultaneously
 - Cross-entity lending workflow ("v1.5") scheduled for next week
 
+**Apr 22 stablecoin meeting — three-trade model confirmed:**
+1. Counterparty sells USDC to Digital
+2. Digital sells USDC to LLC (USDC → LLC BitGo wallet)
+3. LLC settles USD into Digital prime; Digital credits counterparty account
+
+Settlement sequencing: **coin first, then simultaneous bookings** — prevents unfunded client liability. Digital→LLC = payment vs. payment at 4pm; Digital←LLC = delivery vs. payment (Digital delivers cash first). LLC holds USDC inventory with 2% capital haircut; exits by selling back to Digital→market makers.
+
+SSI: each counterparty gets a dedicated USDC deposit address; SSI table maps counterparty↔address. Matching engine enforces exact qty + address on settlement date — quantity mismatch (e.g. 10.1 vs 10.0) = no match, manual resolution.
+
+Dalf concern: synthetically crediting client accounts before real cash — resolved by coin-first sequencing.
+@sduyar to align with @aprincipato on timing today.
+Cross-entity & collateral framework deferred — Lily to schedule separate call.
+
 **Action items (updated):**
-- **Rama + Mahendra**: design + estimates due Mon/Tue Apr 20-21
-- **Apr 22 11am follow-up**: cross-entity lending (crypto collateral → cash borrowing)
+- **Rama + Mahendra**: estimates still pending (cross-entity collateral deferred again)
+- **Lily**: schedule cross-entity & collateral follow-up
 - **Eric**: connect with exchange gateway team re: Circle/stablecoin conversion flows
 
 ---
@@ -609,6 +627,188 @@ Rationale: graceful migration, no big-bang cutover. Each step is independently v
 
 ---
 
+## Apr 23 — Options Pricing Methodology Meeting (1pm) — RESOLVED
+
+**Priority list confirmed** (Eric's team, as of Apr 23):
+0. Existing spot and loan/borrow maintenance
+1. Streaming spot
+2. Finish options
+3. Perps
+(Side: ongoing counterparty/LP integrations)
+4. Future roadmap planning
+
+**Expiry settlement — RESOLVED**: Deribit index − strike using 30-min TWAP (1-min slices). Unblocks eng estimate for expiry work.
+
+**M2M source — CONFIRMED**: Haruko vol surface FV. Mechanism = synthetic test-account trade → Haruko price. Chris Davidson owns test account.
+
+**Deribit inverse pricing — NOT appropriate** for linear products. Pin risk + rate model mismatch confirmed.
+
+---
+
+## Apr 24 — Go/No-Go Review Results (Apr 23, May 1 Confirmed)
+
+**May 1 go-live: ALL ENGINEERING TEAMS GREEN.** This is the 7-day rollover infrastructure, not specifically digital assets. Full-firm change enabling weekend (Saturday/Sunday) settlement processing. Digital assets (Kalshi, crypto) are among the first-movers.
+
+**Key decisions from Apr 23 Go/No-Go (10:30am) + "7 day rollover take 2" (2:30pm):**
+- Go-live **May 1** confirmed. First rollover: Saturday May 2.
+- Sunday May 3 rollover will run at **noon (not 9pm)** — temporary for first month to give ops 4-5 hours Sunday afternoon. Fri/Sat rollovers stay at 9pm. After visibility enhancements complete, reverts to normal schedule.
+- **Hard block** on weekend securities postings — BK enforces by settle date. Short-term regression; ops team members who typically work weekends cannot post during this window. Target **June 1** for queued transaction improvement.
+- **Reporting: 7-day opt-in** — IRMA flag at org level, unchecked by default. Existing clients unaffected. When a traditional client starts trading digital assets, **entire org** moves to 7-day reporting cycle.
+- Kalshi-specific: Sunday rollover at noon extends crypto/Kalshi trading window from 9pm-midnight to 12pm-midnight. Low volume in May; acceptable tradeoff.
+
+**⚠️ Eric action item from Go/No-Go**: "Confirm with Eric Thill about crypto pricing at noon on Sunday." The official Sunday price snapshot shifts to noon. Eric's team needs to ensure crypto prices are captured from exchanges at noon on Sundays (currently Pulse provides pricing to FACT; Sunday prices for Kalshi only normally). Flagged as "needs escalation" in Go/No-Go notes.
+
+**Eric action item from "take 2" meeting**: "Eric to communicate weekend blocking changes to operations team."
+
+**7-day rollover — status by team (all GREEN for May 1):**
+- CSC: one more prod deploy this weekend, blocking changes merged
+- Studio Reporting: 2-3 PRs ready, ARMA flag in dev/prod
+- Finance: NetSuite tested, UK using full files
+- Billing: no blockers, daily billing changes in progress
+- Esfin, Grinch, XRT, Futures: all green
+- ProdEng: green with pending alerting review (may generate noisy alerts on weekends)
+- Digital (Kevin): follow-up offline (Eric's team not mentioned as a blocker)
+
+**SECFIN release** (Apr 24): "Link digital trade to contract" (fleet PR #72536). Signal that digital trade↔contract linkage in Fleet is landing.
+
+---
+
+## Apr 23 Week — Current Focus (updated Apr 23 heartbeat)
+
+**Options Pricing Methodology — RESOLVED (Apr 23 1pm)**:
+All three open items closed (from Eric's notes in `20260423_options_pricing_chat.md`):
+1. **M2M source**: Haruko vol surface FV via synthetic test account trade (Chris Davidson owns test account). Standard Black-76/88 model. Risk team responsible for validation.
+2. **Expiry settlement price**: Deribit index − strike using 30-minute TWAP (1-minute slices). Same mechanism as Deribit itself. **Unblocks Eric's eng estimate for expiry work.**
+3. **Deribit inverse pricing**: Confirmed NOT appropriate for linear products. Pin risk at expiry, price divergence, and interest rate model mismatch (Deribit uses same-expiry futures as forward proxy, not spot + rate).
+- Unified long-term vision: same base model for pricing (M2M) and quoting (desk), with risk-validated base and front-office discretion for markups.
+- Priority list confirmed: 0=spot+loan maintenance, 1=streaming spot, 2=finish options, 3=perps.
+
+**Apr 23 calendar — new meeting**: "Low touch swaps" at 4:15pm. Not previously tracked — may relate to Derivatives Swaps workstream (AMBER, Jun 15 target) or perps LT planning.
+
+**Go/No-Go Review (Apr 23 9:30am)**: This is a recurring Thursday slot — confirmed on calendar for both Apr 23 and Apr 30. The May 1 target is still in play; Apr 23 is the first go/no-go check.
+
+**Talgat's new `ClearStreet Account Manager` service** (PR #1955, Apr 23) — initial scaffold. This is likely the account management prereq for Talos migration step 1. Worth tracking as a signal that the Talos migration has started.
+
+**`digital-asset-contract-manager` deployed (Apr 22)** — new SFIN service. Loan creation from Haruko → BK; adding/returning collateral. This automates part of the Haruko→BK loan lifecycle that was previously manual.
+
+**BitGo CaaS Custody — Engineering Handoff Packet published (Apr 23)**:
+- Full solution design for P3 custody (Active retail + Institutional/Studio)
+- Eric's team owns Core CaaS Service (L-size) — builds #3 (OTC trading via Polaris), #4 (settlement automation), #5 (unified cash)
+- Polaris = execution venue; Fleet/BK = system of record for balances
+- Open: BitGo org strategy (one org vs two) — consult BitGo before implementing
+- Day 1 assets: BTC/ETH/SOL/USDC/USDT. No withdrawals Day 1. Cash-only MVP (no margin).
+- Pen test required pre-go-live (infosec confirmed Apr 23, Kevin Stevens)
+
+**Cross-Entity & Collateral Framework (Apr 22 meeting) — KEY DECISIONS**:
+- Stablecoin 3-trade + 1 journal entry model confirmed sufficient for eng to start
+- Cross-entity money movement (CSD↔Cayman) = **"due from affiliate" account** — no physical wire transfers
+- **Eric + Chris Davidson + Rasmus** assigned offline to determine mechanism for pushing CSD cash balances into Talos for pre-trade risk
+- Interest on client balances: Billing = long-term system; Jason Price + Aditi investigating Voyager vs Billing
+- Suleyman to write DVP/PVP Notion doc and send 3 cross-entity workflows to Rama for netting review
+- CSD can post collateral to Cayman and re-hypothecate margin
+- SSI: multiple deposit addresses per token confirmed for institutional clients (one address per asset/network for active clients)
+
+**Eric's open action items (as of Apr 23 EOD):**
+1. **Push CSD cash balances → Talos** (pre-trade risk for options) — offline w/ Chris Davidson + Rasmus (from Apr 22 meeting)
+2. **"Getting off Talos" time estimate** — P1 roadmap, still pending
+3. Connect with Yoon Lee on Talos→Voyager integration for perps
+4. Connect with exchange gateway team on Circle/stablecoin conversion flows
+5. Respond to Suley's chat (Talos integration details + Cayman swap: Voyager vs Haruko)
+6. **Fri Apr 24 1:30pm Eric/Raja** — pre/post-trade risk for derivs (options RFQ automation context)
+7. Investigate client trading restriction feasibility short-term vs long-term (Rama to reach out)
+8. **Options eng estimate** — expiry settlement now unblocked (TWAP resolved Apr 23). Can now produce estimate.
+
+**This week's remaining meetings:**
+- **Fri Apr 24**: Eng Lunch & Learn 11am (AI dev workflow showcase — Eric presenting), AWS 12:30pm, **Eric/Raja 1:30pm**
+- **Mon Apr 27**: Brian Stern roadmap 9am, **Buying power/pre-trade architecture 11am**, Bob 1:1 11:30am, DA Status 1pm
+- **Tue Apr 28**: Tech Monthly Open Forum 9am, Dev Sync 10am, FACT requirement for Swap Perp 11am, CS Digital weekly 1:30pm
+- **Wed Apr 29**: Atakan/Aksel 9:30am
+- **Thu Apr 30**: Go/No-Go Review 9:30am (final check before May 1), Dev Sync 10am, Eng Leads Sync 11:30am
+
+---
+
+## Apr 22 Week — Current Focus (updated Apr 22 EOD heartbeat)
+
+**VASP/CARF legal opinion**: Patrick Wilson / Ogiers call was Apr 21 — should close by end of this week from legal perspective.
+
+**Weekend rollover go-live: May 1** — confirmed in Notion (Apr 21 Client Comms meeting). Controlled rollout. Clients on 24/7 products (Kalshi, crypto) get weekend reports; traditional securities clients see no change. System built to support 24/7 capability long-term. May be related to the Thu Apr 23 Go/No-Go at 9:30am.
+
+**Haruko loan creation going live this weekend (Apr 26)** — confirmed in PnL Dashboard meeting (Apr 21). Data will flow all the way to Fleet/BK. Next week: test loan to verify data flow and P&L calculation.
+
+**Trade-by-trade P&L (new)**: Bob (Robert Rutherford) drove this at the Apr 21 PnL Dashboard meeting. Plan:
+- Stamp transaction ID into every trade in Pulse linking client trade to its hedge
+- Downstream: Snowflake groups by transaction ID for granular P&L
+- Two scenarios: (1) immediate delta hedge (80% of trades) — link 1:1; (2) book to risk account and work out later
+- Erick's #1901 (Apr 21) "Stamp secondary ids for Talos" is the Pulse implementation
+- Action: Robert to talk to Pulse team (likely Eric) about adding transaction identifiers
+- Parallel: Lily to confirm Haruko loan/borrow data into Snowflake timeline; Diana to walk through Fleet rec with Robert
+
+**Digital Assets Tax Discussions (Apr 21)** — Patrick Wilson + Lily Chen + Brian Stern meeting. Key points:
+- CS operates as **principal**, not agent — avoids "digital asset broker" regulatory definition
+- CT entity handles all US transactions; NY entity reserved/dormant
+- Cayman 1 = non-VASP hedging/exchange (not client-facing); Cayman 2 = VASP, future international clients
+- 1099-DA: 2025 = gross proceeds only; 2026+ includes cost basis
+- Complex: multi-broker scenarios, USDC→BTC conversions create cost basis situations
+- Patrick Wilson to work with Lily Chen + Brian Stern on transaction diagrams
+- Income reporting regulations (staking, lending) expected by end of 2026 or early 2027
+
+**CME futures CQG desk integration: GOING LIVE** — confirmed in Apr 20 DA Status (CSC notes). Not previously tracked as near-term.
+
+**OTC options full prod target: May 22** — confirmed in CSC Apr 20 meeting notes (BK trade object + Haruko + expiry). Previously captured as individual milestones; May 22 is the full-stack production target.
+
+**Stablecoin cross-entity prioritized over options** — Apr 20 DA Status decision: prioritize estimating stable coin cross-entity flow first due to higher business value. Rama/Mahendra estimates still pending.
+
+**Eric's open action items this week (updated Apr 22 EOD):**
+1. Connect with Yoon Lee on Talos→Voyager integration for perps
+2. Produce "getting off Talos" time estimate (P1 roadmap)
+3. Thu Apr 23 1pm Options Pricing Methodology — resolve (a) expiry convention, (b) fixing methodology, (c) Haruko live vol surface
+4. Connect with exchange gateway team on Circle/stablecoin conversion flows
+5. Respond to Suley's chat invite (Talos integration details + Cayman swap: Voyager vs Haruko)
+6. Talk to Raja about pre/post-trade risk — Fri Apr 24 1:30pm ("Eric / Raja")
+7. **NEW (from Apr 21 Rama/Bob/Suley Options catchup)**: Investigate short-term vs long-term feasibility of client trading restrictions when margin/premium isn't delivered (event of default question)
+8. **Mon Apr 27 11am**: "DSDigital: Confirm buying power/pre-trade limit architecture" — NEW meeting on calendar; directly tied to Anton's polaris pre-trade risk gate (#429) landing today
+
+**This week's key meetings (updated Apr 22 EOD):**
+- **Wed Apr 22**: Eric 9:30am (1:1), Atakan/Aksel 9:30am, Cross-Entity & Collateral Framework 10am (lending), Doctor 11:45am, FACT requirement for Swap Perp 2pm
+- **Thu Apr 23**: **Go/No-Go Review 9:30am (May 1 go-live)**, Dev Sync 10am, **Options Pricing Methodology 1pm**, Chat with Vince 2pm
+- **Fri Apr 24**: Eng Lunch & Learn 11am (AI dev workflow showcase), AWS Office Hours 12:30pm, **Eric / Raja 1:30pm** (pre/post-trade risk for options/derivs)
+- **Mon Apr 27**: Brian Stern roadmap 9am (recurring), **DSDigital: Confirm buying power/pre-trade limit architecture 11am** (NEW), Bob 1:1 11:30am, DA Status 1pm
+- **Tue Apr 28**: Tech Monthly Open Forum 9am, Digital Dev Sync 10am, FACT requirement for Swap Perp 11am, CS Digital weekly 1:30pm, Gamma Booking 1:30pm (conference room reservation)
+- **Wed Apr 29**: Atakan/Aksel 9:30am
+
+**"Gamma Booking" (Tue Apr 28 1:30pm)** — conference room reservation (Gamma = room in Lisle office). Not a substantive meeting.
+
+---
+
+## New Developments — Apr 22 EOD
+
+### BK Incident: Wrong Fees on ~70k Trades (Apr 21, Sev1)
+A new bkgate version deployed at 4:31pm switched from legacy rates service to tp-rates. Bug: bkgate double-multiplied fees (by price *and* notional) due to a rate type interpretation mismatch. ~70k trades were booked with wrong sec/taf/orf fees. Rolled back within ~1 hour; remediation script ran through ~8:30pm. Ops team detected it. Root cause: bad data interpretation when switching fee data sources without validating output correctness. Action items: better communicate roll-forwards as announcements; validate data equivalence before switching sources. **Not Eric's team's issue** (BK/CSC teams only), but worth knowing since digital trades flow through BK.
+
+### Bitcoin Depository Receipt (BTCDR) — New Client Opportunity (Apr 21)
+David Martin (CSC) pitched a workflow to do a ~$1M proof-of-concept BTCDR trade with client UTXO (account 116206) before David speaks at a Bitcoin conference in Vegas Mon Apr 28. BTCDRs mirror ADRs — BTC held in TradFi infrastructure (DTCC-settled, CUSIP-assigned, no management fees). Flow: CS Digital buys BTC → delivers to Anchorage → Broadridge issues DR shares via DWAC → T+1 settlement. Many open questions: booking model (Digital→LLC→client), legal review needed, compliance/ORF reporting TBD. **Not Eric's primary concern** but CS Digital is the execution/pricing leg of this.
+
+### Options Detail: Rama/Bob/Suley Catchup (Apr 21)
+New clarity on options operational questions:
+- **Client trading restrictions**: Failure to deliver margin/premium = event of default after cure period. Team has flexibility to restrict trading. **Eric action item**: investigate feasibility short-term vs long-term.
+- **Options structure**: Bilateral (counterparty model), not cleared. CS short, client long. Positions remain on books until expiry (like swaps, unlike spot BTC).
+- **Cash segregation**: CSD has existing reserve calc — balances flow to treasury, algorithm locks capital into segregated accounts weekly. Need to confirm if this works for derivatives.
+- **Liquidation**: Sell option into market; all fees/slippage charged to client. Need liquidation runbook + booking model.
+- **Interest on posted collateral**: Billing system can handle (calculates interest on long balances). Need to feed derivatives margin data into billing.
+- **Statements**: No easy consolidation yet — Voyager handles swaps, separate system for options. Short-term: stitch PDFs. Decision: Rama + Yoon Lee to determine.
+- **Tax**: Forms needed (1099-IN, 1099-TA, 1099-S, 871-M). Currently manual; TallyX automation project in progress but not top priority.
+
+### CAAS Flow Design (Apr 22, published)
+Design doc published for BitGo CaaS client wallet architecture. Key details:
+- KYC: Plan A = CS does own KYC, BitGo does rubber stamp; Plan B = full BitGo async KYC (seconds for retail, days for institutional).
+- Wallet creation: CS generates key, stores keychain in Vault, whitelists CS↔client wallets. Upstream gets wallet address stored as SSI.
+- Internal CAAS Gateway routes all BitGo API calls. Chainanalysis invoked per transfer. Events fired (webhook/kafka) if score exceeds limits.
+- Org structure: separate BitGo orgs for Institutional (bespoke policies, high limits) and Active (uniform policies).
+- Pre-trade check gap: BitGo does NOT expose how close you are to daily limits — cannot use for pre-trade risk. Must track separately.
+- Scope by team: COPS (L), Digital/Eric's team (L), Active (L), Studio (L), IRMA (S), Risk (S), CSC/BK (S).
+- **Eric's team (Digital)**: owns the CAAS Service integrating BitGo/Chainanalysis — this is the P3 custody build.
+- **Infosec alignment — COMPLETE (Apr 23, Kevin Stevens)**: Separate Vault instance (Kevin + infra), pen test required pre-go-live, clean slate standard (no critical vulns), enhanced monitoring for irregular access, existing auth + K8s deployment approved. Pen test is on the pre-go-live critical path.
+
 ## Apr 21 Week — Current Focus (updated Apr 21)
 
 **CARF/VASP legal opinion**: Patrick Wilson had call with Ogiers Apr 21 to finalize guidance (misinterpreted facts were the delay). Should close by end of this week from legal perspective. Still critical blocker for Cayman entity trading.
@@ -649,6 +849,17 @@ Rationale: graceful migration, no big-bang cutover. Each step is independently v
 | Deribit | Reference price source for MTM |
 
 **Vera is a CS internal system** (not Haruko's FV model, not a vendor). It sits in the desk quoting/pricing layer — the desk uses it to price OTC options bilaterally. Likely builds on Deribit order book markups initially, proprietary vol surface longer-term. ActAnt was mentioned as an alternative in earlier scoping notes. **Pulse is upstream of Vera** — Pulse supplies Deribit index/options data; Vera consumes it. Pulse does not integrate with Vera directly.
+
+**Apr 22 Lily Slack summary — new options clarity:**
+
+- **Premium**: debited from client CSD account at trade time; reduces buying power immediately
+- **Pre-trade risk**: need mechanism to push cash balance events to Talos; long-term = Haruko as single source. Action: Lily to host call (Eric + Ani + Rama + Chris Davidson + Rasmus + Amit Kirdatt)
+- **Liquidation**: treated as a trade (not expiry). CSD books opposite-side trade at market + costs; CSD captures spread; can result in debit balance
+- **Interest on cash**: open — Billing vs. Haruko vs. Voyager. Separate call needed
+- **Statements**: merge Voyager + options statements? Rama + Yoon Lee to decide
+- **Tax/1099**: Patrick Wilson to advise on cost basis for early-terminated options
+- **Instruments**: same contract terms for CSD↔Cayman hedge as client trade; margin rates differ and are configured separately in Haruko
+- **Cross-entity deferred**: not covered today; Lily to schedule follow-up
 
 **Eric's "calculate option pricing methodology" action item** = specifically what Pulse publishes at expiry as the fixing price, not building pricing logic in Pulse itself. Robert Rutherford + 4WTC Copernicus to define fixing price source offline.
 
@@ -709,6 +920,38 @@ Not started (Eric's team) — CLST as agent + MTL application.
 - RenGen OTC settlement flow: stablecoin→USD primary use case; entity chain still TBD
 - Travel Rule compliance + Chainalysis AML integration required
 - Primarily Kevin Stevens' area; Pulse is the execution venue for currency conversions
+
+### Perpetuals (P2.4) — Cash Flows & Booking Design (Apr 22 — new doc)
+
+New Notion doc published: "Perp (Client ↔ CSD) — Cash Flows & Booking (Daily Reset)" (https://www.notion.so/fa2d0eab81494366b9b724d6d9b26069)
+
+**Compact cash flow model (client Prime account):**
+| Date | Event | Client cash | CSD cash |
+|------|-------|-------------|----------|
+| T0 | Client buys perp from CSD | No cash | No cash |
+| T+1 | Client posts IM | Prime → CSD: IM posted | Receives IM |
+| T+2 | VM due for T+1 mark up | CSD → Prime: VM paid | Pays VM |
+| T+3 | Client sells (unwind) | CSD → Prime: Unwind P&L + interest − VM already paid | Pays net |
+
+**Key design decision: daily reset model**
+- VM and realized P&L up to daily reset time can be re-used as margin for new trades (subject to house limits)
+- After reset, open perp is re-marked to new level for future P&L accrual
+
+**CSD booking (principal to client):**
+- T0: position established, no cash
+- T+1: Dr Cash (IM collateral), Cr IM collateral liability
+- T+2: Dr VM/MtM P&L, Cr Cash (VM paid to Prime)
+- T+3 unwind: Dr Realized P&L + interest, Cr Cash (net: Unwind P&L + interest − VM paid)
+- IM release: Dr IM collateral liability, Cr Cash
+
+**LLC booking (Prime broker perspective):**
+- Client cash flows settle into client's Prime account at LLC; LLC exchanges with CSD via intercompany receivable/payable
+- IM: Cr Client cash, Dr Due from CSD
+- VM: Dr Client cash, Cr Due to/from CSD
+- Close-out: LLC receives net from CSD, credits client Prime
+- IM return: Dr Client cash, Cr Due from CSD
+
+**Implication for Pulse/eng**: Pulse needs to generate the T0 trade, and downstream the daily reset + VM/IM settlement flows need to be bookable (BK/Voyager). Funding rate snapshots (0 UTC, 8am UTC, 4pm UTC) tie to VM calculations. This doc formalizes the accounting model for what's in the perps PRD.
 
 ### Perpetuals (P2.4) — Requirements defined (Apr 20, confirmed in Notion)
 

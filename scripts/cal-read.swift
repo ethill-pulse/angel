@@ -44,7 +44,11 @@ store.requestFullAccessToEvents { granted, error in
         let cal = event.calendar.title
         let start = outFmt.string(from: event.startDate)
         let title = event.title ?? "(no title)"
-        print("\(cal) | \(start) | \(title)")
+        let attendees = (event.attendees ?? []).filter { $0.participantType != .resource }
+        let externalOrganizer = event.organizer.map { !$0.isCurrentUser } ?? false
+        let isSolo = !externalOrganizer && (attendees.isEmpty || attendees.allSatisfy { $0.isCurrentUser })
+        let flag = isSolo ? " | solo" : ""
+        print("\(cal) | \(start) | \(title)\(flag)")
     }
 }
 

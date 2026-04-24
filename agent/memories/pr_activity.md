@@ -463,3 +463,153 @@ Estiven continues Atlas UI overhaul post-hackathon. All additions (no deletions)
 **Theme**: Hackathon final day closes cleanly. Emre ships Kalshi order book data (#1867) — Kalshi venue integration is now feature-complete (scaffold + refdata + auth + mktdata BBO + full book). `remove KLSH prod` suggests it stays off production for now. Chris adds error handling for modifies in the trade-updater flow. No architectural changes — this is polish and stabilization.
 
 **Hackathon week (Apr 13-17) final tally**: ~55 pulse PRs, ~15 polaris PRs. Headline deliverables: pre-trade risk checks E2E live (Talgat), Haruko position+balance pipeline (Emre), clearstreet-trade-updater (Chris), flow-venues -3080 line session migration (Eric), Kalshi full venue stack (Emre), Atlas UI positions/orders/balances overhaul (Estiven).
+
+---
+
+## 2026-04-21 through 2026-04-22
+
+Post-hackathon momentum continues. Heavy Kalshi build-out, Atlas UI polish, Talos/polaris reconciliation work.
+
+### pulseprime/pulse — 24 PRs merged (Apr 21–22)
+
+**Emre Ekici (6 PRs)** — Kalshi order management completing:
+- **#1897 "KLSH mass status"** (+601/-100, 3 files, Apr 21) — Kalshi mass order status
+- **#1898 "KLSH order status"** (+228/-3, 1 file, Apr 21) — individual order status
+- **#1902 "KLSH cancel order"** (+273/-17, 3 files, Apr 21) — cancel order support
+- **#1906 "KLSH cancel replace"** (+461/-12, 4 files, Apr 21) — cancel-replace (modify) support
+- **#1922 "KLSH position recovery"** (+641/-29, 3 files, Apr 21) — position recovery on reconnect
+- **#1932 "KLSH fees"** (+68/-13, 4 files, Apr 22) — fee handling
+- **Theme**: Kalshi order management lifecycle is now complete (mass status + individual status + cancel + cancel-replace + position recovery). Despite being removed from prod/dev envs, the integration is maturing rapidly.
+
+**Estiven Salazar (8 PRs)** — Atlas UI finalization:
+- #1899 "pulse-ui api-client" (+1358/-1, 23 files) — new API client layer
+- #1900 "wiring atlas and cloud-ui with widget-api client" (+69/-20)
+- #1903 "migrating self contained api widgets" (+487/-1016, 40 files) — net deletion, cleanup
+- #1905 "NewRfqWidget spread and valid_until timer" (+156/-45)
+- #1907 "migration of useWidgetQuery to api-client" (+152/-130, 21 files)
+- #1926 "new-rfq-widget updates" (+117/-55)
+- #1927 "filtering atlas rfq sessions" (+9/-1)
+- #1928 "format markup tiers floats" (+1/-1)
+- #1929 "new rfq widget approx notional" (+15/-0, Apr 22)
+- #1934 "new rfq widget fetch instruments" (+30/-11, Apr 22)
+- **Theme**: API client abstraction layer landing across all widgets; RFQ widget receiving heavy polish.
+
+**Erick Arce (2 PRs)**:
+- **#1901 "Stamp secondary ids for Talos"** (+49/-11, 7 files, Apr 21) — **notable**: stamps secondary IDs (trade/order IDs) into Talos messages. Directly enables trade-by-trade P&L correlation (see PnL Dashboard Notion meeting, Apr 21). Links client trades with hedges via shared identifiers.
+- **#1930 "Configurable recovery time"** (+413/-76, 46 files, Apr 21) — large refactor making connection recovery time configurable across 46 files.
+
+**Chris Davidson (1 PR)**:
+- **#1904 "talos contractual settlement"** (+314/-51, 3 files, Apr 21) — adds contractual settlement handling to Talos integration. Companion to the Apr 13 settlement models decision.
+
+**Talgat Taskhozhayev (2 PRs)**:
+- #1896 minor logging (Apr 21)
+- **#1931 "Trade-Engine: Persist Markups as basis points"** (+54/-35, 7 files, Apr 22) — persists markup pricing data in basis points in trade-engine.
+
+**Matthew Gow (2 PRs)**: #1891, #1914 — self-hosted EKS runner testing (CI infrastructure).
+**Aksel Hakim (1 PR)**: #1895 transport/socket changes for FIX replay (Apr 21).
+
+### pulseprime/polaris — 5 PRs (Apr 21)
+
+**Erick Arce (4 PRs)**:
+- #438 "Fix account subscription" (+56/-22) — already captured
+- #439 "Fix inserts for defaults" (+15/-22) — already captured
+- **#442 "Update fill lookup"** (+46/-6, 4 files) — fill tracking improvement in reconciliation logic
+- **#443 "Fix exec id lookup"** (+1/-1) — exec ID lookup fix in recon
+
+**Anton Ronis (1 PR)**:
+- **#441 "Initialize client account positions for delta skew"** (+218/-5, 3 files) — **notable**: Anton adding client account positions as inputs to delta skew calculation. Polaris now initializes per-account position state for skew management.
+
+**Theme**: Erick's reconciliation PR (#402) from Apr 20 is being actively followed up — #442/#443 are reconciliation fixes suggesting the recon logic is being actively tested and iterated. Anton's #441 is architecturally significant: client account positions now feed into delta skew in polaris. Emre completing Kalshi full order lifecycle despite env decommission. Erick's secondary ID stamping (#1901) enables P&L trade linkage.
+
+**New notable item**: The Apr 21 PnL Dashboard meeting confirmed **Robert (Bob) is driving implementation of trade-by-trade P&L** — a transactional ID to link client trades with hedges in Pulse, then group downstream in Snowflake. Erick's #1901 (stamp secondary IDs for Talos) is almost certainly the Pulse-side response. Robert's action item: "talk to Pulse team about adding transaction identifiers to link client trades with hedges."
+
+---
+
+## 2026-04-24 Heartbeat (PRs since Apr 23)
+
+### pulseprime/pulse — 8 PRs merged (all Apr 23)
+
+**Chris Davidson (3 PRs)**:
+- **#1953 "move over dependencies"** (+1798/-1787, 39 files) — large dependency migration across 39 files; net-neutral = crate consolidation, not new code.
+- #1956 "swap cancel endpoint" (+4/-4, 1 file) — small fix to swap cancel endpoint.
+- #1951 "cleanup admin vscode warnings" (+18/-2, 2 files) — minor cleanup.
+
+**Talgat Taskhozhayev (1 PR)**:
+- **#1955 "ClearStreet Account Manager: initial setup"** (+116/-0, 9 files) — already captured in Apr 23 section; new account management service scaffold.
+
+**Estiven Salazar (4 PRs)**: #1957 sidebar/strat styling (+423/-181), #1952 atlas/cloud-ui base URL updates (+48/-42), #1950 alert manager mantine ref (+398/-849 = net deletion = cleanup), #1949 algo table mantine ref (+326/-521 = net deletion). All Atlas UI mantine migration work; significant line deletions indicate cleanup of old widget patterns.
+
+### pulseprime/polaris — 2 PRs merged (both Apr 23, Matthew Gow)
+- #452 "Upgrade base image to Ubuntu 24.04 for glibc 2.38+ compat" (+1/-1) — infra upgrade.
+- #450 "Fix runner" (+36/-14) — ARC runner fix completing polaris CI migration.
+
+### Summary
+Quiet day. No new architectural work. Chris stabilizing dependency structure. Estiven continuing mantine migration (cleanup = good). Matt closing out polaris CI runner upgrade. `ClearStreet Account Manager` from Apr 23 is the last meaningful new signal from this window.
+
+---
+
+## 2026-04-23
+
+### pulseprime/pulse — 6 PRs merged
+
+**Talgat Taskhozhayev (1 PR)**:
+- **#1955 "ClearStreet Account Manager: initial setup"** (+116/-0, 9 files) — **NEW SERVICE**: initial scaffold for a ClearStreet Account Manager service. Pure addition — this is a new service being stood up by Talgat, likely related to account management prereqs for the Talos migration (Eric's step 1 requires account management in our services before Talos write path can flip).
+
+**Chris Davidson (2 PRs)**:
+- **#1953 "move over dependencies"** (+1798/-1787, 39 files) — large dependency migration across 39 files; net-neutral size suggests rearranging / consolidating deps across crates.
+- **#1956 "swap cancel endpoint"** (+4/-4, 1 file) — small fix to the swap cancel endpoint.
+
+**Estiven Salazar (3 PRs)**: #1950 alert manager mantine ref (+398/-849, 12 files), #1949 algo table mantine ref (+326/-521, 17 files), #1957 sidebar/strat mgmt styling (+423/-181) — Atlas UI continuing mantine component library migration; net deletion across each = cleanup of deprecated widget patterns.
+
+### pulseprime/polaris — 2 PRs merged
+
+**Matthew Gow (2 PRs)**:
+- **#452 "Upgrade base image to Ubuntu 24.04 for glibc 2.38+ compat"** (+1/-1, 1 file) — infra upgrade for glibc compatibility.
+- **#450 "Fix runner"** (+36/-14, 1 file) — ARC runner fix from yesterday's CI switch.
+
+**Theme**: Talgat's new `ClearStreet Account Manager` service is the headline — a pure-addition new service that's likely the first step toward account management living in CS services rather than Talos. Estiven's mantine migration continues (net deletions across widget refactors). Matt finishing the ARC runner rollout in polaris.
+
+---
+
+## 2026-04-22 (end of day)
+
+Post-heartbeat PRs — same-day merges after the Apr 22 morning heartbeat run.
+
+### pulseprime/pulse — 10 PRs merged
+
+**Erick Arce (2 PRs)**:
+- **#1938 "Talos instrument control filter"** (+54/-64, 6 files) — filters/controls which instruments are active in Talos integration. Small net deletion suggesting a simplification.
+- **#1941 "Fix polling backoff"** (+2/-0, 1 file) — minor polling backoff fix.
+
+**Chris Davidson (1 PR)**:
+- **#1830 "new custom instrument admin tab"** (+1496/-1030, 27 files) — **notable**: large new admin UI tab for custom instrument management. Net +466 across 27 files — substantial new admin capability, likely for options instrument setup. This is the Talos instrument admin UI Eric's team needs for options configuration.
+
+**Estiven Salazar (3 PRs)**:
+- #1939 "markup tier widget updates" (+115/-94) — minor polish.
+- #1934 "new rfq widget fetch instruments" (+30/-11) — already captured.
+- #1929 "new rfq widget approx notional" (+15/-0) — already captured.
+
+**Aksel Hakim (1 PR)**:
+- **#1863 "Ah.fix replay request"** (+934/-39, 7 files) — **notable**: large addition to FIX replay request handling. Continuing Aksel's replay infrastructure work from hackathon.
+
+**Emre Ekici (2 PRs)**:
+- #1936 "KLSH expired position fix" (+10/-1) — Kalshi expired position handling fix.
+- #1932 "KLSH fees" (+68/-13) — already captured.
+
+**Talgat Taskhozhayev (1 PR)**: #1931 "Persist Markups as basis points" — already captured.
+
+### pulseprime/polaris — 6 PRs merged
+
+**Anton Ronis (1 PR)**:
+- **#429 "Pre-trade risk gate: inventory limits + available funds checks"** (+2057/-4, 11 files) — **SIGNIFICANT**: massive pre-trade risk gate addition in polaris. Adds inventory limit checks and available funds checks. +2057 lines across 11 files — this is Anton shipping a substantial risk management layer directly into polaris. Directly relevant to the Apr 22 calendar item "DSDigital: Confirm buying power/pre-trade limit architecture" (Mon Apr 27).
+
+**Ömer Yılmaz / litityum (3 PRs)**:
+- **#449 "positions strategy metrics"** (+428/-19, 1 file) — large addition of per-strategy position metrics.
+- #446 "Refactor VolumeRecorder to include per-strategy volume tracking" (+143/-10) — volume tracking per strategy.
+- #444 "Add support for tracking primary hedging counterparty" (+123/-2) — tracks primary hedging counterparty. Connects to P&L trade linkage work.
+
+**Matthew Gow (2 PRs)**:
+- #445 "switch CI to ARC self-hosted runners" (+256/-101, 8 files) — **notable**: CI infrastructure switch to ARC (Actions Runner Controller) self-hosted runners. Mirrors the pulse CI upgrades from hackathon.
+- #447 "Fix rust cache" (+256/-101, 8 files) — companion fix to #445.
+
+**Theme**: Anton's pre-trade risk gate (#429, +2057 lines) is the architectural headline — polaris now has inventory limits and available funds checks before order routing. Directly tied to the pre-trade buying power architecture discussion on Mon Apr 27. Ömer adding dense telemetry (per-strategy metrics, volume, hedging counterparty tracking). Matt upgrading polaris CI to match pulse. Chris's custom instrument admin tab in pulse is a major ops capability for options setup.

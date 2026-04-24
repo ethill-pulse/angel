@@ -31,6 +31,10 @@ Kevin Stevens (CS-side eng) reports to Jon Daplyn. The two have been working out
 
 Suley and Eric have aligned: Pulse's focus should stay on what it does best — execution, market making, PMS, exchange integrations. Let Kevin's org carry the cash-settled and financing side.
 
+## Office
+
+Eric works out of the **Lisle, IL office**. Conference rooms there are named **Alpha**, **Beta**, and **Gamma**. Calendar events like "Alpha Booking" or "Gamma Booking" are room reservations, not substantive meetings.
+
 ## Notes
 
 - Personal notes in `notes/` — committing to taking notes there for Angel's context
