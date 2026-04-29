@@ -613,3 +613,88 @@ Post-heartbeat PRs — same-day merges after the Apr 22 morning heartbeat run.
 - #447 "Fix rust cache" (+256/-101, 8 files) — companion fix to #445.
 
 **Theme**: Anton's pre-trade risk gate (#429, +2057 lines) is the architectural headline — polaris now has inventory limits and available funds checks before order routing. Directly tied to the pre-trade buying power architecture discussion on Mon Apr 27. Ömer adding dense telemetry (per-strategy metrics, volume, hedging counterparty tracking). Matt upgrading polaris CI to match pulse. Chris's custom instrument admin tab in pulse is a major ops capability for options setup.
+
+---
+
+## 2026-04-27 through 2026-04-28
+
+### pulseprime/pulse — 21 PRs
+
+**Emre Ekici (5 PRs)** — Kalshi operationalized:
+- **#1988 "KLSH refdata categories"** (+340/-49, 3 files, Apr 27) — adds refdata category support for Kalshi instruments; part of making Kalshi production-ready
+- **#1989 "enable KLSH on dev"** (+17/-0, 1 file, Apr 27) — Kalshi reactivated on dev environment. Reversed the Apr 20 decommission (#1887). Kalshi is now back on dev as prod ramp-up begins (May 4 deadline)
+- **#1978 "standalone refdata diff mode"** (+221/-6, 5 files, Apr 27) — adds diff mode for standalone refdata; aids deployment workflow for instrument changes
+- **#1990 "overview debug logs"** (+35/-3, 2 files, Apr 28) — debug logging in overview
+- **#1993 "add missing cfg"** (+4/-0, 1 file, Apr 28) — minor config fix
+
+**Estiven Salazar (6 PRs)** — Atlas UI continuing:
+- **#1985 "balances widgets styling"** (+88/-28, 4 files, Apr 27), **#1986 "position summary widget"** (+44/-17), **#1981 "overview widget"** (+45/-17), **#1983 "atlas not found page"** (+101/-3), **#1984 "atlas unauthorized/forbidden flows"** (+129/-4), **#1982 "atlas landing page"** (+105/-80), **#1992 "open orders widget styling"** (+44/-14, Apr 28) — steady Atlas UI polish sprint continuing post-hackathon
+- **#1980 "api-gateway with_path_overrides enhancement"** (+47/-16, Apr 27) — API gateway enhancement
+
+**Talgat Taskhozhayev (3 PRs)**:
+- **#1974 "ClearStreet Account Manager: Implementation"** (+346/-1, 10 files, Apr 27) — **SIGNIFICANT**: implementation PR for CS Account Manager service (follows #1955 initial setup). 10 files, pure addition. This is the account management layer being built natively in CS services.
+- **#1987 "Api-Gateway: Adding Clst-Account-Manager"** (+11/-2, 1 file, Apr 27) — wires the new account manager service into the API gateway routing
+- **#1976 "findatadb migrations sync"** (+1/-2, Apr 27) — minor DB migrations
+
+**Chris Davidson (3 PRs)**:
+- **#1977 "haruko refdata swap"** (+179/-67, 13 files, Apr 27) — refactors Haruko refdata handling for swaps; affects 13 files
+- **#1994 "cnr refdata fix"** (+32/-0, 1 file, Apr 28) — CNR refdata fix
+- **#1991 "NewRfqWidget accounts endpoint"** (+73/-13, 4 files, Apr 28) — new accounts endpoint for RFQ widget
+- **#1979 "fixing atlas cs-dev okta"** (+22/-18, Apr 27) — Okta fix for Atlas cs-dev env
+
+### pulseprime/polaris — 5 PRs — **HEADLINE WEEK**
+
+**Anton Ronis (1 PR)**:
+- **#457 "TWAP Phase 2: supervisor, slicer, pegger enhancements (MVP)"** (+4637/-219, 36 files, Apr 28) — **LARGEST PR IN RECENT HISTORY**. Phase 2 of the TWAP smart-execution feature — the functional MVP. Adds: `LimitTracker::would_breach` (risk projection for TWAP admission screening), `TwapParent`/`TwapParentRegistry` state types, Slicer (time-based order slicing), Supervisor (lifecycle management), Pegger (price tracking). This is the complete TWAP execution engine. Built on Phase 1 schema (#456). Critical for Kalshi EDC swap hedging (30-min TWAP at market close).
+
+**Ömer Yılmaz / litityum (2 PRs)**:
+- **#461 "Initialize Flight Deck"** (+601/-22, 6 files, Apr 28) — **NEW SERVICE**: `FlightDeckService` for managing algorithm status via WebSocket. New `managed_algo.yml` schema for strategy statuses + RPC handling. Flight Deck = new algo management control plane in polaris.
+- **#459 "Add support for Prediction product type and new venues"** (+245/-11, 1 file, Apr 27) — prediction market venue expansion in polaris, companion to Kalshi push
+
+**Erick Arce (1 PR)**:
+- **#460 "Twap target"** (+49/-18, 4 files, Apr 27) — TWAP target price handling; companion to Anton's Phase 1 (#456), lands before Phase 2
+
+**Anton Ronis (additional)**:
+- **#456 "TWAP Phase 1: schema and mode skeleton"** (+1110/-38, 19 files, Apr 27) — already captured; Phase 1 merged same day as Phase 2 follow-up
+
+### Summary (Apr 27-28)
+Two architectural headlines: (1) **Anton's TWAP Phase 2 (#457, +4637 lines)** — the full TWAP execution engine is now in polaris, directly enabling the Kalshi EDC swap hedging strategy by May 4; (2) **Ömer's Flight Deck (#461)** — new algo control plane service in polaris. Talgat's CS Account Manager implementation (#1974) is the other significant piece — native account management is being built out. Emre re-enabled Kalshi on dev (#1989) signaling the May 4 deadline is being treated as real.
+
+---
+
+## 2026-04-25 through 2026-04-27
+
+### pulseprime/pulse — 16 PRs (Apr 24-27)
+
+**Estiven Salazar (8 PRs, Apr 24)** — Atlas UI blotter + widget styling blitz:
+- **#1965 "blotter widgets styling updates"** (+2450/-86, 15 files) — largest PR of the batch; Atlas blotter gets major styling treatment
+- #1962 positions, #1961 RFQ orders, #1960 RFQ quotes, #1959 role management, #1958 static price overrides widget styling (all Apr 24)
+- #1966 "atlas auth options timeout and retry handling" (+47/-9) — auth resilience improvements
+- #1972 "alter markup_tier table migration" (+6/-0, Apr 25) — small DB migration for markup tiers
+- **Theme**: Atlas UI is approaching visual completeness. Massive styling push (net +3k lines across blotter, positions, quotes, orders, widgets). Also fixing Atlas auth timeout/retry — production readiness signal.
+
+**Erick Arce (2 PRs, Apr 24)**:
+- **#1963 "Stamp venue on restatements"** (+570/-128, 69 files) — **notable, large**: stamps venue info on trade restatements across 69 files. Broad consistency fix; likely required for Talos post-trade data quality.
+- #1968 "update feed state variable" (+140/-43, 9 files) — feed state management cleanup.
+
+**Chris Davidson (3 PRs)**:
+- **#1969 "updating exchange facts"** (+421/-45, 1 file, Apr 24) — large update to exchange facts configuration; affects venue behavior.
+- #1964 "swap withdraw endpoint" (+56/-2, Apr 24) — small endpoint fix.
+- **#1971 "user override fields"** (+479/-12, 2 files, Apr 27) — substantial addition of user override fields to exchange facts; likely expands per-user or per-account instrument/venue configurability.
+
+**Talgat Taskhozhayev (1 PR, Apr 27)**:
+- #1976 "findatadb migrations sync" (+1/-2) — minor DB migration sync.
+
+**Eric Thill (1 PR, Apr 24)**:
+- #1967 "scaleset processed revocation error to debug" (+4/-4) — log level change; noise reduction in prod.
+
+### pulseprime/polaris — 2 PRs (Apr 27)
+
+**Anton Ronis (1 PR)**:
+- **#456 "TWAP Phase 1: schema and mode skeleton"** (+1110/-38, 19 files, Apr 27) — **SIGNIFICANT**: Anton shipping TWAP execution support in polaris. Phase 1 = schema + mode skeleton. Directly supports the 30-min TWAP mechanism needed for OTC options expiry settlement (Deribit index − strike over 30-min window). This is the polaris-side foundation for options expiry.
+
+**Ömer Yılmaz (1 PR)**:
+- **#459 "Add support for Prediction product type and new venues"** (+245/-11, 1 file, Apr 27) — adds Prediction product type and new venues to polaris. Kalshi prediction markets venue expansion.
+
+### Summary (Apr 24-27)
+Quiet on new services — consolidation and polish. Three standouts: (1) Anton's TWAP Phase 1 in polaris is the architectural event — directly enables OTC options expiry settlement; (2) Estiven's Atlas blotter styling blitz signals Atlas approaching production-readiness for P1.3 LT RFQ go-live; (3) Chris's exchange facts user override fields (+479) expands per-counterparty instrument configurability. Erick's venue stamping on restatements (69 files) is a broad correctness fix that pays off downstream in reconciliation. Eric himself merged a minor debug log change (#1967).

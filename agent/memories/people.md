@@ -36,7 +36,8 @@ Key contacts outside Eric's direct team.
 | Rama Mellacheruvu | BK engineering lead | |
 | Hari | BK engineering | |
 | Ankit Singh | BK eng — BitGo→BK, bank recon | |
-| Ani Banerjee | Risk engineering | |
+| Ani Banerjee | Risk engineering | **Owns the margin rate file, events, and requirements** (per Raja, Apr 24). Primary integration point for anything touching CS-wide margin rate pipeline (RENG → BK → Snowflake). |
+| Raja | Derivatives pre/post-trade risk (CS-wide) | Walked Eric through the firm's existing risk architecture Apr 24: FACT (instruments, real-time) + RENG (margin rates, SOD file, event-driven from SQS) feeds pre/post-trade risk; BK = ledger on custody side; Snowflake amalgamates BK + margin rates. Auto-liquidation exists institutional-side only, not retail. |
 | Nikhil Kulkarni | FACT / reference data | Setting up listed options instruments manually; co-owns scalable Deribit options integration into Pulse with Eric (Apr 8 action item, conditional on Cayman IRS approval) |
 | Collin Zoll / Yoon Lee | Voyager/Athena engineering | |
 | Wojciech Baj | Haruko↔Olympus integration | |

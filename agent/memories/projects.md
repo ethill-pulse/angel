@@ -5,29 +5,57 @@ Sources: "Digital Assets Program Tracker" Google Sheet (~/Downloads CSVs, migrat
 
 ---
 
-## Phase Summary (updated Apr 20 from tracker)
+## Apr 28 Week — Upcoming Events
+
+### This week (Apr 28 – May 4)
+- **Tue Apr 28 (today)**:
+  - Tech Monthly 9am
+  - Digital Dev Sync 10am — discussed crypto custody vault scoping + trading engine migration (Gemini notes)
+  - Polaris setup + integration for Kalshi 10:30am — Jon Daplyn meeting (see Kalshi section)
+  - CS Digital weekly 1:30pm
+  - Eric/Bob 1:1 2pm
+  - Haruko Options: Fair Value 2:30pm — important; Haruko FV pricing for options M2M
+- **Wed Apr 29**: Eric flying to Newark (UA 2295 6am). Atakan/Aksel 9:30am in NYC (4WT).
+- **Thu Apr 30**: 7-Day Rollover **Final Go/No-Go** 9:30am → last gate before May 1 go-live. Dev Sync 10am. Eng Leads Sync 11:30am. Eric flying to Chicago 6pm (UA 546).
+- **Fri May 1**: **7-Day Rollover GOES LIVE**. Redis Office Hours 12pm (optional).
+- **Sat May 2**: Post Deployment Review 8:30am.
+- **Sun May 3**: Review before markets open 4pm. First Sunday noon rollover.
+- **Mon May 4**: Brian Stern roadmap 9am. **Digital: Spot, Options Catch Up 10:30am** (first post-options-kickoff status). FACT requirement for Swap Perp 10:30am. Bob 1:1 11:30am. DA Status 1pm. **Kalshi deadline.**
+
+### Key flags
+- **⚠️ Kalshi May 4**: Anton's TWAP shipped; booking model (Kafka→TPMO vs file upload) still open. Jon's team "a few weeks away" from full booking flow — may mean manual booking for day 1 trade.
+- **⚠️ May 1 Rollover**: Go/No-Go is Thu Apr 30. Eric traveling Wed + Thu. Sunday noon crypto pricing still needs scoping.
+- **Travel**: Eric in NYC Wed Apr 29, back Thu. Eric in Chicago Thu evening onward.
+
+---
+
+## Phase Summary (updated Apr 28 from tracker)
+
+**Tracker changes since Apr 27**: No material changes. Same 5 CSV files. Exec Summary shows Options flipped from Red→Green (Eng aligned + kicking off dev), tracker note says "Eng team reviewed and understood all requirements and provided estimate for P0 items." HT Options test trade target = May 1 dev.
+
+## Phase Summary (updated Apr 27 from tracker + Notion)
 
 | Phase | Name | Status | Target |
 |-------|------|--------|--------|
 | P0 | POC Single Firm Trades | **Complete** | Oct 2025 |
 | P1.1 | HT Spot - Principal Execution (manual) | **Complete** | Dec 2025 |
-| P1.1 scale | HT Spot - Principal Execution (automated, STP) | **GREEN** — dev complete, P0 items on track | Apr 30, 2026 |
-| P1.2 (1.3) | LT - RFQ to LP (Polaris + Talos RFQ to RenGen) | **AMBER** — BK netting unclear if 4/30 achievable | Apr 30, 2026 |
-| P1.4 | LT - Front-to-Back Integration (Studio EMS + Active Trader) | **AMBER** | Apr 30, 2026 |
+| P1.1 scale | HT Spot - Principal Execution (automated, STP) | **✅ LIVE — Apr 24, 2026** | Apr 30, 2026 |
+| P1.2 (1.3) | LT - RFQ to LP (Polaris + Talos RFQ to RenGen) | **AMBER** — Polaris/Talos RFQ complete; BK netting May 15 | May 15, 2026 |
+| P1.4 | LT - Front-to-Back Integration (Studio EMS + Active Trader) | **AMBER** | Jun 15, 2026 |
 | P2.1 | Crypto Swap (Voyager + Athena + BK) | **Complete** | Mar 31, 2026 |
-| P2.2 | Crypto Portfolio Swap | **At Risk** | May 29, 2026 |
-| P2.3 | CFTC Swap Dealer Application | **OFF TRACK** | Jun 30, 2026 |
-| P2.4a | HT Perp (Swap) Live | Not Started | **May 15, 2026** |
-| P2.4b | LT Perp (Swap) Live | Not Started | **Jun 15, 2026** |
-| P2.4c | Spreader routing perp orders | Not Started | **Jul 15, 2026** |
-| P2.5 | OTC Options - HT Live | **RED** — eng estimate due Apr 21 | **May 15, 2026** (at risk) |
-| P2.5b | OTC Options - LT Live | **RED** / Not Started | Jun 1, 2026 |
-| P3 | Client Trading & Custody (BitGo CaaS Active) | **AMBER** | Jun 30, 2026 |
-| P3b | Client Trading & Custody (BitGo CaaS Institutional) | **AMBER** | Jun 30, 2026 |
-| P4 (Loan) | Loan & Borrow via Haruko | **GREEN** — loan creation prod-ready | May 31, 2026 |
+| P2.2 | Crypto Portfolio Swap | **At Risk** | Jun 30, 2026 (slipped from May 29) |
+| P2.3 | CFTC Swap Dealer Application | **OFF TRACK** — Patomac consultant start ~May 8 | Jun 30, 2026 |
+| P2.4a | HT Perp (Swap) Live | **Not Started** — May 15 NOT realistic per tracker | May 15, 2026 (at risk) |
+| P2.4b | LT Perp (Swap) Live | Not Started | Jun 15, 2026 |
+| P2.4c | Spreader routing perp orders | Not Started | Jul 15, 2026 |
+| P2.5 | OTC Options - HT Live | **GREEN** — eng aligned, kicking off dev; test trade May 1 dev | **May 30, 2026** (slipped from May 15) |
+| P2.5b | OTC Options - LT Live | Not Started — scoping | TBD |
+| P3 | Client Trading & Custody (BitGo CaaS Active) | **AMBER** — design close end of week, then build kickoff | Jun 30, 2026 |
+| P3b | Client Trading & Custody (BitGo CaaS Institutional) | **AMBER** — lower priority than Active | Jun 30, 2026 |
+| P4 (Loan) | Loan & Borrow via Haruko | **GREEN** — loan creation to prod Apr 26 | May 31, 2026 |
 | P5a | Stablecoin→USD manual | **COMPLETE** | — |
-| P5b | Stablecoin→USD automated | **RED** — eng confirm timeline Apr 20 | TBD |
-| P5c | Cross-Entity Margin test trade | **GREEN** — ready, awaiting Julian to update Digital MLA | Apr 29, 2026 |
+| P5b | Stablecoin→USD automated | **RED** — pending biz sign-off on sequence of events | TBD |
+| P5c | Cross-Entity Margin test trade | **GREEN** — Legal/Compliance/Finance/Risk signed off Apr 24; awaiting Julian MLA | Apr 29, 2026 |
 | P5d | Payments - Cubix/Kyriba | Not Started | Jun 30, 2026 |
 
 ---
@@ -68,12 +96,13 @@ Full STP: Talos → Pulse → BK → BitGo + Customers Bank recon.
 
 **Trade reconciliation architecture (Apr 6, high priority, not started)**: Two Snowflake-based services — (1) EOD snapshot upload, (2) independent polling for updates. Customers Bank transactions/balances already pulling every 5 min into nostro recon (Ankit confirmed).
 
-### P1.3 — LT RFQ to LP (AMBER — updated Apr 21)
+### P1.3 — LT RFQ to LP (AMBER — updated Apr 27)
 Polaris doing RFQ/RFS to RenGen as LP. Talos for post-trade.
-- **E2E testing completed** (week of Mar 30).
-- **Prod rollout target**: **Apr 24** for Polaris/Talos RFQ.
-- **BK netting** (DA-052): obligation logic kicked off; **May 15 confirmed with confidence**. Single trade pair-off almost done; multi-trade greedy algorithm in progress (includes user-editable results). Exec Summary forecast date: **May 15** (slipped from Apr 30).
-- BK team had onsite week of Apr 14 to align on open questions.
+- **DA-038 Polaris/Talos RFQ: COMPLETE** — marked complete in tracker, Apr 24 target met.
+- **DA-039 Digital Trade Engine RFQ/RFS routing**: In Progress, Apr 30 target.
+- **DA-040 Polaris Algorithmic Pricing via RFS**: In Progress, Apr 30 target.
+- **BK netting** (DA-052): **May 15 confirmed**. Multi-trade greedy pair-off in progress.
+- Polaris reconciliation logic first pass (Erick #402) actively being iterated.
 
 ### P1.4 — LT Front-to-Back (AMBER)
 Digital Trade Engine routing RFQ to RenGen → Studio EMS + Active Trader. Apr 30.
@@ -84,6 +113,59 @@ Voyager + Athena upgraded for digital assets. BK→Athena integration complete. 
 
 ### P2.3 — CFTC Swap Dealer Application (AMBER)
 Working with Potomac + PWC. ~40% of control gaps in progress, 60% not started. Application target Jun 30 (6-9 month approval timeline). Risk hiring just started.
+
+### P2.5 — OTC Options (GREEN — updated Apr 27)
+
+**Status change**: Moved to GREEN as of Apr 27 tracker update. Eng team aligned on all requirements; kicking off development. New target **May 30** (slipped from May 15). HT test trade to be booked in dev by May 1.
+
+**Options booking model — RESOLVED (Apr 27 meeting, Jason's notes DB):**
+- Final booking pattern: **transfer trade + allocation trade** (mirrors Debarco desk principal fill model)
+- Flow: trader account → transfer trade → average price account → allocation trade → customer account
+- Solves position-effect-side inversion (both customer + dealer opening positions simultaneously)
+- Average price account treated like market-making account — track buy/sell, ignore open/close (same as Wolverine etc.). Hard-coded initially, possible ERMA flag later.
+- Hedge trades: pure bilateral trades with a **new clearing method** (not OCC) — prevents incorrect posting rules
+- Expiry: triggered by Kafka message from Pulse; Pulse provides exercise price + underlying price; BK performs ledger lookup + cash allocation journals for all positions
+- Physical settlement: NOT supported for MVP — cash only. Deribit options settling into perps deferred to Options ENA V2/V3.
+- Talos integration complication: transfer trades can't settle in Talos; cancellation requires canceling two linked trades
+- Rollover dependency: need to identify options due for expiry before rollover; proposed = block rollover if expiry messages not received for today's expiring options
+- OTC options only (not generic crypto options); hedging with exchange-traded options/perps/spot out of scope for this build
+
+**Buying power for options — RESOLVED (Apr 24 Crypto Options meeting):**
+- Risk team will calculate buying power = credit limit − PFE (potential future exposure)
+- PFE = market value × volatility over holding period (e.g., $100 × 10% vol × 3d = $10 PFE)
+- Limits based on delta-adjusted or gamma-adjusted notional (not raw notional)
+- Risk team to use Haruko vol surfaces → feed limits back to Talos
+- Jason's team to provide implementation timeline within 7 days (from Apr 24)
+
+**Interest on balances — RESOLVED (Apr 24):**
+- Charge interest on debit balances (when customer owes margin/premium) at OBFR +/−
+- Credit balances: ability to pay interest but NOT by default — clients must request it
+- Clear Street Derivatives is a swap dealer (not broker-dealer) — can have debit balances; not subject to 15c3-3
+- Billing framework integration needed for CSD customer accounts (Jason to scope)
+
+**Trade clearing/reconciliation (Apr 24):**
+- OTC options are uncleared — CFTC requires daily reconciliation vs client comms (Slack/Telegram)
+- MVP approach: manual ops process with negative confirmation (12-hour window)
+- Longer-term options: screenshot confirmation, Studio approval workflow, or chatbot parsing
+- BK recon gap: BK only receives option symbol/strike/premium — margin rates and liquidation rates stay in Haruko/Talos; may need new recon system
+
+**CAAS Gateway (Apr 24 meeting — custody side):**
+- Kevin's team has a POC CAS gateway (proxy for BitGo APIs, basic Chainalysis integration working)
+- Chainalysis: wallet scoring on whitelist, async transaction monitoring, yellow→suspense/red→auto-deny
+- Two-org structure (Active vs Studio) leaning toward "two separate orgs" (different rules per counterparty type)
+- CSD has the BitGo relationship; acts as counterparty; wallets belong to counterparties, CS just provides interface
+- Trade execution flow: Active/Studio → Polaris → market makers; CAS gateway handles custody transfers only (not trade settlement)
+- Kevin to initiate kickoff calls with all dependent teams (cops, compliance/KYC, CSCBK, risk portal, etc.)
+
+**P2.5 action items as of Apr 27:**
+- [ ] Create new clearing method in BK for OTC options (not OCC)
+- [ ] Hard-code average price account to ignore position effect
+- [ ] Rasmus to update documentation with transfer trade approach
+- [ ] Jason's team: billing framework for CSD, implementation timeline within 7 days
+- [ ] Mahendra's team: account freeze controls blocking outgoing payments
+- [ ] Risk team: define buying power (PFE) methodology and feed limits to Talos
+- [ ] Eric: options eng estimate (now unblocked — all methodology resolved)
+- [ ] Lily: schedule pre-trade risk call (Eric, Chris Davidson, Ani Banerjee, Rama, Rasmus, Amit) for CSD cash balances → Talos
 
 ### P2.5 — OTC Options (RED — updated Apr 21)
 CSC (Clearing, Settlement, Custody) team created a formal project entry Apr 10: "Digital Asset Options" (Goal: Support OTC cash-settled crypto options).
@@ -243,6 +325,9 @@ Manual flow and requirements captured. Deribit for pricing data (Eric owns eng).
 5. Design **options chains as refdata primitive** — schema changes to enable a full options chain per asset/venue. Must sync with Eric before implementing. **This is the scalable Deribit options integration path** — it satisfies both the CSC action item (Eric + Nikhil) and avoids manual per-instrument enablement.
 
 **Refdata design note:** Need to add options chains as a first-class primitive in refdata so entire chains can be enabled for an asset on a venue (vs. per-instrument today).
+
+### P4 — Loan & Borrow / Haruko (GREEN — updated Apr 27)
+**Loan creation to prod: Apr 26 confirmed.** `digital-asset-contract-manager` SFIN service deployed Apr 22 (automates Haruko→BK loan create + collateral add/return). Margin flow to follow.
 
 ### P4 — Loan & Borrow / Haruko (GREEN — updated Apr 21)
 First loan booked 3/27. Haruko prod instance up: hcad-cls1.prod.haruko.io
@@ -419,7 +504,39 @@ Raised at Apr 6 weekly meeting. **Potentially 3-6 month critical path blocker** 
 
 ---
 
-## Kalshi / Prediction Markets (venue integration — Apr 15)
+## Kalshi / Prediction Markets (URGENT — updated Apr 28)
+
+### Business Context (Apr 27 — Brian Stern Slack announcement)
+**Hard deadline: Monday May 4.** CS LLC will write EDC (Event-Driven Contract) swaps to Roundhill and Bitwise referencing Kalshi election prediction market contracts (e.g., PRESPARTY). CS LLC hedges 1:1 on Kalshi via a proprietary FCM account. $50M Roundhill limit.
+
+Key risk constraint from risk memo: **dates must reference Kalshi event dates, NOT calendar dates**. Kalshi can accelerate, delay, or invoke Market Outcome Review — the engine must handle these lifecycle events.
+
+### Eng Action Items (ethill, aronis, earce — May 4 deadline)
+1. **Kalshi account API** — wire up LLC's proprietary Kalshi FCM account. Emre's venue code exists; needs this account configured and online.
+2. **TWAP for Kalshi** — Anton's #456/#457 (shipped Apr 27-28) is exactly this: 30-min TWAP into the close for the ETF chunk. Phase 2 = MVP, functional.
+3. **Monitoring dashboard** — hedge vs swap position, basis, tri-party collateral
+4. **Voyager test** — swap side books in Voyager; need E2E test
+
+### Jon Daplyn Meeting (Apr 28 10:30am — "Polaris setup and integration for Kalshi")
+Eric met with Jon Daplyn to discuss Kalshi integration scope. Key context from Eric's notes:
+- Jon's team has Studio EMS trading Kalshi in prod (or nearly there); booking flow is EMS → TPMO → Lisa → BASIS
+- Lisa needs two sides (Kalshi Klear side + CS side) to match into BASIS
+- Booking flow is "a few weeks away" from being fully done
+- Weekend/midnight complexity: Kalshi trades at midnight and weekends — the rollover infrastructure needs to support this
+- Suley wants TWAP capability (Anton building — now done with #457)
+- After TWAP execution: booking model still needs to be agreed. Current view: will have to be manual initially
+- Kafka → TPMO possibility: TPMO takes execution reports
+- File upload to Lisa or BASIS as fallback booking path
+- **Takeaways**: TWAP order needs proper account ID; confirm TPMO + Lisa available in prod (then define Kafka message format); otherwise agree on file format for manual ops booking
+
+### Eng Status (as of Apr 28)
+- **TWAP execution engine**: DONE — Anton's #457 (+4637 lines) merged today. Full supervisor/slicer/pegger stack.
+- **Polaris prediction product type + new venues**: DONE — Ömer #459 merged Apr 27
+- **Kalshi re-enabled on dev**: DONE — Emre #1989 merged Apr 27
+- **Kalshi refdata categories**: DONE — Emre #1988 merged Apr 27
+- **Booking model after TWAP**: OPEN — manual initially; Kafka→TPMO path needs investigation
+
+### Kalshi / Prediction Markets (venue integration — Apr 15)
 
 Emre merged `PredictionProduct` (#1833) and `Venue::Kalshi` (#1835) into pulse on Apr 15. This is a **firm-wide CS initiative**, not a Pulse-specific project — RenGen requested the integration and Clear Street has been building Kalshi support across the stack since at least January 2026.
 
@@ -645,6 +762,41 @@ Rationale: graceful migration, no big-bang cutover. Each step is independently v
 
 ---
 
+## Apr 24 — CS Pre/Post-Trade Derivatives Risk Architecture (Raja chat, 1:30pm)
+
+Raja walked Eric through the existing CS-wide risk pipeline for derivatives. This is the firm-wide shape that digital assets will plug into (or replicate) for pre/post-trade risk on options, perps, and futures. Source: `notes/20260424_raja_chat.md`.
+
+**Data flow:**
+- **Instruments**: FACT → rest of CS, real-time
+- **Margin rates**: RENG produces a file + SOD file (SOD mainly for recon). Margin rate = margin model (rules-based OR portfolio-based; IM vs MM) × instrument data. This is the input to both pre-trade and post-trade checks.
+- **Ledger**: BK on the custody side. BK produces SOD files downstream; corporate events (e.g. coin forks) also flow here.
+- **RENG SOD job**: runs 2-3am; recently moved from S3 polling to SQS event-driven.
+- **File variants**: 20+ SOD file formats across OMSes (different fields, trading-date vs settled-date nuances) — teams request the format they want.
+- **Snowflake**: amalgamates BK + margin-rate data; accounts/services pull from there.
+- **Intra-day**: should be event-driven per-instrument from FACT or the risk service, not batched. Non-trade activity events require resync.
+
+**GA + roadmap (from Raja):**
+- GA launch ~2 weeks out.
+- Next: **futures + Kalshi** (Kalshi "going terribly").
+- Futures: different CFTC regulator = different EOD file format + unified margin + sweep handling. Unlike equity/options where it's simple.
+
+**Rates:**
+- Futures fully paid; Kalshi there; exchange rates.
+- Always use **house rates**, set based on risk tolerance.
+- **Auto-liquidation**: institutional-side only today. Needed on retail side if we offer competitive rates (we don't today). Raja: "lucky [to be] done this quarter"; realistic Jul/Aug or Sept/Oct.
+- **Funding** needs sweeps working.
+
+**Ownership:**
+- **Ani Banerjee** owns the margin rate file, events, and requirements — he's the integration point.
+
+**Relevance for Eric:**
+- P2.5 options pre-trade risk (CSD cash → Talos action item): this is the pipeline where cash-balance data surfaces as margin-rate input. Ani is the integration point.
+- P2.4 perps: funding rate snapshots need to plug into this same margin rate pipeline; FACT real-time is the canonical instrument source.
+- P3 CaaS retail: auto-liquidation is a firm-wide gap Raja called out explicitly — worth flagging when CaaS design firms up.
+- Talos migration (Suley P1): account onboarding + available margin calcs in our stack are the step-1 prereqs. RENG → BK → Snowflake is the firm-wide shape we'd need to integrate with or replicate.
+
+---
+
 ## Apr 24 — Go/No-Go Review Results (Apr 23, May 1 Confirmed)
 
 **May 1 go-live: ALL ENGINEERING TEAMS GREEN.** This is the 7-day rollover infrastructure, not specifically digital assets. Full-firm change enabling weekend (Saturday/Sunday) settlement processing. Digital assets (Kalshi, crypto) are among the first-movers.
@@ -708,13 +860,13 @@ All three open items closed (from Eric's notes in `20260423_options_pricing_chat
 - CSD can post collateral to Cayman and re-hypothecate margin
 - SSI: multiple deposit addresses per token confirmed for institutional clients (one address per asset/network for active clients)
 
-**Eric's open action items (as of Apr 23 EOD):**
-1. **Push CSD cash balances → Talos** (pre-trade risk for options) — offline w/ Chris Davidson + Rasmus (from Apr 22 meeting)
+**Eric's open action items (as of Apr 24 EOD):**
+1. **Push CSD cash balances → Talos** (pre-trade risk for options) — offline w/ Chris Davidson + Rasmus (from Apr 22 meeting). Raja chat Apr 24 clarified pipeline: margin-rate inputs sit in RENG → BK → Snowflake; **Ani Banerjee** is the integration point.
 2. **"Getting off Talos" time estimate** — P1 roadmap, still pending
 3. Connect with Yoon Lee on Talos→Voyager integration for perps
 4. Connect with exchange gateway team on Circle/stablecoin conversion flows
 5. Respond to Suley's chat (Talos integration details + Cayman swap: Voyager vs Haruko)
-6. **Fri Apr 24 1:30pm Eric/Raja** — pre/post-trade risk for derivs (options RFQ automation context)
+6. ~~Fri Apr 24 1:30pm Eric/Raja~~ — **DONE Apr 24**. Follow-up: engage **Ani Banerjee** on margin rate file/events integration for digital assets pre/post-trade risk.
 7. Investigate client trading restriction feasibility short-term vs long-term (Rama to reach out)
 8. **Options eng estimate** — expiry settlement now unblocked (TWAP resolved Apr 23). Can now produce estimate.
 
@@ -1142,3 +1294,85 @@ These appeared in the "Questions Require Answer" tab but are early-planning arti
 - BitGo CaaS (client custody) — Q2 2026
 - FINRA Continuing Membership — Q3 2026
 - Cross/Portfolio Margin — Q3 2026
+
+---
+
+## Apr 27 Week — Current Focus (updated Apr 27 heartbeat)
+
+**P1.1 HT Spot Automation: LIVE as of Apr 24.** Exec Summary now shows GREEN / "4/24 Go Live!" CARF registration removed as a risk.
+
+**P2.5 Options tracker: GREEN.** All pricing decisions resolved. Eng team aligned on requirements and kicking off development. New full-prod target: May 30 (was May 15). HT test trade targeting May 1 (dev env).
+
+**Options booking model finalized (Apr 27 10am Digital OTC Option meeting):** Transfer trade + allocation trade pattern. Full details in P2.5 section above.
+
+**P4 Loan creation: LIVE as of Apr 26.** Margin flow still to follow.
+
+**Cross-Entity: Legal/Compliance/Finance/Risk all signed off Apr 24.** Test trade awaiting Julian MLA update (Apr 29 target).
+
+**Anton shipped TWAP Phase 1 in polaris (#456, +1110 lines, Apr 27)** — schema + mode skeleton for TWAP execution. Directly supports the options expiry settlement calculation (30-min TWAP on Deribit index) that Eric's team needs to build in Pulse.
+
+**Chris shipped "user override fields" (#1971, +479/-12, Apr 27)** — significant update to exchange facts; likely relates to expanding instrument/venue configuration flexibility.
+
+**Pulse budget catchup meeting: Mon Apr 27 3pm** — "Pulse forecasted budget and drivers." New meeting, not previously tracked. Likely a CS financial planning conversation about digital engineering headcount/spend.
+
+**May 1 7-day rollover go-live confirmed.** Upcoming weekend calendar:
+- Sat May 2: Post-Deployment Review
+- Sun May 3: Review before markets open (4pm); first Sunday noon rollover
+
+**Mon May 4: "Digital: Spot, Options Catch Up" 10:30am** — new on calendar (spotted in this heartbeat). Likely first post-go-live options status review.
+
+**Eric's open action items as of Apr 27:**
+1. **Options eng estimate** — all requirements resolved, estimate overdue; blocking May 30 plan viability assessment
+2. **Noon Sunday crypto pricing (May 1 rollover)** — Pulse must deliver exchange prices at noon on Sundays; needs to be scoped before May 1 or escalated
+3. **Communicate weekend blocking to ops team** (Go/No-Go action item)
+4. **"Getting off Talos" time estimate** — P1 roadmap, still pending
+5. **Engage Ani Banerjee** on margin rate file/events integration for digital assets pre/post-trade risk (from Raja call Apr 24)
+6. **Pre-trade risk call (Lily to schedule)** — Eric, Chris Davidson, Rasmus, Ani Banerjee, Rama, Amit — CSD cash balances → Talos
+
+**This week's meetings:**
+- **Mon Apr 27**: Brian Stern roadmap 9am, Buying power/pre-trade architecture 11am, Bob 1:1 11:30am, DA Status 1pm, Budget catchup 3pm
+- **Tue Apr 28**: Tech Monthly 9am, Dev Sync 10am, FACT for Swap Perp 11am, CS Digital weekly 1:30pm
+- **Wed Apr 29**: Atakan/Aksel 9:30am
+- **Thu Apr 30**: **Final Go/No-Go Review 9:30am**, Dev Sync 10am, Eng Leads Sync 11:30am
+- **Fri May 1**: 7-Day Rollover goes live; Redis Office Hours 12pm (optional)
+
+---
+
+## ⚠️ URGENT — Kalshi Prediction Swaps / ETF (Priority over options estimate, as of Apr 27)
+
+**Hard deadline: Monday May 4** — CS must be ready to execute and book Kalshi swaps for Roundhill and Bitwise ETF issuers.
+
+### What CS is doing
+LLC writes **event-driven contract (EDC) swaps** to '40 Act fund issuers (Roundhill, Bitwise) referencing Kalshi event contracts (e.g., PRESPARTY — Presidential Party outcome). Funds get synthetic exposure; LLC hedges 1:1 on Kalshi via a proprietary FCM account.
+
+- **Collateral**: Issuer posts 100% notional into tri-party custody; released to LLC on settlement per CSA
+- **LLC hedge**: Proprietary Kalshi account at in-house LLC FCM entity, fully funded at 100%. No leverage.
+- **Economics**: LLC earns spread over floating rate + monthly execution fee. Kalshi hedge flattens market exposure. Residual = basis between swap and Kalshi.
+- **Notional limits**: $50M for Roundhill; Bitwise TBD
+- **Roundhill**: ETF targeting launch Thu Apr 30; going through Marex first; using CS starting Mon May 4
+- **Bitwise**: launching shortly after Roundhill; ISDA/CSA with Bitwise for review
+
+### Engineering action items (Eric's team — Pulse: ethill, aronis, earce)
+1. **Kalshi account API** — wire up LLC's proprietary Kalshi FCM account. Emre's full venue order lifecycle is already built (NOS, cancel, cancel-replace, mass status, position recovery, fees — all merged, just pulled from prod/dev envs). Needs to come back with the house LLC account.
+2. **TWAP for Kalshi** — Anton's TWAP Phase 1 (#456, +1110 lines, Apr 27) is the foundation. Needed because political contracts have wide spreads + limited depth; TWAP minimizes market impact on the 1:1 hedge execution.
+3. **Monitoring Dashboard** — track hedge position vs swap position, basis, tri-party collateral status
+4. **Voyager test** — the swap side books in Voyager; need to test end-to-end booking flow
+
+### Key risks (from Risk Memo, affects eng design)
+- **Date alignment is primary risk**: Expiry, Valuation Date, and Settlement Date on the swap MUST reference Kalshi's event dates — NOT hardcoded calendar dates. Kalshi can: accelerate (4-of-8 media trigger), delay (Rule 7.2), or invoke Market Outcome Review (Rule 7.1, 24-hour cap). Eng must handle Kalshi date events, not assume calendar alignment.
+- **Early termination slippage**: OET unwind exposes LLC to execution slippage on Kalshi (thin books). Break Funding Recovery and Cancellation Amount priced at bid/offer, not mid. LLC does not carry slippage risk — passes to fund.
+- **Kalshi regulatory risk**: Adverse court ruling (4th Circuit Maryland) could force Kalshi to delist/suspend political contracts mid-position. Counterparty tri-party collateral locked during suspension; cancellation amounts deferred until Kalshi final settlement.
+- **Liquidity**: Political contracts (PRESPARTY) have wide spreads and limited depth — position sizing at trade inception capped to executable liquidity.
+- **Settlement timing**: LLC cash-settles with fund ONLY after receiving Kalshi cash from Klear. No funding bridge.
+
+### Non-engineering workstreams (context)
+- **Legal (smalik)**: Roundhill gating item = ISDA + MCA + CSA to executable state this week
+- **Risk (ywu)**: credit due diligence for Roundhill; Atul Pawar to advise on notional limits + house accounts
+- **Ops (dhammerich + jdaplyn)**: opening house LLC account on Kalshi via FCM
+- **Finance/Legal (dsherby, boliveira, jrainero)**: capital treatment in LLC
+- **Compliance (cmoccia)**: trader mandate needed
+- **Reporting (dsherby, pduca, jeder)**: test reporting for the swap; FCM trade reporting to CFTC
+
+### Source
+- Notion: https://www.notion.so/34c1043d19d58026bceae357206f0b68
+- Slack announcement from Brian Stern, Apr 27

@@ -13,3 +13,6 @@ repos/.pnpm-store/
 
 # binary files in notes
 notes/**/*.pdf
+
+# local tmp
+tmp/
