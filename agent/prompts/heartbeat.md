@@ -35,13 +35,12 @@ Guidelines:
 
 ### 4. Review Google Drive Exports
 
-Use the `Glob` tool with pattern `~/Library/CloudStorage/GoogleDrive-ethill@clearstreet.io/My Drive/angel-exports/*.csv` to list available files (avoids shell escaping issues with the space in "My Drive"). Then read the key ones:
-- `Digital Assets Build - Project Plan.csv` — primary delivery roadmap; update `projects.md` if anything has changed
-- `Digital Assets Build - Executive Summary.csv` — phase-level status
-- `Digital Assets Build - Questions Require Answer.csv` — open questions; flag any new ones for Eric's attention
-- `Digital Assets Build - PMS milestone.csv`, `Loan Borrow Comp.csv` — review and incorporate into `projects.md` if relevant
+Use the `Glob` tool with pattern `~/Library/CloudStorage/GoogleDrive-ethill@clearstreet.io/My Drive/angel-exports/*.csv` to list available files. Then use the **`Read` tool** (not Bash/cat) to read each file — it handles paths with spaces natively and won't trigger permission prompts. Key files:
+- `Digital Assets Program Tracker - 🚦Milestone Summary.csv` — primary delivery status; update `projects.md` if anything has changed
+- `Digital Assets Program Tracker - 📈 Exec Summary.csv` — phase-level status
+- `Digital Tech Roadmap - pulse.csv` — roadmap context
 
-Scan others (`Accounts`, `Counterparty Onboarding`, `Exchange Venues Counterparty`, etc.) for anything that adds context not already in memory.
+Scan others for anything that adds context not already in memory.
 
 ### 5. Review Recent PRs
 

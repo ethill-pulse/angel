@@ -1,5 +1,597 @@
 # PR Activity
 
+## 2026-05-22 (updated May 22 heartbeat)
+
+### pulseprime/pulse — 15 new PRs (since May 21 heartbeat)
+
+**Chris Davidson (4 PRs)**:
+- **#2203 [May 21] (+1655/-543, 32 files) — "update risk model"** — **SIGNIFICANT**: large options risk model update in trade-engine. +1112 net lines across 32 files. Ties to Haruko margin/options risk path that's now critical path for HT Live.
+- **#2212 [May 22] (+147/-288, 6 files) — "split options trades topic"** — splits Kafka topic for options trades (net -141). Complements risk model update.
+- **#2214 [May 22] (+7/-22, 1 file) — "contra mpid change"** — **small but critical**: fixes Contra MPID config for options booking test (CSC expected Cayman CSDG KY1; wasn't set). Options test can retry once instruments are recreated.
+- **#2216 [May 22] (+3/-1) — "secret fix"** — minor config fix.
+
+**Estiven Salazar (5 PRs)**:
+- **#2194 [May 21] (+787/-49, 10 files) — "manual booking widget bulk post updates"** — large manual booking widget expansion.
+- **#2219 [May 22] (+6850/-1260, 42 files) — "atlas styling updates"** — **LARGE**: Atlas UI styling overhaul across 42 files (+5590 net). Largest frontend PR in weeks.
+- **#2220, #2213, #2221 [May 22]** — new-rfq LP/risk-sub-account inputs, RFQ side UI, sync trades response cleanup. Small iterations.
+
+**Talgat Taskhozhayev (1 PR)**:
+- **#2193 [May 21] (+243/-79, 12 files) — "Option Pricer: EOD & Expiry recovery pricing"** — recovery path for EOD/expiry pricing on Mark-Pricer restart. Production hardening.
+
+**Emre Ekici (1 PR)**:
+- **#2217 [May 22] (+0/-8) — "remove questdb late arrival discard"** — removes QuestDB late-arrival discard logic.
+
+**Eric Thill (1 PR)**:
+- **#2211 [May 21] (+1701/-33, 14 files) — "local trade-engine and polaris"** — the `repos/pulse/local/trade-engine/` docker-compose stack for full local FIX integration testing.
+
+### pulseprime/polaris — 2 new PRs (since May 21 heartbeat)
+
+**Ömer Yılmaz (2 PRs)**:
+- **#579 [May 22] (+1402/-101, 6 files) — "Flight deck rpc handlers"** — **SIGNIFICANT**: flight-deck now has full RPC handler layer (+1301 net). Algo control plane evolving into a real operational service.
+- **#622 [May 22] (+422/-61, 10 files) — "health check and RPC observability to flight-deck"** — companion to #579: health check + Prometheus observability. Combined: +1724 net lines of flight-deck infrastructure.
+
+### Theme (May 22)
+**Headlines**: (1) **Contra MPID fix deployed** (Chris #2214) — unblocks the options test trade retry once Nikhil creates new instruments (old ones expired). (2) **Chris's "update risk model" (#2203, +1655, 32 files)** — largest options-related pulse change this week; directly tied to the Haruko margin integration blocking HT Live. (3) **Estiven's Atlas styling overhaul (#2219, +6850, 42 files)** — largest frontend PR in weeks. (4) **Ömer's flight-deck RPC infrastructure (#579+#622, +1724 net)** — polaris algo control plane gaining full RPC + observability. (5) **Eric's local dev stack lands** (#2211).
+
+---
+
+## 2026-05-21
+
+### pulseprime/pulse — 1 PR
+
+**Estiven Salazar (1 PR)**:
+- **#2206 [May 21] (+1191/-238, 21 files) — "talos credit widget and ws endpoint"** — **large**: new Talos credit widget + WebSocket endpoint in Atlas. Adds real-time credit/exposure visibility. +953 net lines across 21 files. Likely enables live credit monitoring in the Atlas UI, relevant to options pre-trade risk path.
+
+### pulseprime/polaris — 3 PRs
+
+**Anton Ronis (1 PR)**:
+- **#594 [May 21] (+1571/-167, 15 files) — "feat: per-book hedge capacity (1/3)"** — **SIGNIFICANT**: first of a three-PR series adding per-book hedge capacity management to polaris. +1404 net lines across 15 files. Per-book capacity constraints enable more fine-grained control over how much hedging capital is allocated per book — relevant to options central risk book work and multi-strategy hedging.
+
+**Ömer Yılmaz (2 PRs)**:
+- **#620 [May 21] (+96/-140, 3 files) — "Remove client account handling from hedging strategies and update cor…"** — removes client account handling from hedging strategy logic (net -44 lines); aligns with per-book capacity separation.
+- **#619 [May 21] (+30/-27, 1 file) — "Client telemetry: fix Dropcopy gauges to use set() not add()"** — correctness fix: gauge metrics were accumulating instead of being set.
+
+### Theme (May 21)
+**Headline**: Anton's per-book hedge capacity series begins (#594, +1571/-167) — foundational work for options book management and multi-strategy risk control. Estiven ships a large new Talos credit widget (#2206, +1191) — real-time credit/exposure visibility in Atlas. Ömer cleaning up hedging strategy client account handling alongside the new capacity model.
+
+---
+
+## 2026-05-18 through 2026-05-20
+
+### pulseprime/pulse — 27 PRs
+
+**Emre Ekici (8 PRs) — Haruko loan management layer**:
+- **#2168 [May 18] (+476/-1, 3 files) — "trading ops - haruko create loan endpoint"** — creates loans in Haruko from trading ops.
+- **#2169 [May 18] (+341/-117, 3 files) — "trading ops - haruko loans endpoint"** — CRUD for Haruko loan contracts.
+- **#2170 [May 18] (+229/-6, 2 files) — "trading ops - haruko delete loan"** — delete/terminate Haruko loans.
+- **#2177 [May 18] (+33/-13, 3 files) — "trading ops haruko loan logs"** — logging for loan ops.
+- **#2179 [May 19] (+631/-1, 3 files) — "trading ops - haruko get loan v2"** — **large**: Haruko loan v2 endpoint integration (+631 lines). Full loan lifecycle retrieval.
+- **#2180 [May 19] (+289/-421, 5 files) — "trading ops - haruko v2 endpoints"** — refactor to v2 API.
+- **#2181 [May 19] (+271/-77, 4 files) — "trading ops - haruko tests update"** — test updates for trading ops.
+- **#2191 [May 19] (+5/-4, 1 file) — "trade engine docs update"** — minor docs.
+
+**Erick Arce (5 PRs) — Haruko symbology + tick sizes**:
+- **#2182 [May 19] (+36/-28, 5 files) — "Moving symbology of haruko"** — Haruko symbol handling moved/refactored.
+- **#2183 [May 19] (+31/-37, 9 files) — "hrko>clst pt2"** — Haruko→CLST flow cleanup.
+- **#2184 [May 19] (+5/-20, 6 files) — "Ea.hrko>clst"** — same flow, earlier part.
+- **#2190 [May 19] (+251/-9, 1 file) — "Set haroku tick sizes when not set"** — **notable +251**: sets Haruko tick sizes when absent. Important for correct options order routing.
+
+**Estiven Salazar (6 PRs) — Atlas manual booking widget**:
+- **#2172 [May 18] (+116/-27, 2 files) — "atlas manual booking widget updates"** — iterating on manual booking UI.
+- **#2173 [May 18] (+148/-48, 2 files) — "atlas manual booking widget more updates"** — further iterations.
+- **#2174 [May 18] (+11/-7, 1 file) — "options-manual-booking widget expiry date hh::mm updates"** — expiry datetime handling in widget.
+- **#2185 [May 19] (+44/-5, 2 files) — "atlas date validations"** — date validation in Atlas.
+- **#2187 [May 19] (+8/-8, 2 files) — "atlas manual booking datetime validation bugfix"** — fix.
+- **#2192 [May 19] (+88/-21, 4 files) — "admin add instrument reqs updates"** — instrument requirement updates for admin.
+
+**Chris Davidson (3 PRs)**:
+- **#2171 [May 18] (+2/-1) — "adjust language"** — minor.
+- **#2178 [May 19] (+2/-2) — "lower to debug"** — logging level tweak.
+- **#2189 [May 19] (+59/-7, 3 files) — "trade engine try read errors"** — better error handling for read ops in trade engine.
+
+**Talgat Taskhozhayev (2 PRs)**:
+- **#2175 [May 18] (+6/-24, 2 files) — "Tt.option pricer switch to utc"** — UTC timestamp fix in option pricer.
+- **#2176 [May 18] (+1/-1) — "Option-Pricer: Option type/side fix"** — correctness fix.
+
+### pulseprime/polaris — 12 PRs
+
+**Erick Arce (9 PRs) — OTC reconciliation + streaming prices prep**:
+- **#591 [May 18] (+2251/-324, 13 files) — "Complete recon integration with Haruko"** — **MASSIVE (+1927 net)**: full reconciliation integration between polaris and Haruko. Polaris now reconciles OTC positions against Haruko. This is the largest polaris PR since the ParentOrder refactor.
+- **#600, #602, #603, #604 [May 18] — "Ea.first class recon otc" series** — iterative fixes building toward #591.
+- **#605 [May 19] (+14/-19, 6 files) — "Fixes for OTC + haruko"** — post-#591 fixes.
+- **#606 [May 19] (+983/-936, 2 files) — "Prep code for executable streaming prices"** — **large restructure**: lays groundwork for executable streaming price quotes in polaris. Near-zero net change (+47) but massive internal reorganization. Enabling the Paradigm streaming RFQ path.
+- **#607 [May 19] (+6/-2, 1 file) — "Hack snapshot fix"** — small snapshot correctness fix.
+
+**Anton Ronis (2 PRs)**:
+- **#608 [May 20] (+119/-86, 3 files) — "Reconciler: derive mark price from hedge BookCache, not OTC BBO"** — reconciler now uses hedge book mark price instead of OTC BBO for correctness.
+- **#610 [May 20] (+344/-91, 2 files) — "RFQ: flatten multi-level fills into a single ER"** — RFQ fills now flattened to single execution report. Simplifies the fills pipeline for options RFQ workflow.
+
+**Erick Arce (#593 May 18)**: LadderEngine cleanup (already counted in May 14–18 section).
+
+### Theme (May 18–20)
+**Headlines**: (1) **Emre's Haruko trading-ops service now covers the full loan lifecycle** (#2168-#2181) — create/get/delete loans in Haruko from the trading ops layer. Combined with the positions and venue accounts work last week, this service is becoming the complete Haruko operational hub. (2) **Erick's #591 polaris recon (+2251/-324, 13 files)** — polaris now has full OTC reconciliation against Haruko. Largest single polaris change in weeks. (3) **Erick's #606 — "prep code for executable streaming prices"** — internal restructure enabling the Paradigm streaming RFQ path for options. (4) **Anton's #610 — RFQ fills flatten** and **#608 — reconciler mark price fix** — maturing the RFQ execution pipeline. (5) Talgat/Estiven continuing to polish options pricer correctness and manual booking UI.
+
+---
+
+## 2026-05-14 through 2026-05-18
+
+### pulseprime/pulse — 29 PRs (heavy week)
+
+**Emre Ekici (9 PRs) — Haruko trading-ops layer**:
+- **#2148 [May 14] (+316/-0, 5 files) — "deribit twap price"** — Deribit price integration for TWAP execution. Feeds Deribit spot pricing into TWAP parent orders.
+- **#2155 [May 15] (+103/-51, 11 files) — "venues-haruko-ext"** — Haruko venue extension/refactor.
+- **#2152 [May 15] (+4/-6) — "twap price loop update"** — minor TWAP loop fix.
+- **#2153 [May 15] (+16/-3) — "deribit price collector ttl"** — TTL config for Deribit index price collector.
+- **#2156 [May 15] (+350/-1, 8 files) — "trading ops haruko positions"** — new trading ops service pulling Haruko position data. Part of a dedicated Haruko ops integration layer.
+- **#2164 [May 18] (+199/-1, 3 files) — "trading ops - haruko venue accounts"** — venue account management in trading ops.
+- **#2165 [May 18] (+20/-8, 2 files) — "trading ops error logs"** — error handling for trading ops.
+- **#2166 [May 18] (+104/-25, 3 files) — "trading ops - haruko venue accounts fix"** — fix to venue accounts PR.
+
+**Erick Arce (7 PRs) — Haruko fills/trade capture**:
+- **#2139 [May 13] (+417/-5, 3 files) — "Trade Support for Haruko"** — hooks up trade execution support to Haruko; likely the fills-to-Haruko leg of the options booking flow.
+- **#2136 [May 14] (+813/-297, 10 files) — "Account mapping driven from atlas"** — **large refactor**: account mapping is now driven from Atlas config rather than hardcoded. Net +516 lines. Core infrastructure change for options entity routing.
+- **#2147 [May 14] (+263/-28, 4 files) — "Stamping more fill info on clst fills publisher"** — fills publisher now stamps additional fill fields downstream.
+- **#2145 [May 14] (+22/-24) — "Fix fills publisher restart loop"** — fills publisher restart loop fix.
+- **#2150 [May 14] (+124/-1, 3 files) — "Haruko secondary trade support"** — adds secondary trade handling to Haruko integration (likely for give-up or allocation flows).
+- **#2159 [May 15] (+6/-6) — "Flip sides for talos fills publisher"** — minor side-flip fix in fills publisher.
+
+**Talgat Taskhozhayev (3 PRs) — Options pricing maturation**:
+- **#2142 [May 14] (+149/-36, 4 files) — "Option-Pricer: Publish standard mark price"** — Mark-Pricer now publishes standard mark prices in addition to M2M prices. Broadens the pricing pipeline output.
+- **#2151 [May 15] (+207/-81, 6 files) — "Tt.option pricer m2m pricing eod and msg change"** — EOD pricing logic + message format changes in the options M2M pricer.
+- **#2160 [May 18] (+315/-10, 8 files) — "Option-Pricer: Settlement/Expiry pricing"** — adds settlement and expiry pricing to the Mark-Pricer. The options pricing pipeline now covers M2M, EOD marking, and settlement/expiry.
+
+**Estiven Salazar (6 PRs) — Trade engine + Talos UI**:
+- **#2093 [May 13] (+1438/-211, 9 files) — "trade-engine strip markups"** — **significant refactor**: trade engine now strips markups from internal pricing. +1227 net lines. Major change to how client-facing markups are separated from internal prices. Worth reviewing.
+- **#2140 [May 15] (+568/-18, 17 files) — "talos trades endpoint updates and widget"** — Talos trades endpoint + widget additions (Atlas). Large PR.
+- **#2161 [May 16] (+796/-3, 15 files) — "talos balances endpoint and widget"** — Talos account balances endpoint + widget. Large feature addition.
+- **#2157 [May 15] (+1/-2) — "TE zero exposure_limit incorrectly treated as unlimited credit"** — bug fix.
+- **#2158 [May 15] (+5/-1) — "trade-engine, remove avg_px from exec_rpts"** — minor cleanup.
+
+**Chris Davidson (5 PRs)**:
+- **#2137 [May 14] (+162/-7) — "Adding fix acceptor flexibility"** — FIX acceptor configuration flexibility.
+- **#2146 [May 14] (+72/-31, 2 files) — "Worktree cd.clean up exposure warning"** — exposure warning cleanup.
+- **#2149 [May 15] (+101/-0, 5 files) — "flush producer on shutdown"** — Kafka producer flush on graceful shutdown. Prevents message loss.
+- **#2154 [May 15] (+102/-10, 7 files) — "Worktree cd.cleanup auth token issue"** — auth token handling fix.
+- **#2144 [May 14] (+0/-30) — "remove_coinbase"** — removes Coinbase venue (added May 12 in #2125, reverted 2 days later — likely premature).
+
+**Matt Gow (1 PR)**:
+- #2138 [May 14] (+0/-19) — removes the test-scaffold-app added to exercise the auto-scaffold pipeline.
+
+### pulseprime/polaris — 10 PRs
+
+**Anton Ronis (5 PRs)**:
+- **#587 [May 18] (+546/-197, 5 files) — "refactor(engine): extract BookWalker to unify book-walking across engine crates"** — architectural extraction of `BookWalker` type to unify how the engine walks the order book across strategies. Reduces duplication.
+- **#588 [May 14] (+393/-173, 5 files) — "Support single-sided RFQ"** — polaris now handles RFQ where only one side is specified. Important for options RFQ workflow (Paradigm integration path).
+- **#572 [May 14] (+163/-5, 3 files) — "twap: symmetric-uniform child-order qty jitter (rnd_qty)"** — child order quantity jitter for TWAP.
+- **#589 [May 14] (+1668/-244, 15 files) — "main -> twap"** — large main→twap branch sync.
+- **#586 [May 14] (+51/-1, 2 files) — "schemas: add rnd_qty field to twap_params"** — schema addition for rnd_qty.
+
+**Ömer Yılmaz (2 PRs)**:
+- **#584 [May 14] (+774/-0, 3 files) — "Add OTC client telemetry tracking for positions and volumes"** — **+774 lines**: new comprehensive telemetry for OTC client positions and volumes in polaris flight-deck. Signals that polaris is now tracking OTC book state explicitly.
+- **#590 [May 14] (+347/-3) — "Add client_volume_usd tracking to OTC client telemetry"** — USD volume tracking on top of the positions telemetry. Combined with #584: +1121 lines of OTC telemetry.
+
+**Erick Arce (3 PRs)**:
+- **#592 [May 15] (+44/-36, 9 files) — "Rename account parameters"** — codebase-wide account parameter rename across polaris.
+- **#593 [May 18] (+107/-84, 1 file) — "Cleanup LadderEngine"** — LadderEngine cleanup (net +23 lines).
+
+### Theme (May 14–18)
+**Headlines**: (1) **Haruko operations layer emerging** (Emre's trading-ops PRs + Erick's fills/account-mapping work): A dedicated service for Haruko position/venue-account management is taking shape — this is the production ops infrastructure for options settlement and monitoring. (2) **Estiven's trade-engine strip-markups** (#2093, +1438) is the largest single-repo change of the week — fundamental change to markup handling in the trade engine. (3) **Options pricing pipeline complete** across all stages: M2M (#2123), EOD (#2151), settlement/expiry (#2160). (4) **Anton's single-sided RFQ** (#588) enables the Paradigm-routed options RFQ path decided May 13. (5) **Ömer's OTC telemetry** (+1121 lines) means polaris now explicitly tracks OTC book state. (6) **Coinbase removed** 2 days after being added — premature.
+
+---
+
+## 2026-05-13
+
+### pulseprime/pulse — 3 PRs
+
+**Talgat Taskhozhayev (1 PR)**:
+- **#2129 [May 13] (+144/-83, 5 files) — "Option-Pricer: Kafka/FACT publishing of M2M priced options"** — **MILESTONE COMPLETE**: The options pricing pipeline is now end-to-end. Mark-Pricer can now publish M2M priced option values to Kafka topics (and onward to FACT). Combined with #2123 (Haruko BS76 integration, May 12), the full stack is: Haruko `price_positions/v2` → Mark-Pricer → Kafka → FACT. Options M2M pricing is eng-side complete, pending only Haruko risk model sign-off from the business side.
+
+**Chris Davidson (1 PR)**:
+- **#2126 [May 13] (+1124/-65, 22 files) — "usd price conversion"** — **TODO CLOSED**: Implements the mktdata publishers → FACT update for stablecoin→USD pricing conversion. Large PR; integrates USDC/stablecoin pricing into the FACT market data pipeline using Binance stables as source. Unblocks stablecoin mktdata flow and supports the Stablecoin→USD semi-automated milestone.
+
+**Erick Arce (1 PR)**:
+- **#2120 [May 13] (+135/-225, 11 files) — "Standalone StartTwap -> StageOrder"** — pulse-side rename/refactor to align with polaris's ParentOrder rename. Net -90 lines. Completes the StageOrder/StartTwap alignment between repos.
+
+### pulseprime/polaris — 3 PRs
+
+**Ömer Yılmaz (1 PR)**:
+- **#582 [May 13] (+450/-70, 6 files) — "Replace `IndexSet` with new `AccountSymbols` type for handling account symbols"** — new type for account-level symbol management in polaris. Meaningful abstraction (+380 net); likely related to multi-strategy account routing work.
+
+**Anton Ronis (2 PRs)**:
+- **#581 [May 12] (+445/-56, 11 files) — "main -> twap"** — large sync of main into the twap branch (+445 lines, 11 files). Brings twap branch up to date with recent main changes including ParentOrder and execution_strategy work.
+- **#577 [May 12] (+185/-27, 6 files) — "feat: generic rand_qty opt-in flag + generalized OrderShaper randomization"** — opt-in randomized quantity shaping for order execution. Generalizes the randomization logic beyond TWAP.
+
+### Also from May 12 (missed in prior run)
+
+**Emre Ekici (1 PR)**:
+- **#2131 [May 12] (+139/-1, 16 files) — "Venue::Wintermute"** — adds Wintermute as a trading venue in pulse. New LP/market maker integration.
+
+**Erick Arce (1 PR)**:
+- **#2135 [May 12] (+107/-21, 7 files) — "Update trade-engine to forward account info downstream"** — trade-engine now propagates account context downstream. Likely needed for options booking flow (entity/account routing).
+
+### Theme (May 12–13)
+**Headlines**: (1) **Options pricing pipeline is E2E complete** (Talgat #2123 + #2129 together = Haruko→MarkPricer→Kafka→FACT). (2) **Stablecoin mktdata FACT integration done** (Chris #2126 = stablecoin→USD conversion in FACT pipeline). (3) **Wintermute added as venue** (Emre #2131). (4) Polaris order management layer continues to mature: Ömer's AccountSymbols type, Anton's OrderShaper randomization, twap branch sync.
+
+---
+
+## 2026-05-12
+
+### pulseprime/pulse — 9 PRs
+
+**Talgat Taskhozhayev (1 PR)**:
+- **#2123 [May 12] (+894/-13, 11 files) — "Option-Pricer: Haruko implementation"** — **SIGNIFICANT**: Haruko M2M pricing is now integrated into the Mark-Pricer service. Adds the Haruko BS76 `price_positions/v2` call as the live pricing backend. This is the major milestone for OTC options M2M — the service can now price options positions in real-time via Haruko. Combined with the custom pricing/expiry work, the options pricing stack is substantially de-risked.
+
+**Matt Gow (2 PRs)**:
+- **#2121 [May 12] (+420/-0, 4 files) — "auto-scaffold infra for new crates landing on main"** — new CI automation that auto-scaffolds boilerplate for new Rust crates landing on main. Reduces friction for new service creation.
+- #2127 [May 12] (+19/-0, 4 files) — **"[Test] add test-scaffold-app to exercise auto-scaffold pipeline"** — test for the above.
+
+**Emre Ekici (1 PR)**:
+- #2116 [May 12] (+39/-15, 4 files) — **"deribit price index multiple storages"** — enhances the Deribit index price collector to support multiple storage backends. Builds on #2105 (collector MVP, May 8).
+
+**Chris Davidson (1 PR)**:
+- #2125 [May 12] (+30/-0, 2 files) — **"Add coinbase venue"** — adds Coinbase as a venue in pulse refdata.
+
+**Estiven Salazar (4 PRs)**:
+- #2124 [May 12] (+262/-76, 7 files) — **atlas ui widgets updates** — Atlas UI widget polish sprint
+- #2128 [May 12] (+47/-7, 2 files) — **new-rfq-widget symbol and styling updates** — RFQ widget polish
+- #2118 [May 11] (+281/-52, 5 files) — **trade-engine: handling error and malformed messages and default values** — robustness improvement for trade-engine message handling
+- #2122 [May 11] (+7/-1, 1 file) — **fixing new rfq widget nos side** — minor RFQ NOS side fix
+
+**Chris Davidson (additional)**:
+- #2115 [May 11] (+9/-0, 3 files) — **check json** — minor JSON validation addition
+
+### pulseprime/polaris — 2 PRs
+
+**Erick Arce (1 PR)**:
+- #575 [May 12] (+1124/-1666, 28 files) — **TwapParent to ParentOrder** — codebase-wide rename completing the ParentOrder abstraction. Net -542 lines across 28 files. Combined with Anton's `execution_strategy` schema (#567), the new order management layer in polaris is fully settled (~3000+ lines touched over 2 weeks).
+
+**Ömer Yılmaz (1 PR)**:
+- #574 [May 12] (+260/-29, 5 files) — **Add Prometheus metrics tracking to flight-deck for bot status monitoring** — adds observability for bot status across strategies in the polaris flight-deck layer.
+
+### Theme (May 12)
+**Headline: Talgat's Haruko implementation (#2123, +894 lines)** — the Mark-Pricer now calls Haruko's BS76 pricing API live. This is the primary unblocked milestone for options M2M pricing. Erick's #575 completes the ParentOrder refactor; polaris order management is now structurally settled. Matt Gow ships auto-scaffolding infrastructure for new crates — operational quality improvement. Emre extends the Deribit index collector with multiple storage backends.
+
+---
+
+## 2026-05-09 through 2026-05-11
+
+### pulseprime/pulse — 5 PRs
+
+**Emre Ekici (4 PRs)**:
+- #2105 [May 8] (+699/-1, 15 files) — **deribit index price collector** — full MVP implementation merged: WebSocket subscriber to all Deribit index feeds, QuestDB WAL+DEDUP write, 2-instance HA, config-driven index list. Major milestone for OTC options settlement path.
+- #2110 [May 8] (+5/-0, 1 file) — **deribit price collector dockerfile** — container wiring for the new collector service
+- #2112 [May 11] (+28/-0, 2 files) — **Coinone refdata skip maintenance** — skip instruments in maintenance mode for Coinone refdata fetch
+- #2114 [May 11] (+26/-1, 2 files) — **CLAUDE rules for adding new schemas** — Emre added CLAUDE.md rules to pulse repo covering schema addition patterns; first explicit AI-tooling housekeeping contribution
+
+**Talgat Taskhozhayev (1 PR)**:
+- #2111 [May 9] (+3/-3, 1 file) — **Talos-Fills-Publisher: Better logging** — minor observability improvement
+
+### pulseprime/polaris — 3 PRs
+
+**Anton Ronis (2 PRs)**:
+- #567 [May 10] (+408/-269, 7 files) — **schemas: reshape parent_order_params/parent_order/parent_order_status around an execution_strategy variant** — significant architectural refactor in polaris; introduces `execution_strategy` as a first-class variant, likely enabling clean routing to TWAP vs future strategies. Combines with Erick's ParentOrder work (#562/#563) to form a new order management layer.
+- #566 [May 11] (+450/-17, 8 files) — **twap: symmetric-uniform lot-time jitter (rnd_dt)** — TWAP scheduling improvement; randomized lot-time to reduce clustering/predictability of child order submissions
+
+**Erick Arce (1 PR)**:
+- #565 [May 8] (+92/-76, 8 files) — **Remove defaults from TWAP** — TWAP cleanup, removes implicit defaults requiring explicit config
+
+### Theme (May 9–11)
+Emre's Deribit index price collector (#2105) is the headline — the complete MVP is merged, unblocking OTC options settlement pricing. Anton + Erick are converging on a major polaris refactor: `execution_strategy` as a variant (#567) + `ParentOrder` abstraction (#562/#563/#565/#566) = new order management layer in polaris. This is likely foundational for multi-strategy support beyond TWAP.
+
+---
+
+## 2026-05-08 (EOD)
+
+### pulseprime/pulse — 2 PRs
+
+**Chris Davidson (1 PR)**:
+- #2099 [May 8] (+914/-35, 5 files) — **add deal ws** — large options WebSocket for deal entry; likely the WebSocket API surface for the options booking flow. Largest PR of the week — worth review.
+
+**Estiven Salazar (1 PR)**:
+- #2106 [May 8] (+204/-173, 7 files) — **atlas updates** — Atlas UI changes (net-neutral churn)
+
+### pulseprime/polaris — 1 PR
+
+**Erick Arce (1 PR)**:
+- #564 [May 8] (+73/-3, 3 files) — **Missed fields for parent** — follow-up to ParentOrder PRs; fills in missing fields
+
+### Theme (May 8 EOD)
+Chris's deal WS PR (#2099, +914 lines) is the most significant — this is probably the WebSocket API surface for options deal entry, directly supporting the options booking workflow. Combined with Talgat's CustomerCredit optional (#2103) and Chris's instrument puller (#2102), options infrastructure is advancing fast. Erick's ParentOrder trilogy (#562, #563, #564) in polaris is now complete at +1253 lines — new order management abstraction worth understanding.
+
+---
+
+## 2026-05-07 through 2026-05-08
+
+### pulseprime/pulse — 8 PRs
+
+**Estiven Salazar (2 PRs)**:
+- #2104 [May 8] (+1/-0, 1 file) — **fix atlas build themes** — minor theme fix
+- #2100 [May 7] (+210/-152, 15 files) — **alert-manager-widget styling updates** — UI polish on Atlas alert manager widget
+
+**Chris Davidson (1 PR)**:
+- #2102 [May 7] (+124/-3, 1 file) — **Adding options to inst puller** — instrument puller now includes options instruments; part of options instrument setup pipeline
+
+**Talgat Taskhozhayev (2 PRs)**:
+- #2103 [May 7] (+23/-5, 3 files) — **Trade-Engine: Make CustomerCredit/exposures optional** — key architectural move for options pre-trade path; Talos credit check is now bypassable so Haruko can be the risk source for options
+- #2095 [May 7] (+48/-40, 7 files) — **Talos-Fills-Publisher: booking fix** — fill publication correctness fix
+
+**Atakan Kupeli (1 PR)**:
+- #2012 [May 7] (+704/-4, 17 files) — **Admin tab options chain** — options chain admin tab merged after 1-2 week review lag
+
+**Erick Arce (1 PR)**:
+- #2097 [May 7] (+69/-70, 15 files) — Remove unneeded configs (net-neutral)
+
+**Emre Ekici (1 PR)**:
+- #2094 [May 7] (+17/-4, 1 file) — pem parsing error sanitize
+
+### pulseprime/polaris — 5 PRs
+
+**Erick Arce (2 PRs)**:
+- #563 [May 8] (+868/-8, 4 files) — **ParentOrder part 2** — continued ParentOrder support work; large addition
+- #562 [May 8] (+312/-24, 4 files) — **ParentOrder support** — new ParentOrder abstraction in polaris; likely foundational for new order management patterns
+
+**Anton Ronis (2 PRs)**:
+- #561 [May 7] (+51/-2, 2 files) — **twap: set prediction_side on OCR for Kalshi repeg** — Kalshi-specific TWAP correctness
+- #559 [May 7] (+107/-4, 1 file) — **twap: fix BBO wait timeout to emit Canceled instead of Rejected** — BBO state correctness fix
+
+**Ömer Yılmaz (1 PR)**:
+- #560 [May 7] (+157/-42, 1 file) — **dual gauge support for TWAP telemetry** — exposes global + per-strategy metrics
+
+### Theme (May 7–8)
+Options infrastructure advancing on multiple fronts: Talgat making CustomerCredit optional (#2103), Chris adding options to instrument puller (#2102), Atakan's options chain admin tab merged. Erick's ParentOrder work in polaris (#562, #563) is notable — +1180 lines of new order management abstraction. Anton still shipping Kalshi TWAP correctness and BBO fixes.
+
+---
+
+## 2026-05-07 (EOD batch)
+
+### pulseprime/pulse — 5 PRs
+
+**Talgat Taskhozhayev (2 PRs)**:
+- #2103 [May 7] (+23/-5, 3 files) — **Trade-Engine: Make CustomerCredit/exposures optional** — makes Talos credit checks optional; needed for options pre-trade path where Haruko (not Talos) is the risk source
+- #2095 [May 7] (+48/-40, 7 files) — **Talos-Fills-Publisher: booking fix** — fill publication correctness fix
+
+**Atakan Kupeli (1 PR)**:
+- #2012 [May 7] (+704/-4, 17 files) — **Admin tab options chain** — options chain admin tab merged; three options chain PRs (#2012, #2007, #1933) merged after 1-2 week wait for Eric review
+
+**Erick Arce (1 PR)**:
+- #2097 [May 7] (+69/-70, 15 files) — Remove unneeded configs (net-neutral cleanup)
+
+**Emre Ekici (1 PR)**:
+- #2094 [May 7] (+17/-4, 1 file) — pem parsing error sanitize
+
+### pulseprime/polaris — 3 PRs
+
+**Anton Ronis (2 PRs)**:
+- #561 [May 7] (+51/-2, 2 files) — **twap: set prediction_side on OCR venue_fields for Kalshi repeg** — Kalshi-specific TWAP correctness; OCR (OrderCancelReplace) now stamps prediction_side correctly on repeg
+- #559 [May 7] (+107/-4, 1 file) — **twap: fix BBO wait timeout to emit Canceled instead of Rejected** — BBO wait state correctness fix; wrong cancel/reject code was being emitted
+
+**Ömer Yılmaz (1 PR)**:
+- #560 [May 7] (+157/-42, 1 file) — **Add dual gauge support for global and trading stats in TWAP telemetry** — telemetry improvement; TWAP now exposes both global and per-trading-strategy metrics
+
+### Theme (May 7 EOD)
+Talgat's `Make CustomerCredit optional` (#2103) is the most significant — directly enables the options pre-trade risk architecture (Haruko replaces Talos for options; Talos CustomerCredit must become optional so options orders can bypass the spot credit check). Anton still shipping Kalshi TWAP correctness fixes (#561) and BBO state fixes (#559). Atakan's options chain admin tab (#2012) finally merged after review lag. Erick continues net-neutral config cleanup.
+
+---
+
+## 2026-05-06 through 2026-05-07
+
+### pulseprime/pulse — 8 PRs (May 6–7)
+
+**Emre Ekici (3 PRs)** — PEM utils cleanup:
+- #2094 [May 7] (+17/-4, 1 file) — pem parsing error sanitize
+- #2085 [May 6] (+19/-191, 2 files) — pem load cleanup (net deletion)
+- #2084 [May 6] (+199/-197, 3 files) — already in prior batch (pem load refactor)
+
+**Estiven Salazar (1 PR)**:
+- #2087 [May 6] (+143/-16, 2 files) — **trade-engine last look rejection** — adds last-look rejection handling in trade engine; relevant for options pre-trade workflow
+
+**Chris Davidson (1 PR)**:
+- #2079 [May 6] (+249/-29, 1 file) — **enhance refdata venue map** — venue map enrichment; likely related to options instrument setup
+
+**Erick Arce (1 PR)**:
+- #2086 [May 6] (+101/-36, 3 files) — TWAP schema update
+
+**Aksel Hakim (1 PR)**:
+- #2082 [May 6] (+32/-5, 3 files) — spot booking symbol conversion
+
+**Matthew Gow (1 PR)**:
+- #2088 [May 6] (+1/-1, 1 file) — lock version to prevent upgrade (infra)
+
+### pulseprime/polaris — 5 PRs (May 6)
+
+**Erick Arce (4 PRs)** — TWAP execution module reorganization:
+- #557 [May 6] (+46/-57, 11 files) — Move TWAP into execution module
+- #556 [May 6] (+2/-2, 1 file) — sccache update to 0.15.0
+- #555 [May 6] (+15/-12, 10 files) — Shift TWAP exec module
+- #549 [May 6] (+326/-25, 7 files) — **TWAP limits** — adds limit enforcement to TWAP execution; 7 files, significant new constraint handling
+
+**Anton Ronis (1 PR)**:
+- #550 [May 6] (+304/-1, 2 files) — **twap: suppress lot-timeout cancel when aggressive price = resting price** — correctness fix; prevents spurious cancels on IOC cross; production safety
+
+### Theme (May 6–7)
+TWAP hardening continues in polaris — Erick reorganizing TWAP into its own execution module (4 PRs, structural) and Anton shipping another correctness fix (#550). Estiven's last-look rejection (#2087) in trade-engine is notable for options pre-trade. Chris's refdata venue map enhancement may support options instrument routing. Emre doing PEM utils cleanup (net-neutral refactor).
+
+---
+
+## 2026-05-05 through 2026-05-06
+
+### pulseprime/pulse — 16 PRs (May 5)
+
+**Eric Thill (1 PR)**:
+- #2078 [May 5] (+103/-42, 1 file) — kalshi-dropcopy-puller retry changes — hardens dropcopy recovery
+
+**Emre Ekici (3 PRs)**:
+- #2075 [May 5] (+179/-178) — KLSH cancel replace v2
+- #2074 [May 5] (+93/-94) — KLSH cancel order v2
+- #2067 [May 5] (+9/-3) — PredictionProduct portfolio candle fix
+- #2084 [May 6] (+199/-197, 3 files) — move pem load utils (refactor, net neutral)
+
+**Estiven Salazar (8 PRs)** — Options booking + Atlas polish sprint:
+- #2068 [May 5] (+215/-97, 7 files) — options manual booking endpoint updates
+- #2065 [May 5] (+88/-24, 7 files) — manual-booking-widget endpoint updates
+- #2073 [May 5] (+30/-13) — fix MarketAccount struct
+- #2071 [May 5] (+59/-26, 7 files) — get talos market accounts endpoint
+- #2076 [May 5] (+0/-2) — enable manual booking widgets
+- #2077 [May 5] (+14/-11) — cloud-ui api key UI bugfixes
+- #2080 [May 5] (+136/-72, 9 files) — atlas role management widget registry
+
+**Talgat Taskhozhayev (1 PR)**:
+- #2070 [May 5] (+103/-58, 14 files) — **Option-Pricer: Setup continued** — Mark-Pricer service active development
+
+**Chris Davidson (1 PR)**:
+- #2072 [May 5] (+60/-21, 34 files) — split clearstreet out — refactor
+
+**Erick Arce (1 PR)**:
+- #2081 [May 5] (+124/-11, 2 files) — fix kalshi refdata
+
+**Ömer Yılmaz (1 PR)**:
+- #2069 [May 5] (+85/-8, 9 files) — add DerivedBookDefinition to DerivedBook trait and sequenced events
+
+### pulseprime/polaris — 4 PRs (May 5)
+
+**Anton Ronis (1 PR)**:
+- #532 [May 5] (+1116/-198, 5 files) — **twap: fix Partial timeout management in bookkeeper** — significant: partial timeout handling in TWAP bookkeeper. ~1.3k line churn across 5 files.
+
+**Erick Arce (1 PR)**:
+- #548 [May 5] (+553/-106, 8 files) — **TWAP price fixes** — 8-file TWAP correctness fixes, likely tied to live trading issues
+
+**Ömer Yılmaz (2 PRs)**:
+- #547 [May 5] (+66/-4) — track BboByNotional in BasisRecorder
+- #546 [May 5] (+48/-1, 2 files) — add derived_book_definition schema and sequenced event field
+
+### Theme (May 5–6)
+TWAP stabilization continues at pace (Anton's #532 +1116, Erick's #548 +553). Estiven in a heavy options booking/Atlas widget sprint — manual booking endpoints, market account endpoints, widget enablement all landing together. Talgat's Mark-Pricer active dev is on track for May 8 Talos integration target. Kalshi cancel-replace v2 PRs (Emre) suggest order management refinement post-go-live.
+
+---
+
+## 2026-05-01 through 2026-05-05
+
+### pulseprime/pulse — 34 PRs
+
+**Eric Thill (3 PRs)**:
+- #2043 [May 1] (+542/-100, 8 files) — kalshi dropcopy recovery — reconnect/recovery handling for dropcopy puller
+- #2039 [May 1] (+44/-3, 6 files) — kalshi dropcopy default party ID
+- #2046 [May 2] (+302/-205, 3 files) — fix claude's std::thread usage
+
+**Emre Ekici (5 PRs)**:
+- #2035 [May 1] (already captured)
+- #2042 [May 3] (+247/-202, 3 files) — **KLSH NOS V2** — revised Kalshi new order single
+- #2056 [May 4] (+8/-1, 2 files) — kalshi dropcopy puller debug logs
+- #2062 [May 4] (+17/-0, 1 file) — **enable KLSH on rengen prod** — Kalshi live on RenGen production ← milestone
+- #2067 [May 5] (+9/-3, 1 file) — PredictionProduct portfolio candle fix
+
+**Estiven Salazar (10 PRs)** — API/widget buildout sprint:
+- #2037 [May 1] (+154/-27) — talos post customers endpoint
+- #2041 [May 1] (+94/-3) — talos update customer endpoint
+- #2047 [May 1] (+33/-13) — add AccountManager role
+- #2048 [May 3] (+82/-3) — talos get customer configurations endpoint
+- #2052 [May 3] (+113/-4) — talos update customer configurations endpoint
+- #2053 [May 3] (+14/-1) — api-gateway talos customer endpoints updates
+- #2054 [May 3] (+847/-10, 20 files) — **clearstreet account manager widget** — large new Atlas UI widget for CS Account Manager
+- #2058 [May 4] (+17/-1) — api gateway deal entry endpoint updates
+- #2059 [May 4] (+19/-12) — manual booking widget updates
+- #2060 [May 4] (+50/-19) — clst-account-manager filtering non-numeric talos names
+- #2064 [May 4] (+102/-7) — get market-account details endpoint
+
+**Talgat Taskhozhayev (3 PRs)**:
+- #2044 [May 4] (+67/-55) — Trade-Engine exposure currency based risk check refactoring
+- #2061 [May 4] (+118/-0, 9 files) — **Mark-Pricer: Initial setup** — NEW SERVICE: options M2M pricing service scaffold
+- (plus prior HouseAccount PRs captured in last batch)
+
+**Chris Davidson (5 PRs)**:
+- #2034 [May 1] (+674/-7, 11 files) — **Adding deal entry endpoint** — significant new endpoint for options deal entry
+- #2038 [May 1] (+253/-29) — options deal entry updates
+- #2040 [May 1] (+49/-4) — integer validation
+- #2045 [May 4] (+622/-262, 10 files) — moving custom instruments to lib
+- #2063 [May 4] (+269/-49) — wire in instrument creation
+- #2066 [May 4] (+227/-104) — swapping out symbol on entry
+
+**Aksel Hakim (1 PR)**:
+- #2057 [May 4] (+679/-287, 10 files) — trading server spot endpoint — significant trading server update
+
+**Erick Arce (2 PRs)**:
+- #2049 [May 2] (+130/-41) — update system for Kalshi
+- #2050 [May 2] (+7/-5) — prime Kalshi config
+
+**Matthew Gow (1 PR)**:
+- #2051 [May 4] (+19/-0) — publish cloud-ui build to S3 and invalidate CloudFront — CI/CD pipeline addition
+
+### pulseprime/polaris — 27 PRs
+
+**Anton Ronis (10 PRs)** — TWAP hardening continues intensively post-Kalshi-launch:
+- #505 [May 1] (already captured)
+- #513 [May 1] (+358/-171) — twap: register in OrderCache; fills flow via ContextMessage::OrderFill
+- #514 [May 1] (+196/-9) — twap: one-shot takeout IOC via new TimedOut state
+- #518 [May 1] (+2/-3) — twap: fix build after #513/#514
+- #520 [May 1] (+5/-5) — twap: bypass skew/rate-limit stages, fix delta_bps denominator
+- #499 [May 2] (+339/-102) — TWAP: extend _bps fields to support notional values
+- #530 [May 2] (+380/-46) — **Add TwapState::Completed** for fully-filled parent orders
+- #531 [May 3] (+282/-150) — twap: replace on_timeout enum with TwapTimeoutConfig variant; add Takeout max_lots cap
+- #533 [May 4] (+270/-81) — TWAP: fix fill-rate EMA cold-start causing spurious aggressive cross at warmup
+- #540 [May 4] (+95/-22) — test(twap): failing test — takeout IOC partial fill zombie parent
+- #541 [May 4] (+526/-0) — **Add FIX protocol skill and code style rules** — Claude.md/AGENTS.md style addition to polaris
+
+**Erick Arce (11 PRs)** — TWAP cleanup + polaris infra:
+- #504 [May 1] (already captured)
+- #509 [May 1] (+13/-21) — improve logging
+- #512 [May 1] (+50/-26) — fix new issues
+- #522 [May 1] (+169/-111) — latest round of TWAP fixes
+- #526 [May 2] (+97/-49) — improve orderlookup
+- #534 [May 3] (+97/-125) — refine code + remove unwraps
+- #535 [May 3] (+174/-247) — more TWAP cleanup
+- #537 [May 3] (+36/-67) — compact slicer
+- #538 [May 3] (+127/-0) — adding math lib to polaris
+- #539 [May 4] (+526/-0) — Add FIX protocol skill and code style rules (same as #541 — merged twice?)
+- #542 [May 4] (+80/-109) — remove unnecessary error propagation for enabled_markets
+
+**Ömer Yılmaz (2 PRs)**:
+- #465 [May 4] (+340/-35, 21 files) — **Integrate schemars for JSON schema generation** — large: adds JSON schema auto-generation across polaris codebase
+- #524 [May 4] (+378/-78) — **Support notional value calculations in FillTracker**
+- #536 [May 3] (+9/-2) — use timestamp() in favor of transact_time
+
+**Anton Ronis (additional)**:
+- #543 [May 4] (+68/-0) — test(twap): failing test — partial timeout zombie (no inflight child)
+
+**Erick Arce (authenticated mktdata)**:
+- #527 [May 4] (+455/-246, 11 files) — **Authenticated mktdata** — significant: adds authenticated market data paths in polaris (11 files)
+
+### Theme (May 1–5)
+Three storylines:
+1. **Kalshi crosses the finish line**: Emre's #2062 enables KLSH on RenGen prod (May 4). Eric's dropcopy recovery PRs (#2043) harden the infrastructure. Anton/Erick continuing TWAP hardening in polaris — 15+ polaris PRs in 4 days. Kalshi is now live.
+2. **Options infrastructure buildout**: Talgat's Mark-Pricer scaffold (#2061) is the first options pricing service. Chris's deal entry endpoint (#2034, +674) is significant new API surface. Estiven building out Talos customer configuration API layer. All pointing toward the options test-trade architecture taking shape. The May 4 entity/lifecycle blocker is the current obstacle, not eng capacity.
+3. **TWAP stabilization never stops**: Anton + Erick shipped ~25 polaris PRs in 4 days. Every TWAP edge case being exercised and fixed. TwapState::Completed (#530) and fill-rate EMA cold-start fix (#533) are correctness-critical for live trading.
+
+---
+
+## 2026-04-30 through 2026-05-01
+
+### pulseprime/pulse — 6 PRs (new since last heartbeat)
+
+**Eric Thill (4 PRs)**: Kalshi FIX infrastructure continues.
+- #2036 [May 1] (+1/-0) — kalshi dropcopy log info (minor: log level cleanup)
+- #2029 [Apr 30] (+47/-17, 5 files) — kalshi key config (wiring API key config)
+- #2030 [Apr 30] (+5/-0) — missed dockerfile (dropcopy container)
+- #2027 [Apr 30] (+2/-2) — quiet haruko unsupported symbol warning
+
+**Emre Ekici (2 PRs)**: Kalshi order-flow fixes.
+- #2035 [May 1] (+8/-1, 2 files) — **KLSH NOS exec type fix** — important correctness fix for Kalshi order execution type handling
+- #2032 [Apr 30] (+12/-5, 1 file) — create all topics on post api key (topic creation on venue registration)
+
+**Estiven Salazar (1 PR)**:
+- #2033 [Apr 30] (+670/-8, 10 files) — **options manual booking widget** — large new Atlas UI widget for manually booking options trades. Relevant both for options day-1 and potentially Kalshi manual fallback.
+
+### pulseprime/polaris — 2 PRs (new since last heartbeat)
+
+**Anton Ronis (1 PR)**:
+- #505 [May 1] (+195/-15, 2 files) — **twap: schedule-based upper-limit gate in compute_desired** — adds schedule-awareness to TWAP desired quantity computation. Robustness improvement for time-sliced execution.
+
+**Erick Arce (1 PR)**:
+- #504 [May 1] (+291/-244, 3 files) — Simplified supervisor state — refactor of TWAP supervisor state machine. Net +47, 3 files.
+
+**Theme (Apr 30 – May 1)**: Final push before Kalshi May 4 deadline. Eric, Emre, and Estiven all shipping Kalshi-related pieces in parallel. Anton + Erick continuing polaris TWAP hardening right up to the wire. The Emre KLSH exec type fix (#2035) on May 1 suggests live testing is happening. Estiven's options manual booking widget (#2033) is the largest PR in this batch — significant new UI capability.
+
+---
+
 ## 2026-03-30 through 2026-04-04
 
 ### pulseprime/pulse — 47 PRs merged
@@ -27,6 +619,99 @@
 **Anton Ronis (1 PR)**: `VolatilityChange` → internal agg book pricing integration.
 
 **Emre Ekici (1 PR)**: Quote adjustment fix.
+
+---
+
+## Apr 30 — late afternoon batch (third run)
+
+### pulseprime/pulse — 5 PRs
+
+**Eric Thill (3 PRs)**: Post-PR cleanup on Kalshi FIX work.
+- #2027 (+2/-2) — quiet haruko unsupported symbol warning (log level reduction)
+- #2029 (+47/-17, 5 files) — kalshi key config (wiring Kalshi API key config)
+- #2030 (+5/-0) — missed dockerfile (Kalshi dropcopy puller container)
+
+**Talgat Taskhozhayev (2 PRs)**: CS Account Manager continuing.
+- #2028 (+240/-87, 10 files) — Clearstreet-Account-Manager: Adding HouseAccount (substantial: adds HouseAccount type to account manager)
+- #2031 (+3/-2, 1 file) — Clearstreet-Account-Manager: Adding HouseAccount (follow-up fix)
+
+### pulseprime/polaris — 5 PRs — **TWAP hardening sprint**
+
+**Anton Ronis (3 PRs)**: Heavy TWAP edge-case fixes, still pushing hard before May 4.
+- #469 (+141/-17, 3 files) — TWAP: add `slippage_tolerance_bps` + aggressive IOC cross (issue #464) — new risk parameter + handling for IOC order crosses
+- #498 (+1415/-74, 9 files) — **notable**: twap: admit into WaitingForBbo when BBO unavailable + slicer BBO ingestion fix. Large: fixes TWAP from blocking when BBO not present at startup. Critical for live trading robustness.
+- #494 (+153/-134, 8 files) — already captured (math: jitter + Desired ADT split)
+
+**Erick Arce (1 PR)**:
+- #495 (+2075/-1179, 61 files) — **LARGE**: Update TWAP with main — 61-file merge bringing TWAP branch up to date with main. +896 net. Resolving post-Phase-3 merge debt.
+- #496 (+124/-23, 11 files) — Copy some things down to main — landing other branch changes into main
+
+**Ömer Yılmaz (1 PR)**:
+- #493 (+656/-21, 5 files) — Flight Deck: DB connection — adds persistent database connection to Flight Deck service. FlightDeck is gaining state persistence.
+
+**Theme**: TWAP is being hardened against production edge cases (BBO-unavailable admission, slippage tolerance, IOC cross). Anton's #498 (+1415) is the most significant: startup robustness when no BBO present is a real-world concern for a live trading system. Erick's 61-file merge (#495) closes the TWAP integration debt. Ömer adding DB persistence to Flight Deck — the algo control plane is gaining durability. Talgat's HouseAccount PRs in pulse continue Account Manager buildout.
+
+---
+
+## 2026-04-29 through 2026-04-30
+
+### pulseprime/pulse — 12 PRs merged
+
+**Emre Ekici (3 PRs)**: Kalshi integration push.
+- #2009 (+1066/-10, 4 files) — KLSH order event handling complete (large, foundational)
+- #2014 (+62/-5) — KLSH order side fix
+- #2021 (+20/-27) — Prediction quote_asset in ProductTokens
+
+**Estiven Salazar (3 PRs)**: UI and API work.
+- #2020 (+552/-150, 12 files) — **notable**: manual booking widget added to Atlas
+- #2013 (+29/-10) — api-gateway latency fix, WS stream flushing immediately
+- #2010 (+120/-23) — entity management widget styling
+
+**Anton Ronis (polaris, 8 PRs)**: Heavy TWAP stabilization + new work.
+- #474 (+1210/-780, 11 files) — size emit_cross_cxr against child leaves (correctness fix, large churn)
+- #476 (+1125/-879, 10 files) — derive live child from OrderMap, remove current_child_cloid (second major correctness fix)
+- #472 (+604/-70) — fix CxR/NOS emission, required fields
+- #479 (+55/-22) — reconcile on live_child to harden blocked-order gate
+- #482 (+333/-1) — stamp style/target_strategy on OrderState at inflight time
+- #483 (+16/-3) — strip wall-clock transact_time in fixture
+- #486 (+797/-43, 14 files) — TWAP merge
+- #492 (+9/-4) — telemetry flake fix in basis::handle_bbo_updates
+
+**Erick Arce (3 polaris PRs)**:
+- #484 (+192/-17) — Request Stamping
+- #486 — part of TWAP merge
+- #488 (+11/-4) — startup issues fix
+
+**Ömer Yılmaz (1 polaris PR)**:
+- #466 (+312/-1) — standalone mode for Flight Deck (HTTP client + bindings)
+
+**Aksel Hakim (1 pulse PR)**:
+- #1975 (+346/-244) — quoting timing improvements
+
+**Matt Gow (1 pulse PR)**:
+- #2016 (+1/-1) — increase actix keep_alive from 10s to 75s
+
+**Chris Davidson (1 pulse PR)**:
+- #2000 (+289/-16) — new OTC create topic (Kafka surface for OTC trade creation, likely options booking plumbing)
+
+**Notable**: Anton shipped ~5k lines of TWAP correctness fixes across two days (Apr 29-30). The TWAP is now substantially stabilized. Emre's KLSH order event PR (#2009, +1066) makes Kalshi E2E plausible in pulse. Chris's OTC topic (#2000) is new infrastructure for options booking. Omer's Flight Deck standalone mode is new — polaris algo management control plane.
+
+### Apr 30 additional (afternoon batch)
+
+**Eric Thill (2 pulse PRs)**: Kalshi FIX client engineering, branch `et.kalshi_fix`.
+- #2023 (+1451/-10, 15 files) — **kalshi fix client boilerplate**: FIX session client scaffolding for Kalshi connectivity
+- #2025 (+316/-0, 9 files) — **kalshi-dropcopy-puller part 1**: new app crate; connects to Kalshi FIX gateway (KalshiRT), re-encodes app-level FIX messages to wire bytes, publishes to `digital.kalshi.fix-drop-copy` Kafka topic. Schema ID 50039. This is the first pulse-side Kalshi FIX work.
+
+**Estiven Salazar (2 pulse PRs)**:
+- #2026 (+106/-1, 9 files) — initialize trading-ops server (new service skeleton)
+- #2022 (+32/-15) — account-tier-mgmt widget: accounts autocomplete input
+
+**Erick Arce (1 polaris PR)**:
+- #480 (+1684/-1061, 45 files) — **"Inline and throw when math is wrong"**: large-scale refactor across 45 files. Likely hardening of numerical/math paths — inline assertions + panics where previous code tolerated silent errors.
+
+**Anton Ronis (2 polaris PRs)**:
+- #490 (+206/-60, 10 files) — TWAP: split client-facing and venue-facing counterparties (architectural clarity)
+- #494 (+153/-134, 8 files) — math: extract symmetric-uniform jitter + split Desired ADT
 
 ---
 
@@ -659,6 +1344,82 @@ Post-heartbeat PRs — same-day merges after the Apr 22 morning heartbeat run.
 
 ### Summary (Apr 27-28)
 Two architectural headlines: (1) **Anton's TWAP Phase 2 (#457, +4637 lines)** — the full TWAP execution engine is now in polaris, directly enabling the Kalshi EDC swap hedging strategy by May 4; (2) **Ömer's Flight Deck (#461)** — new algo control plane service in polaris. Talgat's CS Account Manager implementation (#1974) is the other significant piece — native account management is being built out. Emre re-enabled Kalshi on dev (#1989) signaling the May 4 deadline is being treated as real.
+
+---
+
+## 2026-04-28 through 2026-04-29
+
+### pulseprime/pulse — 20 PRs (most Apr 28, a few Apr 29)
+
+**Estiven Salazar (7 PRs)** — Atlas UI polish and decomms:
+- **#1999 "decommissioning rfq ui"** (+0/-3814, 36 files, Apr 28) — **SIGNIFICANT**: removes 3814 lines of old RFQ UI code. The legacy rfq-server client is being retired.
+- **#2003 "decommissioning rfq-server"** (+1/-1231, 18 files, Apr 28) — companion: rfq-server itself decommissioned (-1231 lines). Old RFQ stack is gone; Atlas new RFQ widgets are the canonical path now.
+- #1992 open orders widget styling, #1995 markup tiers endpoints, #1997 NewRfqWidget accounts, #2005 manual adjustments styling, #2010 entity management widget styling (Apr 29)
+
+**Emre Ekici (3 PRs)**:
+- **#1998 "KLSH account update"** (+80/-3, 2 files, Apr 28) — Kalshi account wiring; likely the account ID fix referenced in Apr 28 Jon Daplyn meeting (TWAP order needs proper account ID)
+- #2006 "prediction symbol pricing" (+49/-9, 2 files, Apr 28) — prediction market symbol pricing fix
+- **#2008 "Add TWAP support across schemas, endpoints, and APIs"** (+364/-26, 11 files, Apr 29) — Pulse-side TWAP API surface wired through to schemas and endpoints. Connects pulse TWAP capability to the polaris TWAP engine.
+
+**Talgat Taskhozhayev (2 PRs)**:
+- #2002 "Trade-Engine: Risk-checks message" (+2/-2, 1 file, Apr 28) — minor risk check message fix
+- #2001 "Busy-spin back-off" (+6/-2, 2 files, Apr 28) — busy-spin optimization in trade engine
+
+**Chris Davidson (4 PRs)**:
+- **#2000 "new otc create topic"** (+289/-16, 9 files, Apr 29) — new OTC trade creation Kafka topic. A new event surface for OTC trade creation — likely plumbing for the options booking flow (transfer trade + allocation trade pattern needs its own topic).
+- #1994 cnr refdata fix, #1993 add missing cfg, #1996 downgrade to warning (Apr 28)
+
+**Aksel Hakim (1 PR)**:
+- **#1975 "Ah.quoting timing"** (+346/-244, 6 files, Apr 29) — quoting timing changes across 6 files. Net -0 net size suggests a timing/scheduling refactor.
+
+### pulseprime/polaris — 7 PRs (Apr 28-29)
+
+**Anton Ronis (2 PRs)**:
+- **#458 "TWAP Phase 3: telemetry and flight-replay regression"** (+1390/-245, 22 files, Apr 28) — Phase 3 of TWAP: telemetry instrumentation + flight recorder regression tests. The TWAP trilogy (Phase 1 schema → Phase 2 execution engine → Phase 3 telemetry) is now complete.
+- **#472 "twap: fix CxR/NOS emission — populate required fields, remove dead wiring"** (+604/-70, 3 files, Apr 29) — TWAP CancelReplace and NOS field fixes. Active bug-fixing in TWAP post-merge, indicates system is being exercised.
+
+**Erick Arce (4 PRs)**:
+- **#468 "Repeg counter impl"** (+540/-346, 7 files, Apr 28) — repeg counter implementation; companion to Anton's TWAP. Tracks how many times the TWAP pegger reprices.
+- **#467 "Revert sid from parent order id"** (+166/-259, 7 files, Apr 28) — reverts a previous sid assignment approach; likely a fix from Phase 2 integration testing
+- **#471 "Child reject counter"** (+132/-0, 1 file, Apr 28) — tracks how many child orders are rejected in a TWAP execution
+- **#473 "TwapParentTelemetry"** (+52/-35, 4 files, Apr 28) — telemetry for TWAP parent order state. All 4 Erick PRs are TWAP stabilization work.
+
+**Ömer Yılmaz (1 PR)**:
+- **#461 "Initialize Flight Deck"** — already captured from Apr 28 batch (landed same day)
+
+## 2026-04-29 (additional — same-day merges)
+
+### pulseprime/pulse — 7 PRs (all Apr 29)
+
+**Emre Ekici (2 PRs)** — Kalshi order event completion:
+- **#2009 "KLSH order event"** (+1066/-10, 4 files) — large: Kalshi order event handling
+- **#2014 "KLSH order side"** (+62/-5, 2 files) — Kalshi order side field fix
+
+**Estiven Salazar (2 PRs)**:
+- **#2010 "entity management widget styling"** (+120/-23) — Atlas polish
+- **#2013 "api-gateway latency fix: flush ws stream immediately"** (+29/-10, 5 files) — **notable**: WebSocket buffering latency fix; production quality signal
+
+**Aksel Hakim (1 PR)**: #1975 "quoting timing" (+346/-244, 6 files) — timing/scheduling refactor for quoting engine.
+
+**Chris Davidson (1 PR)**: #2000 "new otc create topic" — already captured.
+
+**Ömer Yılmaz (1 PR)**: #2008 TWAP schemas — already captured.
+
+### pulseprime/polaris — 3 PRs (all Apr 29, Anton Ronis)
+
+All TWAP correctness fixes — Anton pushing hard before May 4:
+- **#472** — CxR/NOS field fixes (already captured)
+- **#474 "twap: size emit_cross_cxr against child leaves, not parent remaining"** (+1210/-780, 11 files) — **significant**: incorrect child order sizing fix; would have caused wrong hedge sizes in live TWAP
+- **#476 "twap: derive live child from OrderMap, remove current_child_cloid"** (+1125/-879, 10 files) — **significant**: removes current_child_cloid tracking; derives live child from OrderMap; correctness + simplification
+
+**Theme**: Anton pushing 3 TWAP correctness PRs in one day. The engine is being exercised against real Kalshi-like scenarios. May 4 deadline is the driver.
+
+---
+
+### Summary (Apr 28-29)
+**TWAP is the headline story**: The full 3-phase TWAP build in polaris is complete (Phase 1 schema Apr 27 → Phase 2 execution engine Apr 28 → Phase 3 telemetry Apr 28). Erick + Anton are in active stabilization mode (4 polaris fixup PRs in one day, Anton already pushing CxR/NOS field fixes Apr 29). On the pulse side: **Emre wired TWAP through pulse schemas/endpoints** (#2008), making the Kalshi hedging E2E capability plausible by May 4. **RFQ UI decommission** is significant (Estiven, -5k lines across 2 PRs) — old rfq-server and client are gone; Atlas is canonical. Chris's new OTC create topic (#2000) is new infrastructure for the options booking flow.
+
+**New from Studio/CS side (not pulse/polaris)**: Studio EMS Kalshi release scheduled **Apr 30** (confirmed via Notion Release Schedule). Adds L2 market depth, FACT instrument data, symbol picker, fractional trades, Kalshi workspace. This is Kevin's team (Odyssey squad) shipping the Studio-side Kalshi trading UI to match the Pulse-side integration.
 
 ---
 

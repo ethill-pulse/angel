@@ -43,11 +43,18 @@ tell application "Mail"
         set subj to subject of m
         set dateStr to (date received of m) as string
 
-        set fromLow to do shell script "echo " & quoted form of fromAddr & " | tr '[:upper:]' '[:lower:]'"
-        set subjLow to do shell script "echo " & quoted form of subj & " | tr '[:upper:]' '[:lower:]'"
-
-        set senderOk to ("$SENDER_LOW" is "" or fromLow contains "$SENDER_LOW")
-        set subjectOk to ("$SUBJECT_LOW" is "" or subjLow contains "$SUBJECT_LOW")
+        set senderOk to true
+        set subjectOk to true
+        if "$SENDER_LOW" is not "" then
+            ignoring case
+                set senderOk to (fromAddr contains "$SENDER_LOW")
+            end ignoring
+        end if
+        if "$SUBJECT_LOW" is not "" then
+            ignoring case
+                set subjectOk to (subj contains "$SUBJECT_LOW")
+            end ignoring
+        end if
 
         if senderOk and subjectOk then
             set msgLine to dateStr & " | " & fromAddr & " | " & subj

@@ -22,6 +22,9 @@ Eric was the CTO of Pulse Prime Technologies. When Clear Street acquired the com
 - Delegates based on the person's ability to handle abstract work; calibrates scaffolding per person
 - Actively growing each team member toward handling more abstract work over time
 - Plans ahead, then delegates once there's enough information defined
+- Expects full product ownership — no silos, no throwing things over the fence, everyone click-tests frontends even if they're backend engineers
+- Accountability standard: don't assume problems are someone else's; nothing worse than blaming others and being wrong
+- Launching peer review feedback system + monthly 1:1s as team settles at Clear Street (May 2026). Peer questionnaire end of May → 1:1s kick off June 2026.
 
 ## Org Position
 

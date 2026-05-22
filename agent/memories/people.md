@@ -24,6 +24,7 @@ Key contacts outside Eric's direct team.
 | Matt Lusignan | Ops / client onboarding | Responsible for securing Irma company codes for Cayman 1 & 2; defining manual spot crypto onboarding process |
 | Christy Moccia | Compliance | |
 | David Brown | Legal | |
+| David Martin | CRO, CS Digital | Chief Revenue Officer for digital assets. |
 | Andrew Masich | Entity setup / vendor onboarding | |
 | Lily Chen | PM — project tracking (Notion portfolio system) | Runs the weekly project tracking spreadsheet |
 | Ritesh Chaudhary | EMS/OMS product | |
@@ -35,7 +36,7 @@ Key contacts outside Eric's direct team.
 | Jason Price | BK product owner | Weekly DA status meetings, holistic coordination |
 | Rama Mellacheruvu | BK engineering lead | |
 | Hari | BK engineering | |
-| Ankit Singh | BK eng — BitGo→BK, bank recon | |
+| Ankit Singh | BK/CSC eng — BitGo→BK, bank recon | Taking ownership of CaaS (custody/BitGo integrations) as of May 2026. BK is part of CSC. |
 | Ani Banerjee | Risk engineering | **Owns the margin rate file, events, and requirements** (per Raja, Apr 24). Primary integration point for anything touching CS-wide margin rate pipeline (RENG → BK → Snowflake). |
 | Raja | Derivatives pre/post-trade risk (CS-wide) | Walked Eric through the firm's existing risk architecture Apr 24: FACT (instruments, real-time) + RENG (margin rates, SOD file, event-driven from SQS) feeds pre/post-trade risk; BK = ledger on custody side; Snowflake amalgamates BK + margin rates. Auto-liquidation exists institutional-side only, not retail. |
 | Nikhil Kulkarni | FACT / reference data | Setting up listed options instruments manually; co-owns scalable Deribit options integration into Pulse with Eric (Apr 8 action item, conditional on Cayman IRS approval) |
@@ -43,7 +44,7 @@ Key contacts outside Eric's direct team.
 | Wojciech Baj | Haruko↔Olympus integration | |
 | Rasmus | SecFin/S-FIN engineer (CS side) | Quarterly NY visit; attending Apr 13 hackathon |
 | Madhu Subbu | SecFin/S-FIN team lead (CS side) | |
-| Kevin Stevens | Eng lead, CS Digital (CS-side, not Eric's team) | Reports to Jon Daplyn (traditional CS eng org). Hired pre-acquisition to build crypto at CS — accelerated when Pulse was acquired. Background: Hidden Road (senior eng). Motivated by pre-funding-round equity. Eric and Kevin have developed a strong working relationship despite the potential for org friction. Division of ownership emerging: Kevin takes cash-settled (OTC options, loan/borrow); Eric takes crypto-native (Talos interop, LP pipelines, exchange integrations, execution, PMS). |
+| Kevin Stevens | Eng lead, CS Digital (CS-side) — **laid off May 4, 2026** | Reports to Jon Daplyn (traditional CS eng org). Hired pre-acquisition to build crypto at CS — accelerated when Pulse was acquired. Background: Hidden Road (senior eng). Motivated by pre-funding-round equity. Eric and Kevin had developed a strong working relationship despite the potential for org friction. Division of ownership was emerging: Kevin on cash-settled (OTC options, loan/borrow, CaaS/CAST); Eric on crypto-native (Talos interop, LP pipelines, exchange integrations, execution, PMS). **Laid off May 4**. Ownership of cash-settled work (OTC options lifecycle, CAST/CaaS) is now unresolved. CAS Gateway POC Kevin built (BitGo proxy + Chainalysis) now has no clear owner. Kevin's team: Amit Kirdatt (Haruko/CaaS), Wasserman (BK↔Haruko recon). |
 | Christopher Davidson | Eric's team — Talos config, Okta, Haruko | |
 | Erick Arce | Eric's team — architecture, flow diagrams | |
 | Peter Kim | IT / Okta | |
@@ -73,6 +74,7 @@ Key contacts outside Eric's direct team.
 | Annika Wei | CSC (Clearing, Settlement, Custody) team | Authored the "Crypto SSI enhancement" design spec (Apr 7) — defines inbound/outbound wallet address model in ssigate |
 | Wasserman | Kevin Stevens' team | Assigned to build BK↔Haruko reconciliation once Jason Price defines requirements |
 | Ankur | BK engineering | Working on Qubics/Customers Bank API integration (may be same as Ankit Singh or different person) |
-| Amit Kirdatt (akirdatt) | Haruko integration — unclear team | Involved in Talos→BitGo transaction clarity for Haruko; owns Haruko PMS integration (Voyager needs risk model inputs from him). On vacation as of Apr 6; return awaited. |
+| Amit Kirdatt (akirdatt) | Haruko integration — **now reports to Eric** (as of May 2026) | Owns Haruko integration. Previously owned CaaS (custody/BitGo integrations) but CaaS ownership is moving to Ankit Singh (BK/CSC team). Transferred to Eric's org May 20, 2026 from Rama/BK. May 7 action items still open: (1) clarify Haruko margin model for long call options with business, (2) provide Haruko API endpoint details to Ani, (3) connect Haruko buying power data to Talos (routing through Range, with Chris Davidson). |
+| @kvangala | CaaS Gateway — unknown team | Mentioned in May 21 CaaS design review; Rasmus to talk to them about CaaS Gateway interface for account onboarding. Full name unknown. |
 | Patrick Wilson | Legal counsel | Providing VASP/CARF legal opinion for Cayman entity registration obligations; expected by ~Apr 11 |
 | Stephen Sullivan | Quant | Reviewing quant model inputs for swap margin; update expected this week (Apr 6 action item) |
