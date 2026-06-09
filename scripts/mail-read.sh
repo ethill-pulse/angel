@@ -1,13 +1,14 @@
 #!/bin/bash
 # Read-only mail reader via AppleScript.
-# Usage: mail-read.sh [--days N] [--mailbox NAME] [--sender PAT] [--subject PAT] [--body]
+# Usage: mail-read.sh [--days N] [--mailbox NAME] [--sender PAT] [--subject PAT] [--body] [--length N]
 #
 # Options:
 #   --days N        Messages received in the last N days (default: 1)
 #   --mailbox NAME  Mailbox to read (default: inbox)
 #   --sender PAT    Filter to senders containing PAT (case-insensitive)
 #   --subject PAT   Filter to subjects containing PAT (case-insensitive)
-#   --body          Include message body (first 500 chars)
+#   --body          Include message body (first 500 chars, or --length chars)
+#   --length N      Max body characters to include (default: 500, requires --body)
 #
 # Output: date | from | subject [| body]
 
@@ -16,6 +17,7 @@ MAILBOX="INBOX"
 SENDER_FILTER=""
 SUBJECT_FILTER=""
 INCLUDE_BODY=false
+BODY_LENGTH=500
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -24,6 +26,7 @@ while [[ $# -gt 0 ]]; do
         --sender)  SENDER_FILTER="$2";  shift 2 ;;
         --subject) SUBJECT_FILTER="$2"; shift 2 ;;
         --body)    INCLUDE_BODY=true;   shift 1 ;;
+        --length)  BODY_LENGTH="$2";    shift 2 ;;
         *) echo "Unknown option: $1" >&2; exit 1 ;;
     esac
 done
@@ -60,8 +63,8 @@ tell application "Mail"
             set msgLine to dateStr & " | " & fromAddr & " | " & subj
             if $INCLUDE_BODY then
                 set bodyText to content of m
-                if (length of bodyText) > 500 then
-                    set bodyText to (text 1 thru 500 of bodyText) & "..."
+                if (length of bodyText) > $BODY_LENGTH then
+                    set bodyText to (text 1 thru $BODY_LENGTH of bodyText) & "..."
                 end if
                 set msgLine to msgLine & " | " & bodyText
             end if

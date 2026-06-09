@@ -18,11 +18,13 @@ Key contacts outside Eric's direct team.
 | Suleyman Duyar ("Suley") | Founder of RenGen; now focused on big-picture business strategy for CS Digital | Was Eric's boss before Bob was hired. Stepped back from coordination/ops to focus on business direction. Trader by background. Not an engineer — proposes solutions from a business/trading lens. Eric's job is to take his wishlist and turn it into a real, viable product. |
 | Dalf Hammerich | Entity/ops — Cayman entities, BitGo | Ops owner for digital trades |
 | John DiBacco | Derivatives/swap trading desk | |
+| Colin Farrell | Digital sales desk (new hire, May 26 2026) | |
 | Yang Wu | Credit risk | |
 | Atul Pawar | Market risk / derivatives | Made the call to bypass Risk team for initial Haruko integration |
 | Ricky Gunawan | Risk | Not currently engaged enough per meeting notes |
 | Matt Lusignan | Ops / client onboarding | Responsible for securing Irma company codes for Cayman 1 & 2; defining manual spot crypto onboarding process |
-| Christy Moccia | Compliance | |
+| Christy Moccia | Compliance | Owns OTC options disclosure/disclaimer language (CSD); risk model sign-off coordination (June 9 Swap/Deriv). |
+| Christine | Risk / trade limits (business) | Owns OTC option trade-limit (aggregated notional) requirements. June 9: to provide Eric + Chris test cases + spreadsheet examples for limit calcs before Halo coding can proceed. |
 | David Brown | Legal | |
 | David Martin | CRO, CS Digital | Chief Revenue Officer for digital assets. |
 | Andrew Masich | Entity setup / vendor onboarding | |

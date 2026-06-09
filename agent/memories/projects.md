@@ -5,50 +5,68 @@ Sources: "Digital Assets Program Tracker" Google Sheet (~/Downloads CSVs, migrat
 
 ---
 
-## May 22 – May 29 — Upcoming Events (updated May 22 heartbeat)
+## June 9 – June 16 — Upcoming Events (updated June 9 heartbeat)
 
-### Today (May 22)
-- **9am**: E2E USDC-USD funding flow test — **NOT ready**; reconvenes Tuesday May 26 (see flags).
-- **12:30pm**: **Eric/Jon Daplyn** — previously untracked meeting with CS COO. Prepare: roadmap milestones, org dynamics, Blockfills if asked.
-- **1:30pm**: Crypto EOW Update.
-- **2pm**: **Multicoin Post-Mortem** (Bob, Brian Stern, David Martin, Suley, Eric, Bradley Meliska). Two threads: operational gaps + **process failure (Suley direct to Aksel/Atakan)**.
+### June 9 (today)
+- **10am**: Digital Dev Sync. **11:30am**: Swap/Deriv DA Status. **12pm**: Eric/Amit Sync.
 
-### Next week (May 25–29)
-- **Mon May 25**: Memorial Day — Eric OOO. Meetings still showing but likely canceled.
-- **Tue May 26**: Tech Monthly Open Forum 9am. Dev Sync 10am. Spot/CaaS DA Status 1pm. CS Digital weekly 1:30pm. Also: options test retry + USDC-USD test retry. **⚠️ Haruko dev access cutoff risk (see below).**
-- **Wed May 27**: Eric/Atakan/Aksel 9:30am. Swap/Deriv DA Status 1pm. **CaaS technical gaps ETA due from Rama** (BitGo API, client signing, SSI/Chainalysis).
-- **Thu May 28**: Eric traveling/OOO.
-- **Fri May 29**: Eric PTO (wedding).
+### June 10
+- **9:30am**: Eric/Atakan/Aksel. **11am**: Spot/CaaS Status. **12pm**: Perps Reporting.
 
-### Key flags (updated May 22 heartbeat)
-- **⚠️ TODAY 2pm — Multicoin Post-Mortem**: Two threads: (a) operational (unsettled ETH, BitGo security location configs — background context); (b) **process failure: Suley went directly to Aksel & Atakan, bypassing Eric + Brian**. **Eric's role = criticizer, not defender.** Goal: lock in process that all feature asks route through Eric + Brian before reaching eng. Attendees: Bob, Brian Stern, David Martin, Suley, Eric, Bradley Meliska.
-- **⚠️ TODAY 12:30pm — Eric/Jon Daplyn**: Previously untracked. Prepare roadmap status + org dynamics.
-- **⚠️ CRITICAL — Haruko dev access expires Tuesday May 26**: Haruko granted CS a "courtesy extension" but will cut access after the long weekend. Options M2M pricing AND expiry pricing both depend on Haruko dev environment. If cut: options testing blocked until mid-June or later. Brian Stern to update status summary. Needs urgent escalation to extend access.
-- **⚠️ Options test trade blocked**: Previous attempt (May 20) failed — Contra MPID misconfigured (CSC expected Cayman CSDG KY1). Chris shipped fix (#2214 May 22). But instruments also expired after fix was applied → Nikhil must create new option instruments, Chris maps them in Talos. Client + house accounts need trading account config. Jason Price OOO until Wed. Retry Tuesday.
-- **⚠️ Options HT Live: officially end of June** (Risk-RENG This Week page, May 22): "OTC Options end of June (slipped from May 30)." Scope increased from pulling margin to performing internal processing. Two sprints (plumbing sprint, then margin calcs sprint). Ani Banerjee to lay out work; Deepak Jairath picks up after PM-FI release. **House margin parameters confirmed: 30% BTC spot shock, 40% ETH.** RENG deliverables: consume margin excess/details from Haruko → publish in RMS/Margin; consume margin calls → Risk Portal; EOD margin call workflow.
-- **⚠️ USDC-USD E2E test not ready (May 21)**: Funding counterparties and SSIs not set up in dev. Talos booking integration incomplete. Rasmus setting up by Tuesday. Go-live target still May 31. Team reconvenes Tuesday.
-- **Portfolio Swap: Red** (May 22 tracker update): Haruko sandbox being taken away impacts Voyager-Haruko integration significantly. Voyager resources pulled for Kalshi. Business requirements locked (May 21); dev just starting. Jun 30 at risk.
-- **Loan/Borrow: COMPLETE** ✅ (May 22 tracker confirmation): Termination + interest accrual done.
-- **CSC restructuring (May 20 All Hands)**: BDC + PSC teams consolidating. 4 team members lost in org change (within BK/CSC area). SFCM Phase 1 go-live first week of June. BK now 7-day operation for crypto/Kalshi.
-- **⚠️ Ops team gap**: No dedicated crypto ops team. Two Bangalore hires — nobody knows start date. Rita Laeche filling in. Unsettled ETH trades (May 19 RenGen/Multicoin) sat in exception queue. **Eric action item**: sync with Brian on ops coverage.
-- **⚠️ Chainalysis address screening gap**: CS only has post-trade KYT/Reactor. No pre-trade address screening license. Blocks CaaS/SSI go-live.
-- **⚠️ Stablecoin collateral support**: New workstream, not yet started. Design session this week.
-- **Developer retention risk (May 18)**: A "high performing developer" flagged as flight risk. Leadership discussing transfer. Context unclear.
-- **HVME coin = HYPE**: Talos symbol mapping issue — Chris fixing. Low impact.
-- **Anton per-book hedge capacity series (#594, polaris)**: First of 3 PRs. Foundational for options central risk book.
-- **Estiven credit widget (#2206)**: Large new feature. Worth review.
-- **Eric traveling May 28, PTO May 29**: Ensure coverage for CaaS ETA (Wed May 27), any Haruko dev access resolution, Post-Mortem follow-ups.
-- **BCP Training**: due **July 18, 2026**.
-- **Peer review questionnaire**: due end of May (~9 days). Not started.
-- **BCP Training enrolled (May 19)**: due **July 18, 2026**. Courses: "Business Continuity Management: An Overview" + "Introduction to..."
-- **⚠️ CRITICAL: Haruko RMS shock-based margin fork** — Haruko's current model is rule-based; not sufficient for OTC options. Ricky wants shock-based margin. **Fork**: if Haruko can do shock-based → 1 sprint, end-May; if not → 4 sprints, end-June. Answer pending from Haruko. Manual workaround available for 1-3 pilot trades. (surfaced May 14 Haruko RMS Integration Planning)
-- **Haruko Ops Layer complete** (Emre, May 14–20): Trading-ops service now covers positions, venue accounts, and full loan lifecycle (#2156, #2164, #2168-#2181). The production ops infrastructure for options monitoring and loan management is built.
-- **Anton single-sided RFQ** (#588) — enables Paradigm-routed options RFQ path decided May 13.
-- **Erick polaris recon** (#591, +2251/-324) — polaris now fully reconciles OTC positions against Haruko.
-- **Estiven credit widget** (#2206, May 21, +1191/-238) — new Talos credit/exposure widget in Atlas.
-- **KnowBe4 security training ✅ DONE** (May 18)
-- **Eric traveling May 28, PTO May 29** — out for wedding. Plan for coverage on May 28-29.
-- **Peer review questionnaire** — due end of May (10 days). Not started.
+### June 11
+- **10am**: Digital Dev Sync.
+
+### June 12
+- **10am**: Perps Sync. **10:30am**: CS Digital Weekly. **12pm**: Crypto EOW.
+
+### June 15
+- **9am**: Tech Roadmap (Brian's spreadsheet). **11:30am**: 1:1 Eric/Bob.
+
+### June 16
+- **9:30am**: Swap/Deriv DA Status. **10am**: Digital Dev Sync.
+
+### Key flags (updated June 9 heartbeat)
+- **🟢 Options HT Live — GREEN/Jun 19** (upgraded from Red; tracker June 9). "BK dev complete on option booking + lifecycle events." Talos→Pulse→BK→Haruko testing in progress. **June 9 Swap/Deriv detail**:
+  - Rasmus's team completed expiry integration with successful dev testing. Haruko integration dev complete but hitting **API errors** that need resolution. Target: complete Talos→BK→Haruko flow by **end of this week**.
+  - **Forecast go-live = end of next week** (conservative), due to a code-change blackout window. Team thinks earlier is possible.
+  - **Day-1 scope = straddles only, with MANUAL contract creation** (bandwidth constraint). Automated creation comes later.
+  - **⚠️ ERIC ACTION: trade limits.** Halo must support OTC option trade limits using aggregated notional. Requirements await Ricky's sign-off (was due EOD June 9). **Eric + Chris need test cases + spreadsheet examples from Christine** before coding can proceed. Coding timeline set after sign-off.
+  - Daily M2M statements required (CST statement template + CSD disclosure language). Awaiting disclosure language from Christy.
+  - Open gaps still: FACT manual instrument setup; KOR reporting (CS Digital LEI for out-of-money expiry prod test); CSD↔Cayman back-to-back (Cayman→RenGen→Deribit hedge leg).
+  - Risk: quants ~done with Haruko pricing-model eval but pulled to urgent DARE liquidation work; stress model Phase 1 needs 2–3 days; Christy to confirm pivot-back for Friday completion.
+- **⚠️ Options HT Test Trade — Amber/Jun 12** (slipped from Jun 5). **E2E dev test now COMPLETE** (Halo→Talos→BK→Haruko) — closed this week. Prod test-readiness pushed ~1 week by spot production issues consuming eng capacity.
+- **Options LT (low-touch) via Paradigm**: confirmed Paradigm = maker RFQ platform for crypto options; trade engine integrates the same way as RenGen. **Very early** — team researching Paradigm onboarding requirements. Atakan+Aksel pivoting here as gap-fill work wraps (gap-fill-via-Kafka #2280 merged June 5).
+- **⚠️ Stablecoin→USD Semi-Automated — Amber/Jun 12** (slipped from Jun 5). Account opening, wallet setup, legal/compliance, finance/treasury approvals all DONE. Front-to-back testing in progress; weekend infra go-live planned. Same spot bugs impacting this flow. Reserve calc requirement still open.
+- **⚠️ HT Spot P1 — Red/Jun 19**: Desk onboarded to Halo (pre-trade risk check live for spot, option in testing) — closed this week. Active bug list: BitGo go/non-go settlement-location mismatch, Talos→BK amends (state mgmt backlog), name-mismatch manual bookings, unsettled trades, multi-coin booking without pre-fund, recon (deprioritized). 
+- **⚠️ Cross-Entity Margin test trade — Red/Jun 19** (was Green): blocked by stablecoin funding flow completion + Julian updating Digital MLA.
+- **⚠️ CaaS test trade — Red/Jun 15; Active MVP — Red/Jun 30** (2-week delay; spot/options priority).
+- **🟢 Portfolio Swap — Green/Jun 30**: dev in progress. Voyager future-contract calc enhancement (ticket TBD) needed for long/short basis. Studio swap-position visibility may move P1→P2.
+- **🟢 Banking Rails (Customers Bank wires + cubiX) — Green/Jun 30**; **Client Onboarding — Green/Jun 30** (demo this week); **SSI Wallet Address Mgmt MVP — COMPLETE** (live, ops trained).
+- **John DiBacco finance concerns (June 9)**: pushing for complete trade/collateral visibility in finance systems before scaling real-client volume — collateral tracking (BitGo wallets ≠ company assets), basis-risk reports, proper loan booking to PB accounts. Brian Stern + finance meeting June 9 to map all flows.
+- **✅ BCP Training — DONE (June 9, 2026)**.
+- **✅ FINRA IML — Live June 4**: PDT framework decommissioned firm-wide; day-trading buying power gone, excess-based limits. CS-wide (RENG), not Eric's team.
+- **Wintermute mktdata** (Emre, June 3-4): Full WebSocket market data stack — book (#2307 +1069), BBO, quote WS. Wintermute now fully integrated as live LP mktdata source.
+- **OKX Turkey venue** (Ömer #2310, June 4): OKX_TR added as execution venue in pulse + polaris.
+- **ESP market widget** (Estiven #2278, June 3, +1339, 28 files): Market widget with Executable Streaming Price support — UI layer for Paradigm streaming RFQ options path.
+- **ExecutablePriceStreamer** (Erick polaris #618, June 2, +941): Polaris-side streaming price implementation. Paradigm streaming RFQ path now complete both sides (pulse #2228 + polaris #618).
+- **Anton quant risk fixes** (polaris June 3): Volatility annualization corrected (sampling interval, not EWMA horizon, #687) + basis_adjustment preservation across OTC dual SkewTracker (#688).
+- **Ömer flight-deck hardening** (polaris June 3-4): schemars 0.8→1.2.1, RPC mode dispatch, auth transforms, gzip responses, credential lookup. Production-grade algo control plane.
+- **✅ Haruko dev access — RESOLVED (May 26)**: Paid subscription confirmed.
+- **✅ Loan/Borrow: COMPLETE** — Termination + interest accrual done.
+- **✅ LT Spot / BK Netting: COMPLETE**.
+- **✅ Peer review questionnaire SENT (June 2)**.
+- **✅ Mid-Year UAR COMPLETE (June 2)**.
+- **✅ Jira DIG-4 + DIG-6 — CLOSED (June 2)**.
+- **✅ Ops coverage sync with Brian Stern — DONE (June 2)**.
+- **GTC Order Support — Amit Kirdatt**: Amit editing "Trade Engine GTC Order Support - Proposal" in Notion. Follows from May 28 Dev Sync GTC/NOS→Polaris decision.
+- **Portfolio Swaps**: **Green/Jun 30** (dev resuming after Voyager sprint ends). Vanilla swaps for Studio first.
+- **Options LT**: **Red/Aug 31** — Not Started.
+- **CFTC Swap Dealer consultant**: **Red** — Potomac pending executive approval. Operational review kicked off.
+- **"Atlas" → "Halo" rename** (Estiven #2233, May 26, 68 files): Trading ops frontend is now "Halo."
+- **Binance Portfolio Margin** (Ömer, May 28-June 2): Execution venue in pulse + polaris.
+- **DealLetter-Persister service** (Talgat #2261, June 1): Options deal letter persistence complete E2E.
+- **Chris Davidson risk push** (June 1-2): New risk endpoint (#2274, +943) + options timing fixes (#2285, +240).
+- **Credit widget disabled/rewritten** (Estiven #2276+#2286, June 1-2): Transitioning to Chris's new risk endpoint infrastructure.
 - **✅ Options pricing pipeline is E2E complete** (Talgat #2123 + #2129, May 12–13): Haruko BS76 → Mark-Pricer → Kafka → FACT. The full options M2M stack is done on the eng side. Remaining gate: Haruko risk model sign-off from business/Ricky/Kwan team.
 - **✅ Stablecoin mktdata FACT integration done** (Chris #2126, May 13, +1124 lines): stablecoin→USD price conversion now in FACT pipeline using Binance stables. TODO closed.
 - **✅ Wintermute added as venue** (Emre #2131, May 12): new LP/market maker in pulse.
@@ -57,12 +75,12 @@ Sources: "Digital Assets Program Tracker" Google Sheet (~/Downloads CSVs, migrat
   - **MVP path**: back-to-back everything with Paradigm; no custom quoting model needed day 1.
   - **Pricing**: already have a 4ms Rust vol surface model (calibrated from Deribit option chain) — not integrated yet. Needed eventually for custom expiry/strike/near-real-time pricing; will need to solve how it feeds into FACT.
   - **Open questions**: (1) When do we need a real quoting model vs back-to-back? (2) How are quote markups for options — same client tier approach as spot or different?
-- **Atakan + Aksel**: working on **trade history gap-fill recovery logic** (started ~May 12).
+- **Atakan + Aksel**: gap-fill recovery logic wrapping up (June 3). Next queue = **Paradigm integration** for automated options RFQ (Options LT path). Same exchange-integration pattern as Deribit/Kalshi; Anton owns quant/routing side.
 - **Studio V2 digital assets dev = first week of June**, then UAT. Multi-product workshop this week (Wed–Fri, Vishna).
 - **Active platform crypto integration** (from May 12 meeting): Active (CS retail app) planning crypto MVP = cash in/cash out + spot trading first, then margin/loans/swaps. Mahmood (Active eng) investigating timeline, sync with Raja on crypto pipeline. Buying power consolidation across Kalshi/futures/crypto is the key tech challenge — relevant to Eric's Talos integration work eventually. Follow-up meeting in 2 weeks.
 - **Loan & borrow termination flow: very behind** (flagged May 11). Termination requirement discussion started; interest accrual dev started. May 31 target fragile.
 - **Top-50 tokens**: tracker now shows **Complete**. Nikhil was targeting end of week May 16; exec summary shows it closed this week.
-- **Haruko dev instance**: Eric drafting rationale. Key reasons: testing cycles, feature velocity, risk of testing in prod, compliance concerns.
+- **✅ Haruko dev instance — RESOLVED (May 26)**: Paid subscription confirmed. No longer blocking. (Previous rationale: testing cycles, feature velocity, risk of testing in prod, compliance concerns.)
 - **LT Spot / BK Netting**: May 16 = internal "be ready to integrate" milestone. Studio EMS + Active Trader still need to integrate before client trading. No client urgency.
 - **Confirms bug for spot trades**: Fix deployed (flagged May 12, now resolved per context).
 - **Kalshi ✅**: KLSH live on RenGen prod (May 4). All FIX/dropcopy infrastructure merged. Anton still shipping Kalshi TWAP maintenance fixes. Emre transitioned to options work (Deribit index price collector #2101). Booking flow (TPMO→Lisa→BASIS) still manual/weeks away — not Eric's team's problem.
@@ -80,7 +98,7 @@ Sources: "Digital Assets Program Tracker" Google Sheet (~/Downloads CSVs, migrat
 - **Deribit index collector (Emre, #2105) ✅ MERGED May 8**: Full MVP live — WebSocket subscriber to all Deribit `deribit_price_index.*` feeds, QuestDB WAL+DEDUP writes, 2-instance HA, 14-day retention, config-driven index list. Dockerfile (#2110) also merged. Unblocks OTC options settlement pricing path.
 - **Emre: Coinone refdata + CLAUDE rules (#2112, #2114)**: Emre added CLAUDE.md schema-addition rules to pulse repo — first AI tooling housekeeping PR from the team.
 - **polaris order management refactor (Anton + Erick, May 8–11)**: `execution_strategy` as a first-class variant in polaris schemas (#567, +408 lines) + ParentOrder abstraction (#562, #563, #564, #565, #566 — total ~+1800 lines). Major new order management layer. Likely enables clean multi-strategy routing beyond TWAP. Monitor for downstream consumers.
-- **Atakan + Aksel**: working on **trade history gap-fill recovery logic** (started ~May 12).
+- **Atakan + Aksel**: gap-fill recovery logic wrapping up (June 3). Next queue = **Paradigm integration** for automated options RFQ (Options LT path). Same exchange-integration pattern as Deribit/Kalshi; Anton owns quant/routing side.
 - **Estiven**: Atlas review May 8 → redirecting to stablecoin→USD mktdata conversion.
 - **LT Spot / BK Netting**: PR merged May 4, testing in progress. May 15 target. Tracker = Amber (forecast slipped to May 22; Kalshi drag noted but not expected to endanger May 15 for netting specifically).
 - **Portfolio Swap**: Sherby still needs to define screen requirements. Haruko swap API support unconfirmed. No eng progress. Jun 30 forecast. Tracker = Amber.
@@ -104,29 +122,29 @@ Sources: "Digital Assets Program Tracker" Google Sheet (~/Downloads CSVs, migrat
 
 ---
 
-## Phase Summary (updated May 22 heartbeat — from tracker + Notion + PRs)
+## Phase Summary (updated June 1 heartbeat — from tracker + Gemini notes + PRs)
 
 - HT Spot (P0): **Complete** ✅
-- HT Spot P1 (recons/confirms/PnL automation): **Amber/Jun 12** — Confirms on-demand wrapping up. Recon at midnight (May 19 decision). Snowflake recon/PnL not started.
-- HT Spot P2 (cash-settled processing in BK): **Green/Jun 30** — Tracker milestone.
+- HT Spot P1 (recons/confirms/PnL automation): **Amber/Jun 12** — Confirms on-demand wrapping up. Recon at midnight. Snowflake recon/PnL not started. Active bugs: BitGo settlement location mismatch (go vs non-go network), name mismatches on manually booked trades, unsettled trades, multi-coin booking without cash pre-fund.
+- HT Spot P2 (cash-settled processing in BK): **Green/Jun 30**
 - LT Spot / BK Netting: **Complete** ✅
-- Top-50 Tokens P0: **Complete** ✅
-- Top-50 Tokens P1 (stablecoin price sourcing): **Complete** ✅
-- Options HT Test Trade: **Red** — Test failed May 20 (Contra MPID config). Fix deployed May 22 (Chris #2214). Need new instruments (Nikhil) + accounts config. **⚠️ Haruko dev access expires Tue May 26** — if cut, testing blocked until mid-June. Retry Tue May 26. Jason OOO until Wed.
-- Options HT Live: **Red/end of June** — Confirmed slip (Risk-RENG This Week, May 22). RENG scope expanded: two sprints (plumbing + margin calcs). Ani Banerjee owns; Deepak picks up after PM-FI. House margin: 30% BTC spot shock, 40% ETH. Earliest end of June.
+- Top-50 Tokens P0+P1: **Complete** ✅
+- Options HT Test Trade: **Amber/Jun 5** — BK dev complete. Talos→BK testing in progress. Missing: Cayman back-to-back (CSD→Cayman→RenGen→Deribit hedge side not configured), FACT manual setup for options instruments, KOR reporting (need CS Digital LEI).
+- Options HT Live: **Red/Jun 19** (tracker) / end of June (Risk-RENG) — Risk build in progress (RENG two sprints: plumbing then margin calcs). Ani Banerjee owns; Deepak after PM-FI. House margin: 30% BTC, 40% ETH.
 - Options LT: **Red/Aug 31** — Not Started.
-- Perps HT: **Not Started** — Sherby sign-off needed.
-- Portfolio Swap: **Red/Jun 30** — Haruko sandbox being taken away (major delay for Voyager-Haruko integration). Voyager resources pulled for Kalshi. Business requirements locked May 21. Dev just starting. Jun 30 at risk.
-- CFTC Swap Dealer consultant: **Red** — Potomac budget still pending senior management approval.
-- Loan/Borrow: **Complete** ✅ — Termination + interest accrual done. Confirmed in tracker.
-- Stablecoin→USD semi-automated: **Green/May 31** — E2E test not ready May 21; Rasmus setting up SSIs/funding counterparties. Test retry Tue May 26. Rama confident for May 31.
-- Stablecoin collateral support: **Not Started** — New workstream. Design session this week.
-- Cross-Entity Margin test trade: **Red** — awaiting Julian MLA.
-- CaaS/CAST: **Amber/Jun 30** — Architecture confirmed (May 21). Eric's team: Polaris = quoting/RFQ. Rama & team ETA due Wed May 27 on: (1) BitGo API wallet/passphrase mgmt, (2) client signing in Studio+Active, (3) SSI+Chainalysis. Cash settlement journaling (LLC↔Digital) needs Christy compliance sign-off.
-- SSI redesign MVP: **Green/May 30** — Backend done, UI in progress.
-- Chainalysis address screening: **Gap identified** — Not licensed. Blocking CaaS/SSI.
-- Client Onboarding (COPS): **Green/Jun 30** — Studio V2 dev first week of June, then UAT.
+- Perps HT: **Not Started** — Sherby sign-off needed. Collin Zoll's perps design doc (Perpetual Swaps on Crypto, updated May 22) is the active design reference.
+- Portfolio Swap: **Green/Jun 30** — Dev resuming after Voyager sprint ends. Vanilla swaps for Studio still the priority before portfolio swaps.
+- CFTC Swap Dealer consultant: **Red** — Potomac pending executive approval. Operational review kicked off.
+- Loan/Borrow: **Complete** ✅
+- Stablecoin→USD semi-automated: **Amber/Jun 5** — Front-to-back testing in progress (slipped from May 31). Spot stability issue could delay.
+- Stablecoin collateral support: **Not Started**
+- SSI MVP: **Complete/Green** — Backend done, UI in final stages per May 30 target.
+- CaaS/Active MVP: **Red/Jun 30** — 2-week delay from spot/options priority.
+- CaaS test trade: **Red/Jun 15** — Same delay.
+- Client Onboarding (COPS): **Green/Jun 30** — Dev first week of June, then UAT. EDA form pending Legal.
 - Customers Bank Wires/Cubix: **Green/Jun 30** — Dev in progress.
+- Cross-Entity Margin test trade: **Red** — awaiting Julian MLA; also blocked by stablecoin funding flow completion.
+- Chainalysis address screening: **Gap** — No pre-trade license. Blocking CaaS/SSI.
 
 Note: tracker renamed from "Digital Assets Build" to "Digital Assets Program Tracker."
 

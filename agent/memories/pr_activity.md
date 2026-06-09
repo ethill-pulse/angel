@@ -1,5 +1,269 @@
 # PR Activity
 
+## 2026-06-05 through 2026-06-09 (updated June 9 heartbeat)
+
+### pulseprime/pulse — ~40 PRs
+
+**Estiven Salazar — UI RBAC / ACL push (dominant theme)**:
+- **#2343 [Jun 8] (+557/-63, 30 files) — "UI RBAC library"** — new front-end role-based access control library. Foundation for the ACL series below.
+- ACL-check sweep across the API surface (Jun 8–9): trading ops websockets (#2378), rfq/esp websockets (#2376), CLST account + markup tiering endpoints (#2371), CustomerConfiguration (#2367), HarukoLoans/HarukoVenueAccounts (#2364), book-trade (#2363), MarketAccounts (#2361), HouseAccounts (#2360), ClstAccounts (#2359). Coordinated authorization hardening across Halo/api-gateway.
+- Halo polish: compress order forms (#2375 +277), connection/quoting routing (#2372), env distinction, party roles, sign-out, widget fixes.
+
+**Erick Arce — Trade-Engine account-model restructure**:
+- **#2340 [Jun 6] (+1225/-276, 35 files) — "TE structural changes to support account_id/clst_account rules"** — **SIGNIFICANT**: trade engine reworked to carry account_id / clst_account through rules. Largest pulse PR of the week. Underpins per-account ACL + markup tiering.
+- **#2346 [Jun 7] (+504/-220) — "Esp order support in TE"** — Executable Streaming Price order path in trade engine. #2349 markup/raw price bugfix follows.
+- #2369 mktdata api support, #2335 standalone perf fix, #2308 acceptor backpressure fix.
+
+**Emre Ekici — Wintermute (WMUT) order-entry stack** (mktdata landed last week; now order entry):
+- **#2344 [Jun 8] (+761/-8, 9 files) — "WMUT new order"**, **#2327 [Jun 5] (+796/-6, 14 files) — "WMUT trade & order event"**, #2353 balance update (+391), #2355 order update fix, #2352 MockFixOrderSession. Wintermute now has a full order-entry FIX path, not just market data.
+
+**Aksel Hakim**:
+- **#2280 [Jun 5] (+1336/-40, 22 files) — "gap fill kafka"** — **SIGNIFICANT**: gap-fill recovery wired through Kafka. The gap-fill work Atakan+Aksel have been wrapping up before pivoting to Paradigm. Pagination piece (#2266) landed prior week.
+
+**Amit Kirdatt**:
+- **#2318 [Jun 5] (+748/-0, 8 files) — "Persist GTC order type"** — GTC order persistence (follows the May 28 GTC/NOS→Polaris decision).
+- DIG-92: calculate trigger price + markup bps (#2337 +171), test for missing-markup trigger price (#2358), get orders by status (#2354).
+
+**Eric Thill (ethill) — shipped 5 PRs himself**:
+- **#2362 [Jun 8] (+355/-7, 12 files) — "admin stats page: perf tab"** — perf tab on the admin stats page.
+- #2365 missing backoff services, #2329 fact tombstone record handling, #2320 bootstrap per-app override, #2338 fix decimal parsing lossy-ness.
+
+**Matt Gow**:
+- **#2374 [Jun 9] — "add alfred skills: version-bump, venue-config, service-config-tweak"** — Matt building out "alfred" AI/automation skills for repo operations. Continued internal AI-tooling investment from the team.
+
+**Talgat Nurakhmetov**: #2315 Trade-Engine Resting Order scaffolding, #2289 Decimal version upgrade (8 files).
+
+**Chris Davidson**: #2330 worktree cd.user name swap (+450), #2342 remove checks (−160), plus options timing/sync-trades carryover.
+
+**Ömer Yılmaz (litityum)**: #2310 OKX_TR (OKX Turkey) venue.
+
+### pulseprime/polaris — ~16 PRs
+
+**Anton Ronis (ant0wn) — quant/risk**:
+- **#704 [Jun 9] (+959/-36, 19 files) — "feat(risk): add momentum-aware quote skew"** — **SIGNIFICANT**: new risk feature, quote skew responds to momentum. Largest polaris PR of the week.
+- **#693 [Jun 4] (+475/-49, 9 files) — "gate OTC client quotes and trades on position readiness"** — don't quote/trade OTC until position state is ready. (Mirrors the June 9 Swap/Deriv "position readiness" gating theme.)
+- **#718 [Jun 9] (+498/-102) — basis-estimator out-of-order timestamp fix + feed-health telemetry**.
+
+**Ömer Yılmaz (litityum)**:
+- #722 account-aware cancel-replace suppression (BinancePM), #720 derive venue from account (not symbol), #717 order throttle info w/ symbol+account (+310), #712 remove order_map from RateLimiter, #709 codegen QuotingFeedType schema fix.
+
+**Erick Arce**:
+- **#708 [Jun 6] (+568/-229, 14 files) — "Fix rfq and esp support for double feeds"** — ESP/RFQ double-feed handling. #710 esp support, #713 move tests for gate integration, #721 stamp build info, #685 rename ladder engine.
+
+**Theme**: Cross-repo RBAC/ACL + account-model push (Estiven UI RBAC + Erick TE account rules + Ömer venue-from-account); Wintermute order entry; Anton momentum skew + OTC position-readiness gating; Aksel gap-fill-via-Kafka.
+
+## 2026-06-03 through 2026-06-04 (updated June 4 heartbeat)
+
+### pulseprime/pulse — 14 new PRs
+
+**Emre Ekici (4 PRs) — Wintermute full mktdata stack**:
+- **#2307 [Jun 4] (+1069/-6, 14 files) — "WMUT mktdata book"** — **SIGNIFICANT**: Full WebSocket order book integration for Wintermute LP. 14 files, +1063 net. Wintermute was added as a venue in May; now getting production market data.
+- **#2311 [Jun 4] (+138/-31, 3 files) — "WMUT mktdata bbo"** — BBO (best bid/offer) market data for Wintermute.
+- **#2312 [Jun 4] (+74/-1, 5 files) — "quote ws endpoint"** — quote WebSocket endpoint for trading ops.
+- **#2313 [Jun 4] (+39/-219, 3 files) — "WMUT book → quote fix"** — net deletion fix for book→quote conversion.
+
+**Ömer Yılmaz (litityum) (1 PR)**:
+- **#2310 [Jun 4] (+99/-11, 11 files) — "Add OKX_TR venue (OKX Turkey)"** — adds OKX Turkey as a new execution venue in pulse. 11 files.
+
+**Estiven Salazar (4 PRs)**:
+- **#2278 [Jun 3] (+1339/-72, 28 files) — "market widget & UI ESP Support"** — **LARGE**: new market data widget with Executable Streaming Price (ESP) support. 28 files, +1267 net. This is the Halo UI layer for the Paradigm streaming RFQ options path — ESP = real-time executable streaming prices from LPs.
+- **#2299 [Jun 3] (+40/-5, 3 files) — "trades-widget market accounts update"** — trades widget update.
+- **#2298 [Jun 3] (+1/-1) — "algo-management page one second polling"** — minor polling interval fix.
+- **#2302 [Jun 4] (+33/-23, 1 file) — "api-gateway close ws proxy bugfix"** — WebSocket proxy close fix.
+
+**Erick Arce (4 PRs)**:
+- **#2306 [Jun 4] (+18/-7, 1 file) — "Fix logon timeout"** — FIX session logon timeout fix.
+- **#2314 [Jun 4] (+6/-5, 3 files) — "Start acceptor as a worker"** — FIX acceptor refactor.
+- **#2309 [Jun 4] (+38/-14, 7 files) — "Improve ability to name consumers"** — consumer naming improvements.
+- **#2304 [Jun 3] (+13/-9, 3 files) — "More fix logging"** — logging improvements.
+
+**Chris Davidson (1 PR)**:
+- **#2303 [Jun 3] (+27/-26, 1 file) — "reorder only"** — minor reorder.
+
+### pulseprime/polaris — 16 new PRs
+
+**Ömer Yılmaz (litityum) — flight-deck production hardening (12 PRs)**:
+- **#699 [Jun 4] (+240/-7, 2 files) — "dispatch RPC schemas by operating mode"** — **SIGNIFICANT**: RPC handler now dispatches different schemas depending on flight-deck operating mode (ARB/OTC/STAGED). Enables mode-aware API.
+- **#695 [Jun 4] (+17/-27, 6 files) — "upgrade schemars 0.8 → 1.2.1"** — JSON Schema draft 2020-12 support.
+- **#701, #700 [Jun 4]** — Symbol and Decimal JSON schema fixes for Python/Pydantic compatibility.
+- **#697, #698 [Jun 4]** — Flight-deck ARB heartbeat fix + strip `$schema` from RPC schemas.
+- **#692, #691, #690, #689, #686 [Jun 3]** — gzip+base64 RPC response wrapping, Pulse standalone endpoint path fixes, WebSocket decode fix, auth transform fix for OTC/STAGED, typed exchange IDs for 1Password credential lookup.
+
+**Anton Ronis (2 PRs) — quant risk correctness**:
+- **#687 [Jun 3] (+158/-64, 1 file) — "annualize volatility by sampling interval, not EWMA horizon"** — **CORRECTNESS FIX**: Volatility was being annualized using the EWMA horizon rather than the actual sampling interval. Significant quant error fix.
+- **#688 [Jun 3] (+147/-5, 1 file) — "preserve basis_adjustment across OTC dual SkewTracker"** — basis adjustment was being lost when an OTC strategy used the dual skew tracker. Prevents stale basis from accumulating.
+
+**Erick Arce (2 PRs)**:
+- **#685 [Jun 3] (+30/-28, 6 files) — "Rename ladder engine"** — cleanup rename.
+- **#618 [Jun 2] (+941/-19, 9 files) — "ExecutablePriceStreamer"** — **SIGNIFICANT**: polaris-side ExecutablePriceStreamer implementation (+922 net). This is the polaris companion to pulse's Erick #2228 (May 29, +1654). Together they complete the full Paradigm streaming RFQ infrastructure on both sides of the stack.
+
+### Theme (June 3–4)
+**Headlines**: (1) **Wintermute full mktdata integration** (Emre, +1069 book + BBO + quote WS) — Wintermute LP is now live as a real-time market data source. (2) **OKX Turkey venue** (Ömer #2310) — new execution venue added. (3) **ESP market widget** (Estiven #2278, +1339, 28 files) — Halo now has a market widget with executable streaming price support; this is the UI for the Paradigm options streaming RFQ path. (4) **ExecutablePriceStreamer merged** (Erick polaris #618, +941) — the streaming price infrastructure is now complete on both pulse and polaris sides. (5) **Anton quant fixes** (#687 volatility annualization + #688 basis preservation) — production-quality corrections to risk calculations. (6) **Ömer flight-deck hardening** (12 PRs) — RPC mode dispatch, schemars upgrade, auth/encoding fixes; flight-deck is becoming production-ready.
+
+---
+
+## 2026-06-01 through 2026-06-02 (updated June 2 heartbeat)
+
+### pulseprime/pulse — 21 new PRs
+
+**Chris Davidson (5 PRs)**:
+- **#2274 [Jun 2] (+943/-75, 22 files) — "new risk endpoint"** — **SIGNIFICANT**: new trade-engine risk endpoint (+868 net). Continues the options risk infrastructure build from May 27's massive risk PRs. Active options E2E testing underway.
+- **#2285 [Jun 2] (+240/-37, 14 files) — "options timing fixes"** — options timing correctness across 14 files. Likely fixing race conditions found in E2E testing.
+- **#2271 [Jun 1] (+513/-129, 14 files) — "update csv upload"** — CSV trade upload updates.
+- **#2273 [Jun 1] (+156/-30, 11 files) — "sync trades fixes"** — sync trades correctness.
+- **#2284 [Jun 2] (+2/-2) — "options bug fix"** — minor options fix.
+
+**Estiven Salazar (8 PRs) — Halo + credit widget**:
+- **#2286 [Jun 2] (+272/-1068, 23 files) — "credit-widget updates"** — **NOTABLE**: large net deletion (−796). Credit widget being significantly rewritten/stripped. Companion to #2276 (disable).
+- **#2276 [Jun 1] (+2/-0) — "disabling credit widget"** — credit widget explicitly disabled. Prior Talos credit flow being replaced.
+- **#2282 [Jun 2] (+633/-302, 24 files) — "styling updates for halo modals"** — Halo modal styling polish.
+- **#2272 [Jun 1] (+584/-52, 29 files) — "talos stream query and timestamp filters"** — large Talos streaming improvements.
+- **#2268 [Jun 1] (+456/-358, 20 files) — "halo sync trades updates"** — Halo sync trades refactor.
+- **#2279 [Jun 2] (+7/-0) — "api-gateway executable stream endpoint"** — wires executable streaming endpoint into API gateway (companion to Erick #2228's pulse-side work).
+- **#2288 [Jun 2] (+13/-3) — "okta vpn ui error messaging"** — VPN auth error message improvement.
+
+**Erick Arce (3 PRs)**:
+- **#2275 [Jun 1] (+118/-184, 20 files) — "kill quoting feed type"** — **NOTABLE**: removes the quoting feed type abstraction (net −66). Coordinated simplification with polaris #683.
+- **#2269 [Jun 1] (+93/-27, 3 files) — "notify_session_id stamped on quote"** — session ID now propagated on quotes.
+- **#2277 [Jun 2] (+5/-3) — "possible fix S3 parser timeout"** — S3 parser timeout fix.
+
+**Talgat Taskhozhayev (2 PRs)**:
+- **#2261 [Jun 1] (+172/-4, 11 files) — "DealLetter-Persister: Implementation"** — actual implementation lands (scaffold was #2248 from May 28). Options deal letter persistence service is functional.
+- **#2289 [Jun 2] (+11/-10, 8 files) — "Decimal: Version upgrade"** — dependency upgrade.
+
+**Emre Ekici (2 PRs)**:
+- **#2283 [Jun 2] (+40/-59, 12 files) — "update outdated regression tests"** — test maintenance.
+- **#2281 [Jun 2] (+88/-68, 1 file) — "instantiate inert venue factories"** — venue factory initialization refactor.
+
+**Aksel Hakim (1 PR)**: #2266 [Jun 1] — gap fill pagination (already captured in June 1 batch).
+
+### pulseprime/polaris — 8 new PRs
+
+**Ömer Yılmaz (1 PR)**:
+- **#684 [Jun 2] (+671/-18, 3 files) — "fix(risk): preserve account on empty ok-reason restatement"** — **SIGNIFICANT**: risk gate now correctly preserves account state when an order is restated with an empty ok-reason. Prevents stale account state from accumulating. +653 net.
+
+**Erick Arce (2 PRs)**:
+- **#683 [Jun 1] (+1/-12, 3 files) — "kill order entry quoting feed type"** — companion to pulse #2275; removes quoting feed type from polaris order entry path too. Coordinated cross-repo cleanup.
+- **#682 [Jun 1] (+651/-127, 2 files) — "reject pretradegate for more reasons"** — **SIGNIFICANT**: pre-trade gate now blocks on more conditions (+524 net). Risk gating becoming more comprehensive ahead of options go-live.
+
+All June 1 polaris PRs (#678-#681) already captured in June 1 batch.
+
+### Theme (June 1–2)
+**Headlines**: (1) **Chris's risk endpoint series** (#2274 +943, #2285 +240) — new risk endpoint + options timing fixes; options E2E testing actively underway in dev, with bug fixes landing same-day. (2) **Credit widget disabled and stripped** (Estiven #2276 + #2286, −796 net) — the Talos credit widget flow is being replaced; likely transitioning to the new risk endpoint path Chris is building. (3) **Erick kills quoting feed type** (#2275 + #683, cross-repo) — coordinated abstraction removal; simplification is accumulating. (4) **DealLetter-Persister implementation complete** (Talgat #2261) — options deal letters can now be persisted end-to-end. (5) **Erick #682 pre-trade gate hardening** (+651) — more blocking conditions; production risk controls tightening.
+
+---
+
+## 2026-05-26 through 2026-06-01 (updated June 1 heartbeat)
+
+### pulseprime/pulse — 37 new PRs
+
+**Chris Davidson (3 PRs)**:
+- **#2224 [May 27] (+3187/-1714, 36 files) — "csv endpoint risk integration"** — **MASSIVE**: 36 files, +1473 net. Large overhaul of risk endpoint layer — CSV format for trade uploads + risk integration. Biggest PR of the week.
+- **#2234 [May 27] (+3120/-481, 26 files) — "risk checks gross amount"** — **LARGE**: 26 files, +2639 net. Significant expansion of gross amount risk checking in trade engine. Together with #2224, this is a near-complete rewrite of risk infrastructure.
+- **#2259 [May 29] (+840/-105, 30 files) — "user in comments"** — 30-file update, likely comment format or user attribution change.
+
+**Estiven Salazar (13 PRs) — "Halo" launch sprint**:
+- **#2233 [May 26] (+658/-450, 68 files) — "Atlas to Halo"** — **NOTABLE**: 68-file rename. The Atlas trading ops frontend is officially rebranded as "Halo."
+- **#2235 [May 27] (+991/-142, 16 files) — "halo styling updates"** — Halo UI styling polish following the rename.
+- **#2258 [May 29] (+916/-47, 25 files) — "new order widget"** — large new widget for order entry in Halo.
+- **#2256, #2255, #2254, #2253, #2252, #2251, #2250, #2249 [May 28]** — widget library and package updates across booking-form, spot/options/RFQ/loans/crud/data-table widgets: +4818/-4263 net. Package modernization sprint.
+- **#2237 [May 28] (+330/-72, 13 files) — "talos cancel trade endpoint"** — new cancel trade endpoint via Talos.
+- **#2236 [May 27] (+176/-129) — "fixing newrfq exec report statuses"** — RFQ execution report status fixes.
+- **#2232, #2231, #2230 [May 26]** — minor Halo fixes (CSV errors, spot booking LP qty, multileg booking).
+- **#2246 [May 28] (+0/-6) — "haruko loans widgets api-gateway url updates"** — minor URL fix.
+
+**Talgat Taskhozhayev (5 PRs)**:
+- **#2248 [May 28] (+92/-1, 9 files) — "DealLetter-Persister: Setup"** — **NEW SERVICE**: scaffold for a new service to persist deal letters (options deal notifications). 9 files, new crate.
+- **#2244 [May 28] (+67/-13) + #2240 [May 27] (+9/-5) + #2247 [May 28] (+1/-1) — "Trade-Engine DLQ kafka"** — Dead Letter Queue infrastructure added to trade engine. Prevents message loss on processing failures.
+- **#2257 [May 29] (+1/-27) — "Option-Pricer: Removed Delta due to decimal precision issues"** — removed delta field from options pricer (precision bug).
+- **#2245 [May 28] (+5/-2) — "Option-Pricer: handle() err handling"** — error handling fix.
+- **#2229 [May 26] (+14/-39) — "Option-Pricer: Handle DST and remove volatility"** — DST handling fix; volatility field removed from pricer.
+
+**Erick Arce (2 PRs)**:
+- **#2228 [May 29] (+1654/-94, 9 files) — "ExecutablePriceStreaming support"** — **SIGNIFICANT**: adds executable streaming price support to pulse (+1560 net). The pulse-side companion to polaris's "prep code for executable streaming prices" (#606, May 18). Enables the Paradigm streaming RFQ path for options.
+- **#2260 [May 29] (+360/-224, 3 files) — "Improve flow encapsulation"** — flow architecture refactor.
+
+**Ömer Yılmaz (3 PRs) — Binance Portfolio Margin**:
+- **#2262 [May 31] (+23/-3, 3 files) — "Add ed25519_key for Binance PM DropCopy"** — signature method for Binance PM auth.
+- **#2263 [May 31] (+48/-1) — "Update portfolio_margin_url to use source_code"** — Binance PM URL config fix.
+- **#2264 [May 31] (+14/-21) — "Binance PM url venue def fix"** — venue definition fix.
+- **#2267 [Jun 1] (+4/-0) — "Add hedge_only_current_delta field to Polaris schema"** — schema addition (companion to polaris #681).
+
+**Aksel Hakim (1 PR)**:
+- **#2266 [Jun 1] (+28/-5, 2 files) — "gap fill pagination"** — fixes pagination in gap-fill recovery logic. Part of Atakan+Aksel's trade history gap-fill work.
+
+### pulseprime/polaris — 21 new PRs
+
+**Anton Ronis (6 PRs) — risk gate correctness**:
+- **#680 [Jun 1] (+179/-5, 2 files) — "fix(risk): allow directional de-risking in pre-trade inventory checks"** — important correctness fix: de-risking orders were being blocked by pre-trade inventory checks.
+- **#678 [Jun 1] (+92/-22, 5 files) — "fix(quoting): invert perp position skew on client-facing books"** — perp position skew was inverted when exposed to client-facing books.
+- **#668 [May 28] (+135/-56, 3 files) — "fix(risk): correct RFQ side semantics and resolve NOS strategy via QuoteMap"** — pre-trade risk gate semantic fix for RFQ.
+- **#667 [May 28] (+212/-3, 1 file) — "fix(risk): clear quoting-account state on OTC strategy stop"** — prevents stale state when OTC strategy stops.
+- **#664 [May 27] (+409/-35, 4 files) — "fix(matching): respect VWAP limit for RFQ flattened fills"** — VWAP limit enforcement on flattened RFQ fills.
+- **#648 (May 26)** — shaper unification (already captured in May 26 batch).
+
+**Ömer Yılmaz (12 PRs) — Binance PM + flight-deck hardening**:
+- **#679 [Jun 1] (+408/-118, 3 files) — "Add venue field to position_change and venue-aware telemetry"** — position changes now track which venue drove them. Significant for multi-venue book attribution.
+- **#676 [Jun 1] (+306/-4, 1 file) — "test(execution): comprehensive tests for OrderGateway account mapping"** — test coverage for a core execution component.
+- **#674 [May 31] (+11/-1, 3 files) — "Add Binance Portfolio Margin support across schemas"** — Binance PM in polaris schema.
+- **#675 [May 31] (+1/-1) — "Reorder Venue variants for consistency"** — cleanup.
+- **#681 [Jun 1] (+124/-2, 2 files) — "Add hedge_only_current_delta flag to HedgeParams"** — new risk control: when enabled, hedge only current delta (don't carry forward delta). Useful for options hedging precision.
+- **#652-#659 [May 26]** — flight-deck hardening: MongoDB datetime deserialization, Python migration compat, OnePassword vault UUID fix, URL encoding fix, infinite reconnect loop fix, unused constants removal.
+
+**Erick Arce (3 PRs)**:
+- **#666 [May 27] (+19/-26, 3 files) — "Remove book reset from inside book snapshot"** — architectural fix.
+- **#671 [May 28] (+23/-13, 2 files) — "Fix several issues"** — misc fixes.
+- **#672 [May 28] (+17/-23, 2 files) — "Switch to slice for ladder"** — minor ladder refactor.
+
+### Theme (May 26 – June 1)
+**Headlines**: (1) **"Atlas" → "Halo" rename** (#2233, 68 files, Estiven) — major product branding shift. The internal trading ops frontend is now "Halo." (2) **Chris's risk overhaul** (#2224 +3187 + #2234 +3120) — near-complete rewrite of risk checking infrastructure in trade engine; 62 files total, likely the options risk integration reaching completion. (3) **ExecutablePriceStreaming** (Erick #2228, +1654) — pulse-side streaming price infrastructure enabling Paradigm RFQ path. (4) **Binance Portfolio Margin integration** (Ömer, multiple PRs) — new execution venue. (5) **DealLetter-Persister new service** (Talgat #2248) — options deal letter persistence. (6) **Anton's pre-trade risk gate correctness series** — directional de-risk fix (#680), perp skew inversion fix (#678), VWAP limit enforcement (#664): risk gates are being tightened to production quality. (7) **Aksel gap-fill pagination** — trade history recovery work progressing.
+
+---
+
+## 2026-05-22 through 2026-05-26 (updated May 26 heartbeat)
+
+### pulseprime/pulse — 5 new PRs (since May 22)
+
+**Estiven Salazar (2 PRs)**:
+- **#2226 [May 26] (+1839/-26, 22 files) — "haruko loans widgets"** — **LARGE**: first Haruko loan management UI widget suite in Atlas. 22 files, +1813 net. Enables ops to view/manage Haruko loans directly in Atlas.
+- **#2227 [May 25] (+3/-1) — "fixing new rfq sides"** — minor RFQ UI fix.
+
+**Amit Kirdatt (1 PR)**:
+- **#2222 [May 22] (+11/-10, 3 files) — "Improve UI and Docker builds"** — minor infra/UI improvements.
+
+**Emre Ekici (2 PRs)**:
+- **#2225 [May 22] (+7/-3, 2 files) — "lower TS_DIFF_THRESHOLD"** — reduce QuestDB timestamp diff threshold.
+- **#2218 [May 22] (+171/-67, 23 files) — "book reset ts fix"** — timestamp fix for book reset events across 23 files.
+
+### pulseprime/polaris — 24 new PRs (since May 22)
+
+**Anton Ronis (5 PRs)**:
+- **#640 [May 26] (+795/-44, 1 file) — "feat(quoting): cap OTC hedging-counterparty quotes by total_delta"** — **SIGNIFICANT**: adds total-delta-based quote capping for OTC hedge counterparties (+751 net). New risk control: prevents over-quoting to a hedge counterparty beyond the book's total delta exposure. Key for options central risk book management.
+- **#631 [May 25] (+61/-28, 3 files) — "fix(risk): negate net_position when reading client_position in pre-trade gate"** — correctness fix; pre-trade gate was using wrong sign for client position.
+- **#624 [May 24] (+302/-64, 4 files) — "fix(risk): correct excess_delta formula and emit on overshoot changes"** — excess_delta calculation corrected; now emits on overshoot changes.
+- **#625 [May 25] (+62/-118, 10 files) — "refactor(risk): remove unused delta_threshold field"** — cleanup across 10 files.
+- **#648 [May 26] (+20/-19, 3 files) — "refactor(shaper): unify randomization gate behind TSP rand_qty flag"** — minor shaper refactor.
+
+**Ömer Yılmaz / litityum (19 PRs)** — **flight-deck production-readiness sprint**:
+- **#623 [May 25] (+1050/-246, 6 files) — "Add multi-mode support to flight-deck (ARB, OTC, STAGED)"** — **SIGNIFICANT**: flight-deck now supports ARB, OTC, and STAGED operational modes (+804 net). Major capability: algo control plane can operate in different contexts.
+- **#633 [May 25] (+413/-1, 6 files) — "Add secrets manager for 1Password Connect API integration"** — **SIGNIFICANT**: 1Password Connect secrets management for exchange credentials. Production security infrastructure.
+- **#634 [May 25] (+360/-27, 4 files) — "Add exchange authentication to flight-deck bot creation"** — exchange auth wired into bot creation flow.
+- **#639 [May 25] (+373/-167, 1 file) — "Fix DB persistence and add authentication to resume/update operations"** — DB persistence correctness + auth for bot resume/update.
+- **#627 [May 25] (+264/-229, 4 files) — "refactor(telemetry): extract SkewRecorder into independent service"** — telemetry refactor.
+- **#628 [May 25] (+71/-8, 1 file) — "feat(telemetry): add metrics for total_delta and position_to_skew"** — new delta/skew telemetry.
+- **#626 [May 25] (+33/-5, 4 files) — "feat(risk): add position_to_skew fields to DeltaSkew and PositionSkew"** — schema addition for delta/skew relationship.
+- **#629 [May 25] (+31/-20, 1 file) — "fix(telemetry): store additional skew metrics to prevent GC"** — telemetry GC fix.
+- **#630 [May 25] (+66/-62, 1 file) — "fix(telemetry): invert client positions to reflect LP perspective"** — telemetry viewpoint correction.
+- **#636 [May 25] (+46/-0, 1 file) — "Add example flight_deck_config.yml"** — config example.
+- **#635 [May 25] (+56/-53, 4 files) — "Refactor flight-deck imports"** — style refactor.
+- **#638 [May 25] (+54/-55, 4 files) — "Remove onepass_token placeholder"** — config cleanup.
+- **#641-649 [May 26]** — threadpool/worker config, WebSocket path fix, URL scheme parsing, MongoDB partial filter fix, connection loop logging, registration message fix, gzip compression fix (small ops fixes, total ~120 lines net).
+
+### Theme (May 22–26)
+**Headlines**: (1) **Ömer's flight-deck sprint** — ARB/OTC/STAGED multi-mode (#623, +1050) + 1Password secrets manager (#633, +413) + exchange auth (#634) + DB persistence fixes: the polaris algo control plane is becoming production-grade infrastructure over the long weekend. This is likely supporting the imminent live RenGen integration. (2) **Anton's risk management precision** — total-delta quote cap (#640, +795), correct excess_delta formula (#624), fix net_position sign (#631): the pre-trade and risk gate logic is being refined to production correctness. (3) **Estiven's Haruko loans widget** (#2226, +1839/-26, 22 files) — first Haruko loan management UI in Atlas. Ops no longer needs to leave Atlas to view/manage loans.
+
+---
+
 ## 2026-05-22 (updated May 22 heartbeat)
 
 ### pulseprime/pulse — 15 new PRs (since May 21 heartbeat)

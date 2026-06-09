@@ -2,20 +2,21 @@
 
 ## Engineering
 
-- **[x]** Update mktdata publishers to FACT to handle stablecoin→USD pricing conversion. *(done: 2026-05-13)* Chris Davidson #2126 merged May 13 (+1124/-65, 22 files).
-- **[x]** List new tokens in prod using Binance stables as the pricing source. *(done: ~2026-05-16)* Tracker shows Top-50 Tokens P1 = Complete (stablecoin price sourcing confirmed).
+- **[ ]** OTC option trade limits in Halo (aggregated notional) — Eric + Chris. Blocked on: (1) Christine providing test cases + spreadsheet examples for limit calcs, (2) Ricky signing off on requirements. Coding timeline set after sign-off. *(added 2026-06-09, from Swap/Deriv status)*
 
 ## Management
 
-- **[ ]** Send peer review questionnaire to team. Drafted — send start of June for team to fill out. Results used to kick off monthly 1:1s. *(updated 2026-05-20)*
-- **[ ]** Sync with Brian Stern on crypto ops team coverage — who owns settlement location setup, contractual settlements monitoring, and operational procedures. Flag: unsettled ETH trades (May 19) sat in exception queue with no owner. Bangalore hires unknown start date. *(added 2026-05-20)*
+- **[x]** Send peer review questionnaire to team. *(done: 2026-06-02)*
+- **[x]** Sync with Brian Stern on crypto ops team coverage. *(done: 2026-06-02)*
+- **[ ]** Perp instrument type config in FACT/pulse — **NOT YET on Eric's plate**. Collin Zoll still needs to finalize documentation and get buy-in first. Revisit once Collin follows up. *(added 2026-06-01)*
 
 ## Documentation
 
-- **[ ]** Create Notion knowledgebase page explaining how OTC options work (entity structure, trade lifecycle, booking model, margin/expiry). Emre asked — team needs context to understand what they're building. *(added 2026-05-05)*
+- **[x]** Create Notion knowledgebase page explaining how OTC options work. *(done: 2026-06-02)*
 
 ## Compliance / Admin
 
-- **[ ]** Complete BCP training by **July 18, 2026**. Enrolled by Barbara Lotti May 19. Courses: "Business Continuity Management: An Overview" + "Introduction to..." *(added 2026-05-20)*
-- **[ ]** Update Jira DIG-4 (Eric + Erick Arce) and DIG-6 (Eric + Talgat) — both flagged overdue. Update dates or close. *(added 2026-05-11)*
+- **[x]** Complete BCP training (4 KnowBe4 courses). *(done: 2026-06-09)*
+- **[x]** Close Jira DIG-4 and DIG-6. *(done: 2026-06-02)*
+- **[x]** Complete Mid-Year 2026 User Access Review (UAR). *(done: 2026-06-02)*
 
