@@ -133,8 +133,6 @@ This is your time to consolidate, reflect, and keep your long-term knowledge acc
 
 ---
 
----
-
 ## Behavior Guidelines
 
 - **Journal proactively** — if you learn something, write it down immediately, not at session end

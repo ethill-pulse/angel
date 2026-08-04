@@ -1,5 +1,234 @@
 # PR Activity
 
+## 2026-06-30 through 2026-08-04 (Aug 4 heartbeat — 5-week gap, first review)
+
+665 merged PRs (501 pulse, 164 polaris) — no heartbeat ran in this window, so this is the first pass over 5 weeks of activity. Headline: **the `polaris` repo was fully absorbed into `pulse`** during the last 8 days of the window; treat `polaris` as a dead/legacy repo going forward (code now lives at `libs/polaris` inside pulse). See `projects.md` "Aug 4 heartbeat" section for the project/milestone-tracker context this PR activity supports.
+
+**Same-day addendum (second heartbeat pass, later Aug 4):** 17 more pulse PRs merged after the first pass's data pull — all still dated Aug 4, continuing the same themes: polaris-removal cleanup (litityum, earce-clearstreet — deploy configs, dead deps, restoring a dropped Prometheus pump), Amit's GTC matcher lock-scoping fix (#3336), Anton's FX-translation reversible-edges work (#3322), and litityum's typed `RequestErrorReason` refactor (#3319) + flight-deck `delete_bot` RPC (#3323). One standout: **Chris — "Risk Audit Backend Updates" (#3312, +840/-220, 22 files)** — a sizeable risk-audit change worth a look if not already reviewed. No polaris PRs (repo confirmed fully cold).
+
+### Headline: polaris → pulse migration (Jul 27–Aug 4)
+
+Driven almost entirely by **Erick Arce (earce-clearstreet)**. Steady port work Jul 27–29 (order entry, quoting, feeds, sequencing, app scaffolding, configs), then a **"big bang" of six huge PRs on Jul 30**: #3210 "Port risk quoting and execution" (**+68274/-15**, 62 files — largest PR in the dataset by far), #3209 "Telemetry port from polaris" (+12799/-1), #3234 "Final leg of importing polaris" (+7589/-7), #3208 "Port polaris cache" (+6369/-4), #3205 "Port managed algo schema" (+6370/-43), #3225 "Bring strategy code into pulse" (+4180/-102). `pulseprime/polaris`'s last-ever merged PR is #1137 (Jul 30) — the repo goes fully cold afterward. Aug 1–4 is stabilization/closeout: EmreEkici re-ports two pieces that landed in polaris in its final hours (#3266, #3267); litityum migrates the polaris-only Claude skills (#3280, +1152) and restores `libs/polaris/CLAUDE.md` (#3281, +824); EmreEkici ports the README (#3314); earce does final bugfixes including the last PR in the dataset, #3326 (Aug 4, "Fix some race conditions for polaris refdata"). **Signal that the cutover is clean**: ant0wn (Anton, 31 polaris PRs vs. only 3 pulse PRs across the whole window) files his first-ever pulse PRs on Aug 4 — his OTC/FX-hedging work simply moved repos.
+
+A same-week, related type-hardening pass by earce: **#3257 "Move all decimal to consistent try_from for floats" (+4732/-2750, 211 files)**, Jul 31 — paired with #3256/#3255 same day. Reads as deliberate hardening alongside the migration, not incidental.
+
+### Per-author summary (Jun 30 – Aug 4)
+
+- **litityum (Ömer, 181 PRs — top volume, 104 pulse/77 polaris):** full Kraken spot venue build (WS v1→v2, REST+WS order entry, dropcopy, mktdata, ~Jul 21–23); a margin/`collateral_mode`/Summary-Detail reporting overhaul rolled out venue-by-venue across nearly every integration (OKX, Bitget, Bybit, Kraken Futures — Jul 24–31, plus schema changes in both repos); a mechanical `client_order_id`-through-TradeCaptureReport rollout across ~18 venues in one day (Jul 10); heavy involvement in the migration closeout (skills migration, docs restore). No gaps, consistently the most prolific contributor throughout.
+- **earce-clearstreet (Erick, 127 PRs — 92 pulse/35 polaris):** two phases — trade-engine hygiene/FIX-protocol fixes through late July, then primary driver of the polaris migration from Jul 27 on (majority of his last-10-days volume is port/scaffolding work, not features).
+- **ethill-pulse (Eric, 59 PRs, Jul 6–Aug 3):** a disciplined FIX session persistence/recovery initiative (phases 7.4→13.9, Jul 6–15) rolling directly into an order-status protocol initiative (phases 0→5, Jul 15–30), plus a new `QueuedDataStoreAppender` library (#3070/#3076). Reverted Aksel's/Atakan's testnet-integration PR (#2927, Jul 15) — see "unusual" below.
+- **talgat-clearstreet (55 PRs):** Jul 7–21 rapid Trade-Engine-Bots iteration (pump/passive modes, rebalancing, resubscribe/amend tracking — many tiny PRs, tight tuning loop); Jul 26–30 pivoted to core Trade-Engine persistence (Redb introduction, QuoteCache backed by DurableStore, eviction, audit-trail refactor). **Went quiet Jul 30 → Aug 4** — a real gap after an otherwise-daily cadence; worth a check-in.
+- **esalazar-clearstreet (Estiven, 54 PRs):** Jul 3–9 burst of ~15 Admin UI widgets in one day (Kafka, Stats, Refdata, Cmd/Ctrl, Custom Instruments, Scalesets, Entity, Dashboard, Alerts) plus a big cleanup pass (#2773 "Admin UI Cleanup" +449/-12281; #2723 "Admin UI Dashboard" +592/-5921); Jul 16–26 pivoted to trading-session-state/halt controls and FIX bi-directional audit trail (schema, endpoints, questdb capture). **Gap Jul 27–Aug 2**, then reappeared Aug 3 with a brand-new **"loans-widget" thread** (#3310) — first appearance in the dataset, likely a new initiative to track going forward.
+- **chris-pulseprime (52 PRs):** two long incremental series running the entire window and still active as of Aug 3 — "Risk Cost Basis Model" (1.1→9.1) and "Unrealized PnL" (1.1→3.3, #3309 +3589/-747), interleaved with "Run Split Risk Models" (pt1–6) and "Talos WS Fixes" (pt1–3, #3103 +3104/-1297).
+- **amitkirdatt (39 PRs):** entirely GTC/resting-order execution correctness — partial fills, slicing/re-slicing, amend races, overfill guards, crash-guards. Consistent, no drift, no gaps.
+- **EmreEkici (39 PRs, 21 pulse/18 polaris):** per-venue `leverage`/`margin_mode` population across every venue's position-margin report (Jul 15–16, ~7 near-identical PRs), then OTC hedge-fill-debit/funds-capacity work in polaris; post-migration (Aug 1+) shifted to porting his own polaris pieces into pulse.
+- **ant0wn (Anton, 34 PRs, 3 pulse/31 polaris):** almost entirely OTC/FX-hedging and quote-health work in polaris, under phased efforts #888 (FX rescale/staleness, 3 phases) and #915/#994 (hedge-allocation, leverage-bounded capacity). First pulse-repo PRs land Aug 4, consistent with the migration cutover.
+- **akselhakim (8 PRs):** generic bugfix/hardening early; late-window (Jul 23/29/30) shift to trade reconciliation ("Ah.trade recon conductor", "Ah.ak.talos haruko spot trade recon") and relanding Atakan's reverted testnet-integration PR (see below).
+- **atakankupeli (3 PRs only)** — lowest volume of any direct report across 5 weeks: two testnet-integration PRs (one reverted, see below) and one infra PR (Aug 3). Per the Aug 4 Dev Sync he has a live action item to report when Haruko/Talos reconciliation work lands in dev, so he's not idle — just not shipping via PR yet. Worth a direct check-in given the low visible volume.
+- **MatthewGow (4 PRs):** small, steady infra/CI footprint (CI version bumps, cronjob support in `infrastructure.toml`, kafka-client outage hardening).
+- **SelmanB (6 PRs, Jul 21–31) — unrecognized handle, not on the known team/consultant list.** Multi-venue work resembling litityum's: Coinbase dropcopy fix, a new `Venue::Ibkr` skeleton (+555, 22 files), Coinbase National (CNB) order entry/cancel, Bitso balance-decode fix, mktdata BBO fix. **Needs identification** — possibly a new hire or RenGen/consultant doing venue-integration work.
+
+### Cross-team themes
+
+- **Collateral_mode / margin reporting standardization** — litityum (schema + per-venue derivation), EmreEkici (leverage/margin_mode population), ant0wn (polaris-side margin pooling) — a coordinated, multi-person effort spanning both repos essentially the whole window.
+- **Persistence / recovery** — Eric's FIX session recovery phases, talgat's Trade-Engine QuoteCache durability, Estiven's session-state/archiver work, and earce's "Port persistence from polaris" (#3219) — different subsystems, same underlying push toward durable state. Directly continues into today's (Aug 4) Dev Sync decision to build disk-backed-queue async persistence for order-status recovery (matches Eric's own `20260721_team_priorities.md` notes on disk-backed queues/shared-memory transports).
+- **Order lifecycle / GTC correctness** — amitkirdatt's continuous focus, running in parallel with Eric's separate order-status initiative.
+
+### Unusual items
+
+- **Revert-and-reland**: #2917 (atakankupeli, Jul 14, testnet account integration) merged, reverted by Eric the next day (#2927, Jul 15), then relanded 8 days later by **akselhakim** under the same title (#3092, Jul 23, different diff shape). Possible ownership handoff from Atakan to Aksel on this workstream — worth confirming.
+- Two minor same-day self-revert/reland cycles (esalazar #2734→#2735; EmreEkici #920→#921/#934) — normal quick-fix cycles, not concerning.
+- **Polaris repo goes fully cold Jul 31 onward** — confirms it's now legacy; any docs/CI/onboarding material still referencing it as a live repo should point at `libs/polaris` in pulse instead.
+
+## 2026-06-25 through 2026-06-30 (June 30 heartbeat)
+
+High-volume window. Two dominant themes: **trade-engine durable persistence/recovery** and a **new Bitget (UTA) venue**. No reverts in pulse; one revert in polaris (#865). All authors known.
+
+### pulseprime/pulse
+
+**⭐ Trade Engine durable persistence + recovery (Eric + Amit, coordinated)** — the headline cluster, confirmed live in the Jun 30 Dev Sync ("Postgres support for session durability and data recovery"):
+- **Eric (ethill-pulse)**: `fix persistence phase 1` (#2590), `phase 2` (#2592 +423/-144), `phase 3` (#2605 +200), `fix recovery phase 4` (#2606 +432), `fix recovery phase 5` (#2616). A staged persistence/recovery hardening of the native trade engine.
+- **Amit (amitkirdatt)**: `Resting orders persistence postgres` (#2596 +762/-66, 20 files), `in-memory cache layer + order-manager` (#2574), `consolidate resting order logic in manager` (#2589 +453/-433), `recover resting orders after a restart` (#2608), `close GTC async-placement gap with a pending-placement cache` (#2593 +456), `handle duplicate child fills from LP` (#2615), `Local trade engine e2e tests` (#2537 +2871, 13 files), `gtc enablement flag for conductor` (#2556), earlier-week `make resting-order fill/reject atomic and idempotent` (#2548), `reads can error` prep (#2555).
+
+**⭐ Eric — external connectivity codegen (July-15 low-touch direct API/FIX):** `generate fix xml files from schemas` (#2485 +418), `json-ws-gen-digital.py` (#2587 +380). The codegen behind the near-term client direct-connect path. Ties to the team-sync TODO "Websocket / json API."
+
+**Ömer (litityum) — new Bitget UTA venue (BTGE/BTGT), ~20 PRs:** full venue bring-up: `Venue::BitgetUta` (#2564), refdata (#2569), mktdata (#2572/#2560), WS order entry place+cancel+modify (#2573/#2586 +1617), dropcopy (#2575 +1101), rate-limit population across OE responses (#2598/#2599/#2588), plus several fix/docs PRs (cancel-ack PendingCancel #2604, modify-reject #2568, fill side from cancel #2571, one-way position-mode #2565, field-discipline docs #2582, ccxt prior-art skill #2584). Largest single-author push of the window.
+
+**Estiven (esalazar) — Halo UI + RBAC:** `algo management grid rpcs` (#2577 +3625/-5401, 80 files — largest diff of the window), `widget + api-client/rbac/registry wiring` (#2544 +1940, 21 files), `handler + gateway route + bulk-cap` (#2543 +617), `researcher and operations roles` (#2550) + `research.yml codegen` (#2542), `halo defaults` endpoint+UI (#2570/#2576), `risk widget - set limit` (#2566), rbac test fixes (#2558).
+
+**Talgat (talgat-clearstreet) — Trade-Engine-Bots (new subsystem):** `Initial Setup` (#2562), `DGTL quoting plumbing` (#2578).
+
+**Atakan (atakankupeli):** `trade engine tests pt2` (#2585 +622).
+
+**Erick (earce) — DMA market data:** `DMA market data api binance` (#2580 +547, 12 files), `BINF average price calc` fix (#2551), `Handle wouldblock safely` (#2610).
+
+**Chris (chris-pulseprime):** `asset allowlists` (#2557 +847, 15 files), `kafka transport updates` (#2518), `already cancelled fix` (#2549), worktree cd inst (#2594).
+
+**Matt (MatthewGow) — infra scaffolding (Jul 2 Kustomize demo):** `trigger new-crate scaffolding early from a branch's infrastructure.toml` (#2614), `add new-crate-infra skill` (#2612).
+
+**Anton (ant0wn):** `Expose PostOnly consistently across Binance venues` (#2546).
+
+### pulseprime/polaris
+
+**⭐ Emre (EmreEkici) — RiskHeadroomService (new risk subsystem):** prep refactors `share inventory/funds headroom helpers` (#863), `SidedRiskHeadroom + risk_headroom` (#864), then `RiskHeadroomService — publish per-strategy SidedRiskHeadroom` (#866 +563, 8 files), `clamp client-order fills to risk headroom in the matcher` (#868), `wire RiskHeadroomService into otc_chain` (#869), `PreTradeGate authorizes the filled qty, not the order qty` (#870), `aggregate client position across all dropcopy books in the pre-trade gate` (#859). Emre stepping up on core risk — aligns with the peer-feedback push to get him more involved.
+
+**Erick (earce) — fill tracking / sim:** `OrderFillLite` (#867 +644), `Update naming in fill tracker` (#860), `Fix tracking when avg_price or notional cannot be calculated` (#857 +1342) — **then reverted same week (#865)**; `Moving ordermap` (#862 +603/-603), `Client telemetry unification` (#821), `Updating simulator for accuracy` (#875), `Fixing some prometheus panics` (#874), `Move volatility integration tests` (#882), `Handle wouldblock safely` (#884).
+
+**Ömer (litityum):** `bring up Bitget (BTGT) venue + venue-integration skill` (#858), `disable cancel-replace for Bitget (decay to cancel+new)` (#879).
+
+**Anton (ant0wn):** `Validate OTC perp hedging-counterparty position limits` (#855), `Re-walk hedge allocation on book market-data events` (#854), `make bbo_divergence_skew_params required` (#853).
+
+---
+
+## 2026-06-24 through 2026-06-25 (June 25 heartbeat)
+
+### pulseprime/pulse
+
+**Amit — trade-engine resting-order + book rebuild**: **#2538 (+87) apply resting-order child fills before the markup gate**, **#2534 (+71/-25) prepend a BookReset entry so `process_book` clears-then-rebuilds**, **#2520 (+63/-2, 7 files) customer + LP-routing accounts on resting orders**, **#2519 (+67) fix L2 book never populating from full-refresh snapshots**. Native TE matching/book buildout continues.
+
+**Estiven** — **#2529 (+1471/-211, 23 files) csv bulk-upload updates** (largest pulse PR this window), **#2541 (+30) webserver max_payload + objstore content_type**.
+
+**Ömer (litityum)** — **#2527 (+475/-45, 11 files) Paribu: switchable REST-poller vs WS dropcopy for BalanceUpdate** (`balance_update_rest_poller` KVP), **#2524 (+34) log Paribu dropcopy reconnect at error/warn**.
+
+**Aksel (akselhakim)** — **#2523 (+474/-127, 9 files) Paradigm refdata** — Aksel landing Paradigm refdata; consistent with the Atakan/Aksel Options-LT / Paradigm pivot.
+
+**Talgat** — **#2497 (+205/-111, 5 files) TE PendingCancel**. **Chris** — **#2530 (+173/-37, 6 files) settlement failures**. **Erick (earce)** — **#2522 (+128) publish standalone venue-def change over refdata**, **#2521 (+75/-20) reject if symbol not enabled**.
+
+### pulseprime/polaris
+
+**Ömer (litityum) — flight-deck RPC-boundary refactor**: **#843 (+462/-994) unify per-mode RPC handlers behind an `AlgoMode` trait**, **#840 (+441/-403, 12 files) move strategy-config validation to the RPC boundary (per-config)**, **#842 (+139) cross-config validation — unique `quoting_market` per host**, **#838 (+151/-35) record ESP-snapshot dedup only on confirmed emission**.
+
+**Anton (ant0wn) — hedge-capacity position-limit gating**: **#844 (+420/-99, 6 files) cap spot hedge capacity by min/max_position**, **#855 (+69) validate OTC perp hedging-counterparty position limits**, **#854 (+163) re-walk hedge allocation on book market-data events**, **#853 (+24/-44) make `bbo_divergence_skew_params` required**.
+
+**Emre (EmreEkici)** — **#849 (+231/-32, 5 files) broadcast hedge-capacity changes on the stream (#771)**. **Erick (earce)** — **#848 simulator improvements**, **#846 fix venue-controller issues**.
+
+No reverts; all known authors. Themes: Amit's TE resting-order/book-rebuild work, Ömer's flight-deck RPC-boundary validation refactor, Anton+Emre hedge-capacity position-limit gating + streaming, Estiven csv bulk upload, and **Aksel's first Paradigm refdata PR**.
+
+## 2026-06-19 through 2026-06-23 (June 23 heartbeat)
+
+### pulseprime/pulse
+
+**Erick (earce) — Haruko simulator + hardening**: **#2480 (+769/-134, 11 files) Haruko sim more impl** (pairs with the polaris simulator push), **#2504 (+30/-26, 6 files) fix places where code can panic**, **#2505 (-42, 3 files) fix more Binance parsing problems**, **#2511 fix quoting endpoint behavior**. Defensive hardening theme.
+
+**Amit — trade-engine durability + cancel correctness**: **#2470 (+81/-33) TE prepare for durable persistence — handle optimistic-lock semantics** (groundwork for durable TE state), **#2501 (+159) handle cancels when order status changes in-flight**, **#2495 use parent order id from fill/reject event**, **#2452 (+226/-17) add pagination to credit_reservations endpoint + schema**.
+
+**Chris** — **#2499 (+245/-162, 10 files) passthrough position indicators**, **#2496 (+323/-33) Talos refdata fix**, **#2510/#2500 logging**, **#2512 parse error fix**.
+
+**Talgat** — **#2498 (+7/-5) TE ToVenueRB mutex**, **#2494 (+13/-4) RestingOrder fills logic fix**. Continued TE matching hardening.
+
+**Ömer (litityum)** — **#2489 (+295/-122) BYBT skip delisted settleCoin in position recovery** (instead of resending), **#2488 Paribu map fill transact_time from envelope E**, **#2487 (-77) Paribu remove periodic dropcopy reconcile**.
+
+### pulseprime/polaris
+
+**Erick (earce) — simulator first pass**: **#827 (+1188/-4, 9 files) Simulator first pass**, **#832 (+150, 8 files) more simulator wiring**, **#826 (+57/-31) serde upgrade**. The flight-simulator / deterministic-replay framework lands as real code.
+
+**Ömer (litityum) — telemetry/flight-deck + feeds**: **#812 (+549/-311) centralize feed availability in FeedTrackerService** (continues the FeedChange refactor), **#815 (+89/-126) realtime /active_strategies endpoint consumed by flight-deck**, **#830 (+421/-248) unify quoting reject metrics with an origin label**, **#819 observe quote-gate trips via quoting_gate_info**, **#818 flight-deck /health on telemetry port**, **#831 (+142) gate RFQ availability on all sub-quoter markets**, **#814/#813 make Bbo::process / RequestResult helpers inherent methods**, **#816 docs workspace-dependency conventions**.
+
+**Anton (ant0wn) — OTC delta-band risk + warehousing**: **#822 (+269) flatten net delta to an inner band, not the skew cap**, **#823 (+95) require fee+slippage cushion to cover the delta-skew range**, **#828 (+130) post-only OTC hedge orders while warehousing**. Continues OTC hedge/inventory risk maturation.
+
+**Emre (EmreEkici)** — **#801 (+1004/-8, 14 files) funding rate skew** — net-new perps funding-rate-aware quote skew. Largest polaris PR this window.
+
+No reverts; all known authors. Themes: durable-persistence groundwork in the trade engine (Amit), the simulator framework landing across both repos (Erick), Ömer's flight-deck telemetry/health + feed-availability centralization, Anton's OTC delta-band risk, and Emre's funding-rate skew.
+
+## 2026-06-16 through 2026-06-18 (updated June 18 heartbeat; PM re-run appended later-day PRs)
+
+### pulseprime/pulse
+
+**Estiven (esalazar) — codegen-v2 widget migration sweep**: one large push migrating ~a dozen Halo widgets onto codegen-v2 — **#2479 loans**, **#2478 rfq/order**, **#2477 clst-account-manager**, **#2476 market**, **#2475 manual-booking**, **#2474 credit**, **#2472 balances**, **#2469 trades**, **#2468 markup/account-tier**, **#2467 role-management**, **#2451 algo-management flatten primitives**, plus **#2446 (+1257/-118) haruko update loans** and **#2453 (+321) halo order-form widgets + hotbuttons**. Follows the #2424 ts-codegen-v2 groundwork — systematic FE type-generation migration (many are net-negative line counts = simplification).
+
+**Talgat — trade engine resting-order executor**: **#2448 (+212/-10) resting-order executor**, **#2463 (+171) accounts validation**, **#2464 (+437/-467) code refactor**. Native TE matching buildout continues.
+
+**Amit — resting orders / credit**: **#2465 handle filled resting orders**, **#2431 (+114) GET /api/orders/v1/credit-reservations** (returns all resting credit reservations by account), **#2415 (+900, 5 files) DIG-94 support order_cancel_request**.
+
+**Ömer (litityum) — new venue Bitkub + Paribu polish**: **#2460 Bitkub skip broker coins at refdata**, **#2458 (+102) Bitkub parse venue error envelopes** (make `result`/`pagination` optional), **#2481 Paribu populate dropcopy execution-report tracers**, **#2482 venue-integration skill: dropcopy tracer + transact_time conventions**. Second new venue this month (after Paribu).
+
+**Chris** — **#2455 (+154) close-position indicator**, **#2454 (+234) fix settlement-date-in-past error**, **#2486 (+45) Talos WS updates**.
+
+**Emre** — **#2462 (16 files) MdEntryType::FundingRate**.
+
+**Erick** — **#2457 (+85) Venue simulator** (test infra).
+
+### pulseprime/polaris
+
+**Anton (ant0wn) — OTC hedge-allocation push + AI tooling**: **#765 (+1674, 14 files) per-tick dynamic hedge budget allocation** (#726 phase 1), **#783 (+1069, 9 files) OTC discount client-quote capacity by committed hedge allocation**, **#773 (+1734, 7 files) harden ARB/OTC config validation + param-coverage gate**, **#779 (+306) rename hedge budget → allocation**, **#794 (+256) enforce max inventory by reading client position under dropcopy account**, **#804 (+485) cap perp hedge capacity by position limits (min/max_position)**, **#807 remove dead `basis_adjustment_bps` knob**. AI tooling: **#799 document OTC/ARB models + verified pricing examples in quant skill**, **#798 codify Claude-facing repo conventions, guard hooks, review/quant skills**.
+
+**Ömer (litityum) — feeds-architecture refactor**: **#790 (+1012/-800) share controller feed-state via FeedStateRegistry**, **#800 (+794) signal feed-state changes via FeedChange context**, **#796 (+438) OrderGuard derives required feeds from controllers** (drops ControllerFeedPlan), **#806 (+242) migrate quoting controller into registry/FeedChange model**, **#810 (+114) forward subscription action in FeedChange (avoid __Unknown serialization)**, **#782 (+480) shared BboTracker — one BboCache per chain**, **#774 track quoting-feed subscriptions like other feeds**, **#776 (+424) gate inbound RFQs on quoting-session health in PreTradeGate**. Docs: **#802/#803** CLAUDE.md upkeep + FeedChange availability model.
+
+**Erick (earce)** — **#792 (+1008/-957) telemetry refactor**, **#778 (+146) move throttle into risk**, **#785 make field non-option**.
+
+**Emre #788** — funding_rate.
+
+**Notes**: No reverts. All known authors. Themes: (1) Estiven's codegen-v2 FE migration sweep; (2) Ömer's polaris feed-state architecture refactor (FeedStateRegistry/FeedChange); (3) Anton's OTC hedge-allocation risk maturation; (4) second new venue Bitkub; (5) continued AI-tooling (venue-integration skill, quant skill docs, repo conventions/guard hooks). HT Spot settlement / stablecoin gated on deploys, not code.
+
+## 2026-06-12 through 2026-06-16 (updated June 16 heartbeat)
+
+### pulseprime/pulse
+
+**Ömer (litityum) — Paribu venue integration (new Turkish exchange)**:
+- **#2430 (+1285/-1061, 16 files) — migrate Paribu dropcopy to streams-v2 private WS**, **#2428 (+505/-593) — migrate Paribu public market data to streams-v2**, **#2444 — handle ledger events without a balance snapshot**.
+- **#2443 (+942/-0, 13 files) — "Add venue-integration skill"** — reusable AI/agent scaffold for onboarding venues. **#2445 / #2447** — parallelize front-end+python dist and image build/push in release/deploy scripts (build-time perf).
+
+**Talgat — trade engine**: **#2403 (+585/-72, 13 files) — "Quote-Order matching"**, **#2429 — fills logic fix**. Continues native TE quoting/matching (his domain area).
+
+**Amit — resting-order RFQ matching**: **#2386 (+414) — handle resting-order fills**, **#2370 (+311) — include existing resting orders in credit check for FOK/IOC**, **#2425 — send GTC pending_new before try_send**.
+
+**Estiven — Halo frontend**: **#2424 (+1101/-16, 17 files) — "ts codegen-v2"** (TypeScript type-generation overhaul), **#2433 (+807) — halo market widget WS updates**, **#2441 (+280) — halo credit-risk widget + account filters**, **#2436 (+199) — order-forms WS reconnect retries**, **#2432 — haruko loans updates**, **#2413 — new-order-widget available buying power**.
+
+**Chris — credit/risk**: **#2440 (+658) — "Options deal entry: pre-trade risk gating and Sell whitelist"** — *this is the OTC option trade-limits work (Eric + Chris TODO, now done).* Per-account premium budget seeded from the Talos `CustomerCredit` stream, atomic check-and-hold on Buys, decrement+push-back to Talos on book, `options_sell_whitelist` for Sells. **#2412 (+403) — credit endpoint**, **#2435 — block missing subaccount**, **#2408 (29 files) — host rewrite**, **#2422 — cd.options fix**.
+
+**Emre**: **#2421 (-660) — fetch CLST refdata from mktdata server** (removes inline refdata), **#2442 — BTGT funding-rate fix**, **#2427 — update rengen mktdata_server_url**.
+
+**Erick**: **#2420 (+487) — ESP fixes for trade engine**, **#2411 — Haruko parsing not at aggregate level**.
+
+**⚠️ Emre #2414 (June 11, +4182/-4018, 91 files) — Revert "Big scary book change"** — large book-handling revert (noted late; was not in the June 11 section). Watch for re-land.
+
+**Matt #2416** — pin aws-smithy-eventstream to 0.60.20 (dep pin).
+
+### pulseprime/polaris
+
+**Anton (ant0wn) — OTC/RFQ execution + risk skew**: **#770 (+665, 12 files) — BBO-divergence skew for OTC client ladder**, **#767 — last-look tolerance for RFQ FOK orders**, **#743 (+462) — retain RFQ price improvement at quote-bounded limit**, **#742 — validate strategy configs at chain head**, **#730 (+776) — operator-facing vol/drift units**, **#764 — stop gating zero-qty Canceled reports as fills**, **#762 — cancel ESP orders on failed FOK/IOC**, **#748/#756 — drift floor gate fixes**.
+
+**Erick — strategy/testing infra**: **#769 — Flight simulator framework scaffold** (deterministic replay), **#752 (+538) — strategy-scoped fills**, **#754 — stamp strategy from params**, **#766 (+373/-1491) — "2nd nobel peace prize"** (delta-skew follow-up), **#751 (+5077/-4) — "Try mongo update"** (likely vendored/lockfile, not logic).
+
+**Ömer (litityum) — risk/telemetry**: **#745 — guard cross-account order removal (account on TransientOrder)**, **#738 — accumulated fill delta for hedge_only_current_delta**, **#737 — volume metrics from OrderFill context**, **#736 — guard FillTracker cross-account DCE duplicates**, **#725 — category label (quoting/hedging) on trading stats**.
+
+**Emre #760** — remove staleness window check.
+
+**Notes**: No reverts in polaris. All known authors. Theme: the RFQ/OTC-options low-touch execution path is being built end-to-end across both repos (TE matching + resting orders in pulse; client-ladder skew, last-look, RFQ price improvement in polaris). New: Paribu venue, flight-simulator backtesting, ts codegen-v2.
+
+## 2026-06-10 through 2026-06-11 (updated June 11 heartbeat)
+
+### pulseprime/pulse — ~20 PRs
+
+**Trade-Engine resting-order / quote-book matching (Talgat + Amit — emerging theme)**:
+- **Talgat #2402 — "Refdata manager"**, **#2351 (+88) — "Quote Book for matching"** — native quoting/matching infrastructure in the trade engine. (Note: Talgat shipping core TE matching-engine work, the area flagged as his unique domain.)
+- **Amit #2366 (+558/-47) — "DIG-92: check cumulative credit exposure before accepting resting order"**, **#2393 — "DIG-94: order_cancel_request support"**, **#2373 (+184) — validate resting-order limit price is tick-rounded**. Building out resting-order RFQ matching with pre-trade credit checks.
+
+**Estiven Salazar — Halo UI**:
+- **#2396 (+2264/-9, 21 files) — "haruko create loans ui"** — large new loan-creation UI in Halo. **#2401 (+371) — new-order-widget hot buttons**, plus RFQ widget timeout/quantity polish, admin feed_sources serialize, "halo ui google drive" (#2404 +205).
+
+**Chris Davidson — data hygiene**:
+- **#2389 (+935/-407, 20 files) — "csv sanitization"** (export safety), **#2390 (+123) — fix rounding issues**.
+
+**Emre Ekici**: **#2357 (+794/-21, 12 files) — "WMUT quote request"** (Wintermute RFQ path), **#2391 — fix OrderStatus::Rejected FIX wire value ("I"→"8")**.
+
+**Erick Arce**: trade-engine mapping fixes (#2398 +54, #2399, #2400 Haruko instruments), **#2395 (+135) — fix Haruko balance reports**, #2394 quote-request reject fix.
+
+### pulseprime/polaris — ~14 PRs
+
+**Ömer Yılmaz (litityum) — multi-account / multi-wallet risk isolation (dominant theme)**:
+- **#727 (+298/-119, 9 files) — "key balances and margins by venue to prevent multi-wallet overwrite"**, **#745 (+171) — add account to TransientOrder + guard cross-account order removal**, **#736 — guard FillTracker against cross-account DCE duplicates from BINP**, **#723 (+209) — pass cancel orders through RateLimiter/LimitTracker after StopStrategy**. Risk layer being made account/wallet-aware to prevent cross-account state corruption.
+- Telemetry: #737 (+290) volume metrics from OrderFill, #725 (+172) quoting/hedging category labels. #738 (+219) accumulated fill delta for hedge_only_current_delta.
+
+**Anton Ronis (ant0wn) — quant/operator surface**:
+- **#730 (+776/-423, 9 files) — operator-facing units for vol/drift: z-score momentum signal, sigma over fast horizon** — makes the momentum-skew feature operator-tunable. **#742 (+264) — validate strategy configs at chain head (StrategyConfigValidator)**, #741 vol-tracking config validation into AlgoParams::validate(), #729 quantize f64-derived bps for flight-replay determinism, #731 version.rs in OUT_DIR.
+
+**Erick Arce**: **#746 — "Fix delta skew (Nobel peace prize candidate)"** (delta-skew correctness fix).
+
+No reverts. All authors on the known team list.
+
+---
+
 ## 2026-06-05 through 2026-06-09 (updated June 9 heartbeat)
 
 ### pulseprime/pulse — ~40 PRs

@@ -57,13 +57,35 @@ Key contacts outside Eric's direct team.
 |------|------|-------|
 | Anton Ronis | Head of Quant, CS Digital (under Bob/Suley) — just hired | Based in Israel. Was acting CTO of RenGen when Eric joined Pulse; they worked together to retire RenGen's legacy systems in favor of the Pulse platform. Prior military involvement — can be unavailable for weeks at a time due to the ongoing war. |
 | Omer Yilmaz | RenGen FTE + unpaid CS consultant; technically reports to Eric | Still fully employed by RenGen. CS consultant role is essentially a mechanism to get him a CS laptop and access — Eric and RenGen eng teams collaborate closely and this formalizes it. |
+| Selman (GitHub: `SelmanB`) | RenGen / CS consultant, same arrangement as Omer | Doing venue-integration work (Coinbase, Ibkr, Coinbase National, Bitso) as of Jul–Aug 2026. |
+
+## CaaS (CAAS MVP project, kicked off Jul 23 2026 — Rama/Ankit Singh's org, not Eric's team)
+
+| Name | Role | Notes |
+|------|------|-------|
+| Zack Yu | CaaS eng | Action items: verify new account structure with compliance/legal; add enterprise ID + wallet ID on the "Irma" side. |
+| Ram Kollengode Kalyanakrishnan | CaaS eng | Manually testing BitGo onboarding APIs to scope automation requirements. |
+| Lisa Yen | PM — SSI roadmap | Consolidating SSI (Securities Settlement Instruction) project tasks into a roadmap workbook; looping in Studio team on CaaS. |
+| Christie | Compliance | Reviewing/approving KYC requirements for the BitGo digital extension (retail clients). |
+| Mammud | Risk/product | Evaluating whether the existing Active-retail risk-check platform should be reused for new retail crypto customers. |
+| Raj Patel | (role TBD) | Invited to CAAS MVP meetings per Rama's request (Jul 23) — context not yet established. |
+| Cindy Guo | CaaS eng/PM | Surfaced Aug 4 CAAS MVP meeting — scheduling a CSSE wallet-ownership meeting and a wallet breakout session (with Lisa Yen). |
+
+## Digital Ops (loan-booking incident, Jul 31 2026 — not Eric's team)
+
+| Name | Role | Notes |
+|------|------|-------|
+| Rita | Ops — manual journaling | Handles manual journal corrections for mis-booked loans (e.g. the Jul 31 120.5 BTC / $5M loan-booking error). |
+| Anoop Ismail | Ops | Works alongside Ritik Chandak on Parataxis/CaaS operational access and manual booking. |
+| David | (role TBD) | Booked the incorrect Jul 31 loan entry; Lily Chen following up to understand why. |
+| Aditi Dekhane | Payments (CSC↔CSE) | Owns the AML approval workflow and first-ever CSC↔CSE payments integration; not Eric's team. |
 
 ## Vendors / External
 
 | Name | Role |
 |------|------|
 | Neil | Haruko contact (NY-based); attending Apr 13 hackathon offsite (likely Thu/Fri) |
-| Shlomi Avivi | BitGo VM / security setup |
+| Shlomi Avivi | BitGo VM / security setup | Also referenced as "Shalomi" in Aug 4 CAAS MVP notes — Ankit Singh sharing OAuth/MFA design with him for feedback; syncing with Lisa Yen on wallet security/control risk-review minimums. |
 | Paul Collins | Olympus product (CS) |
 | Timir Naik | BitGo VM / ops coordination | Following up with Shlomi on VM readiness timeline; removed BitGo VM responsibility from Brian Stern |
 | Joe Pergola | CS Holdings finance | Lent funds to cover 50% IM margin call on first digital trade (Reg T account issue) |
