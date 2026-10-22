@@ -16,3 +16,9 @@ notes/**/*.pdf
 
 # local tmp
 tmp/
+
+# Clear Street Fleet monorepo (clear-street-internal, not a pulseprime submodule)
+repos/fleet/
+
+# delphi skill is a symlink into gitignored repos/fleet (absolute, machine-specific)
+.claude/skills/delphi

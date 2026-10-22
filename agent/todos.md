@@ -4,6 +4,8 @@
 
 - **[x]** **Websocket / JSON API** for client direct-connect — Eric's codegen (`json-ws-gen-digital.py` #2587) landed and shipped as part of the Parataxis low-touch launch. *(added 2026-06-01; done: 2026-08-04)*
 
+- **[ ]** **Install + bootstrap Fleet CLI** — `curl -fsSL https://artifacts.co.clearstreet.io/artifactory/clst-binaries/fleet-cli/latest/install.sh | bash`, then `fleet bootstrap`, and set `FLEET_HOME=~/workspace/repos/fleet`. Needed to build/run anything in the newly cloned `repos/fleet`. Docs at `go/fleet-cli-docs`. Also: `gh` CLI token still needs SSO authorization for `clear-street-internal` (https://github.com/orgs/clear-street-internal/sso). *(added 2026-08-31)*
+
 ## Management
 
 - **[x]** Drive the security/access-provisioning conversation for July-15 low-touch client access — resolved by the fact of launch: the Parataxis low-touch client went live (tracker shows "Parataxis Go Live" = Complete). No explicit written security sign-off seen, but treating as closed. *(added 2026-06-25; done: 2026-08-04)*

@@ -1,0 +1,6 @@
+SUBRESP: {"channel":"subscriptionResponse","data":{"method":"subscribe","subscription":{"type":"activeAssetCtx","coin":"ETH"}}}
+FRAME[activeAssetCtx][ETH]: {"channel":"activeAssetCtx","data":{"coin":"ETH","ctx":{"funding":"0.0000125","openInterest":"949477.0032","prevDayPx":"2470.8","dayNtlVlm":"1249693961.6715512276","premium":"-0.0001624761","oraclePx":"2461.9","markPx":"2461.3","midPx":"2461.45","impactPxs":["2461.4","2461.5"],"dayBaseVlm":"509912.4024999998"}}}
+SUBRESP: {"channel":"subscriptionResponse","data":{"method":"subscribe","subscription":{"type":"activeAssetCtx","coin":"PURR/USDC"}}}
+FRAME[activeSpotAssetCtx][PURR/USDC]: {"channel":"activeSpotAssetCtx","data":{"coin":"PURR/USDC","ctx":{"prevDayPx":"0.11472","dayNtlVlm":"1145852.7445999992","markPx":"0.10985","midPx":"0.10978","circulatingSupply":"594925197.3990399837","coin":"PURR/USDC","totalSupply":"594925206.8518300056","dayBaseVlm":"10260995.0"}}}
+SUBRESP: {"channel":"subscriptionResponse","data":{"method":"subscribe","subscription":{"type":"activeAssetCtx","coin":"@1"}}}
+FRAME[activeSpotAssetCtx][@1]: {"channel":"activeSpotAssetCtx","data":{"coin":"@1","ctx":{"prevDayPx":"13.884","dayNtlVlm":"22976.95926","markPx":"13.571","midPx":"13.59","circulatingSupply":"995744.08867446","coin":"@1","totalSupply":"995744.13950062","dayBaseVlm":"1673.47"}}}

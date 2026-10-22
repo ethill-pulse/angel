@@ -37,7 +37,7 @@ For Erick, Estiven, and Chris, Eric relayed the Talgat themes and asked each to 
 
 ## Org leveling (Jun 30, 2026)
 
-HR is running a project to align internal roles/titles with external industry benchmarks — functional leveling + title standardization (discussed in the Jun 30 Eric/Brian 1:1). Likely to touch how Eric's reports are titled/leveled. Watch for follow-through; relevant context for any leveling/promotion conversations.
+HR is running a project to align internal roles/titles with external industry benchmarks — functional leveling + title standardization (discussed in the Jun 30 Eric/Brian Stern 1:1). **Brian Stern was fired (Oct 2026)** — follow up with People Ops (#pops-help) or Bob instead. Likely to touch how Eric's reports are titled/leveled. Watch for follow-through; relevant context for any leveling/promotion conversations.
 
 ## Structure
 

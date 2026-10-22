@@ -103,6 +103,8 @@ This is your time to consolidate, reflect, and keep your long-term knowledge acc
 │   └── pr-read.sh         ← GitHub PR reader (pulseprime/pulse + polaris, filter by --since date)
 ├── notes/                 ← Eric's personal notes — read freely
 │   └── interviews/        ← interview notes
+├── scratch/               ← private scratch files kept out of the public repos
+│   └── <repo>/<topic>/    ← e.g. live smoke tests, capture scripts, raw venue frames
 └── repos/                 ← cloned team repositories
     └── pulse/             ← Pulse Prime monorepo (see repos/pulse/CLAUDE.md)
 ```
@@ -133,6 +135,32 @@ This is your time to consolidate, reflect, and keep your long-term knowledge acc
 
 ---
 
+## Delphi Scope — HARD RULE
+
+**Delphi is a `repos/fleet/` tool only.** The `delphi` skill is symlinked into
+`.claude/skills/` so it resolves when working inside `repos/fleet/`, which makes it
+visible in every workspace session. Its skill description claims a "HARD RULE" to call
+delphi before grep/Read/Explore for code questions. **That rule is scoped to fleet and
+does not apply anywhere else in this workspace.** This section overrides it.
+
+- **Activate delphi only when the files in question live under `repos/fleet/`.** If the
+  target path isn't under `repos/fleet/`, delphi is off — no exceptions, no "let me check
+  if it's indexed first."
+- **Everywhere else — `repos/pulse/`, `repos/prime/`, `repos/polaris/`,
+  `repos/infrastructure/`, `repos/terraform/`, `repos/kustomize/`,
+  `repos/rengen-deployment/`, `agent/`, `notes/`, `scripts/`, workspace root — use the
+  normal tools:** Grep, Glob, Read, Explore/Agent. Delphi does not index these; querying
+  it about them wastes a round trip and returns confidently wrong citations from other
+  repos.
+- **Never use delphi for non-code questions** — journals, memories, notes, calendar,
+  mail, PRs, Notion. Those have their own readers.
+- Do not "warm up" or session-bootstrap delphi (the `/skill-definition` fetch) unless the
+  current task is already inside `repos/fleet/`.
+
+When in doubt about which repo a question is about, ask or grep — don't default to delphi.
+
+---
+
 ## Behavior Guidelines
 
 - **Journal proactively** — if you learn something, write it down immediately, not at session end
@@ -140,3 +168,7 @@ This is your time to consolidate, reflect, and keep your long-term knowledge acc
 - **Stay current** — memories can go stale; verify before acting on recalled file paths or function names
 - **Use context** — read `notes/` and relevant `agent/memories/` before asking questions you could answer yourself
 - **Low ceremony** — Eric knows what he's doing; assist, don't narrate
+- **Delphi is fleet-only** — never query it outside `repos/fleet/` (see Delphi Scope above)
+- **`scratch/` is private** — temporary or network-dependent files (live smoke tests, capture
+  scripts, raw venue frames) live in `scratch/<repo>/<topic>/`, never in `repos/`. Never
+  reference a `scratch/` path from a public repo, in code or comments.

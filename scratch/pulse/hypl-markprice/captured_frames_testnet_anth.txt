@@ -1,0 +1,4 @@
+SUBRESP: {"channel":"subscriptionResponse","data":{"method":"subscribe","subscription":{"type":"activeAssetCtx","coin":"vntls:vANTHRPC"}}}
+FRAME[activeAssetCtx][vntls:vANTHRPC]: {"channel":"activeAssetCtx","data":{"coin":"vntls:vANTHRPC","ctx":{"funding":"0.0","openInterest":"0.0","prevDayPx":"221.76","dayNtlVlm":"0.0","premium":null,"oraclePx":"722.29","markPx":"221.76","midPx":null,"impactPxs":null,"dayBaseVlm":"0.0"}}}
+SUBRESP: {"channel":"subscriptionResponse","data":{"method":"subscribe","subscription":{"type":"activeAssetCtx","coin":"ETH"}}}
+FRAME[activeAssetCtx][ETH]: {"channel":"activeAssetCtx","data":{"coin":"ETH","ctx":{"funding":"0.0000125","openInterest":"689.3828","prevDayPx":"2469.9","dayNtlVlm":"769540.1986299996","premium":"-0.0001015117","oraclePx":"2462.77","markPx":"2459.23","midPx":"2459.25","impactPxs":["2453.58","2462.52"],"dayBaseVlm":"312.9087"}}}

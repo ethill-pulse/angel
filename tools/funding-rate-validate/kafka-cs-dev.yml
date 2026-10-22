@@ -1,0 +1,12 @@
+brokers:
+  - "kafka-broker-0.cs-dev.tokyo.pulseprime.systems:9093"
+  - "kafka-broker-1.cs-dev.tokyo.pulseprime.systems:9093"
+  - "kafka-broker-2.cs-dev.tokyo.pulseprime.systems:9093"
+start_timeout_ms: 10000
+poll_timeout_ms: 100
+enable_auto_commit: false
+enable_auto_offset_store: false
+auto_offset_reset_earliest: true
+auto_commit_interval_ms: 15000
+queued_max_messages_kbytes: 65536
+group_id: "kafka-capture-ethill"

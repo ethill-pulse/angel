@@ -28,7 +28,7 @@ Eric was the CTO of Pulse Prime Technologies. When Clear Street acquired the com
 
 ## Org Position
 
-Eric's team reports into the **trading desk side** of the business (Bob/Suley), not the traditional CS engineering org. This means his mandate is naturally aligned with execution, market making, PMS, and exchange integrations — what Pulse and RenGen do well.
+Eric reports to **Bob Rutherford**; his team sits on the **trading desk side** of the business (Bob/Suley), not the traditional CS engineering org. This means his mandate is naturally aligned with execution, market making, PMS, and exchange integrations — what Pulse and RenGen do well.
 
 Kevin Stevens (CS-side eng, reported to Jon Daplyn) was **laid off May 4, 2026** — see [[people]] for detail. The two had been working out an organic ownership split (Kevin on cash-settled/OTC options/CaaS, Eric on crypto-native execution) rather than having it imposed; that split is now moot. Ownership of Kevin's former scope (OTC options lifecycle, CAST/CaaS) shifted to Amit Kirdatt (transferred into Eric's org May 20) and Ankit Singh (BK/CSC, owns CaaS).
 
