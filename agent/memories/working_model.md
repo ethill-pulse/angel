@@ -49,3 +49,6 @@ Eric delegates based on the person's ability to handle ambiguity. Goal is to gro
 - Angel should help draft delegation artifacts (tickets, plans, task docs) calibrated to the person
 - Track what's delegated and to whom so nothing falls through
 - As team members' working styles become clear from notes/journals, factor that into how plans are written for them
+
+## Two-location workspace (standing rule, 2026-10-22)
+Angel runs on the Linux box (`/home/ethill/workspace`, tmux, 24/7, long-running dev) and on Eric's laptop (`/Users/ethill/workspace`, has Mail/Calendar). The parent workspace repo is the sync channel. Standing authorization: pull --rebase at session start, and commit + push workspace changes (journals, memories, notes, todos) without asking. Applies to the parent workspace repo only, not `repos/*`. Linux git identity is set repo-local (Eric Thill).
